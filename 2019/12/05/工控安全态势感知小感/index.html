@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="态势感知介绍在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:  态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工控安全态势感知小感">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;index.html">
+<meta property="og:site_name" content="算了吧 Blog">
+<meta property="og:description" content="态势感知介绍在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:  态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;bina1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;bina2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;bina3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;bina4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;ics1.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;fofa1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;fofa2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;2.png">
+<meta property="og:updated_time" content="2019-12-14T09:37:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F&#x2F;bina1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/05/工控安全态势感知小感/"/>
+
+
+
+
+
+  <title>工控安全态势感知小感 | 算了吧 Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算了吧 Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="算了吧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算了吧 Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">工控安全态势感知小感</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-05T23:04:18+08:00">
+                2019-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="态势感知介绍"><a href="#态势感知介绍" class="headerlink" title="态势感知介绍"></a>态势感知介绍</h1><p>在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:</p>
+<blockquote>
+<p>态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。<br>首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针对这种看不见摸不到的战争，在这场虚拟的战场我们应该怎么做？能做些什么？</p>
+</blockquote>
+<h2 id="态势感知定义"><a href="#态势感知定义" class="headerlink" title="态势感知定义"></a>态势感知定义</h2><p>Endsley提出了一个最为广泛使用的态势感知定义，这也是最早的态势感知定义之一。该定义对态势感知的定义描述是：</p>
+<blockquote>
+<p>在一定的时间和空间内观察环境中的元素，理解这些元素的定义并预测这些元素在不久的将来的状态。</p>
+</blockquote>
+<h2 id="态势感知的重要性"><a href="#态势感知的重要性" class="headerlink" title="态势感知的重要性"></a>态势感知的重要性</h2><p>现在的交战中的冲冲突在一点点的改变。已经从人员一点点的在向信息化方向转移。以信息化时代作为底层的“网络支撑作战行动”的概念为基础。</p>
+<h2 id="国内常见工控态势感知概述"><a href="#国内常见工控态势感知概述" class="headerlink" title="国内常见工控态势感知概述"></a>国内常见工控态势感知概述</h2><p>对于工控安全的态势感知则更为趣，对于内网与外网的态势感知区分更为严重。内网是针对企业局域网内的环境流量进行汇总分析、而外网主要对互联网上暴露的外网设备进行扫描监测。</p>
+<p>现阶段国内的态势感知建设针中<br>1）内网很多都是结合IDS\IPS\镜像流量，通过可视化的大屏进行分析。<br>2）外网的态势感知是不是主动扫描监测数据汇总。</p>
+<h1 id="工控安全态势感知建设"><a href="#工控安全态势感知建设" class="headerlink" title="工控安全态势感知建设"></a>工控安全态势感知建设</h1><p>首先查看一下安全人员中常见的工控搜索引擎</p>
+<h2 id="国外"><a href="#国外" class="headerlink" title="国外"></a>国外</h2><h3 id="BinaryEdge"><a href="#BinaryEdge" class="headerlink" title="BinaryEdge"></a>BinaryEdge</h3><p>可能还有很人没有听过此引擎，专业针对于结合网络安全、工控安全。2016年发布了《2016年互联网安全报告》官方博客会定期进行分析相关国家、地区技术文章。</p>
+<blockquote>
+<p><a href="https://blog.binaryedge.io/" target="_blank" rel="noopener">https://blog.binaryedge.io/</a></p>
+</blockquote>
+<p>引擎可以默认进行搜索:ICS、数据库、物联网、网络服务器、摄像头等设备。相对于大家熟知的shodan个人感觉可能更注重IOT安全分析。可以进行点击搜索直接搜索。作者这里进行ICS类型设备。详细信息可以查看TOP榜中的工控设备端口、协议，下面展示的为详细的资产信息。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina1.png" alt="img"><br>并可以进行搜索相关的DRP、VNC管理界面截图。相对刚才的功能来说更加直观可以进行查看工控设备。（下图红色框中的即为工控安全生产监控与门禁管理系统。）<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina2.png" alt="img"><br>还要一个功能这里比较要点名表扬。BinaryEdge针对互联网部署了Honeypots。并进行收集展示了TOP国家、网络节点、IP、PORT、并对TOP的有效载荷进行分析。<br>七天内扫描源发起的国家最大为8亿。 - -.<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina3.png" alt="img"><br>payload的TOP榜不用我说了吧。大家应该都懂。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina4.png" alt="img"></p>
+<h3 id="shodan"><a href="#shodan" class="headerlink" title="shodan"></a>shodan</h3><p>shodan是目前针对全球设备进行扫描分，作为安全研究人员最常使用的搜索引擎还是比较强的。对于IP的扫描频率、内部引擎优化很多方面都是国内竞相模仿的对象。<br>针对于shodan的工控搜搜进行举例说明，网站中提供了12种工控协议的设备指纹信息。详细支持的端口搜索见下图。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/ics1.jpg" alt="img"></p>
+<p>但是除了常见的工控协议外还支持很多的设备指纹信息搜索。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/3.png" alt="img"><br>但是只要你拥有指纹就可以对很多类型的工控设备进行搜索，但是并不通用。很多国内特殊端口还是无法进行搜索。这里呢原来自己看过一篇国外的文章，这里将常见的工控搜索指纹信息罗列出来并写附上链接。</p>
+<blockquote>
+<p>三星电子广告牌           “Server: Prismview Player”<br>加油站泵控制器            “in-tank inventory” port:10001<br>自动车牌读取器            P372 “ANPR enabled”<br>交通信号控制灯            mikrotik streetlight<br>美国投票机               “voter system serial” country:US<br>监狱专用电话             “[2J[H Encartele Confidential”<br>Tesla PowerPack充电状态         http.title:”Tesla PowerPack System” http.component:”d3” -ga3ca4f2<br>电动汽车充电器         “Server: gSOAP/2.8” “Content-Length: 583”<br>潜艇任务控制仪表板       title:”Slocum Fleet Mission Control”<br>CAREL PlantVisor        “Server: CarelDataServer” “200 Document follows”<br>铁路管理                “log off” “select the appropriate”<br>西门子Hvac控制器          “Server: Microsoft-WinCE” “Content-Length: 12581”<br>GaugeTech电表             “Server: EIG Embedded Web Server” “200 Document follows”<br>DICOM医用X射线机         “DICOM Server Response” port:104</p>
+</blockquote>
+<h3 id><a href="#" class="headerlink" title></a></h3><p>对于安全研究人员比较多的就是zoomeye、fofa其也提供了很多指纹信息的检索能力。</p>
+<h2 id="国内"><a href="#国内" class="headerlink" title="国内"></a>国内</h2><h3 id="fofa"><a href="#fofa" class="headerlink" title="fofa"></a>fofa</h3><p>不多解释两张图就够了。常见主流协议已经具备了。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa1.png" alt="img"><br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa2.png" alt="img"></p>
+<h3 id="傻蛋"><a href="#傻蛋" class="headerlink" title="傻蛋"></a>傻蛋</h3><p>已经不对互联网用户开放了…<br>告辞</p>
+<h3 id="Zoomeye"><a href="#Zoomeye" class="headerlink" title="Zoomeye"></a>Zoomeye</h3><blockquote>
+<p>这里引用的是ics.zoomeye.org</p>
+</blockquote>
+<p><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/2.png" alt="img"></p>
+<p>不的不说zoomeye的ICS指纹与优化能力还是很值得一提的。</p>
+<h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>其实在态势感知定义中是由：观察、理解、预测。三部分构成但是很多家的方向对于最后一步的预测能力并没有一个很好的方案。而针对于国内的态势感知中小弟有几句话要是</p>
+<blockquote>
+<p>1.国内现阶段还是很多解决不掉针对于指纹瓶颈的问题，没有办法整合相关工控资源进行全覆盖指纹扫描（毕竟很多设备指纹信息还是比较复杂和难以分析的）<br>2.扫描器的问题，法律还没有进行明确的规定时候，本人也尝试过扫描。但是一直使用同一IP进行扫描经常出现数量越来越少的问题。企业慢慢屏蔽了你的扫描，是否需要进行分布式的扫描。<br>3.怎么才能体现出数据的价值所在，不解决数据的消耗问题，通过一个量的积累，只能去恶心很多监管单位，怎么才能进行有效的分析利用？<br>4.对于安全研究人员怎么才会对你的数据形成闭环。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/" rel="prev" title="ics默认密码">
+                ics默认密码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">算了吧</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#态势感知介绍"><span class="nav-number">1.</span> <span class="nav-text">态势感知介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#态势感知定义"><span class="nav-number">1.1.</span> <span class="nav-text">态势感知定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#态势感知的重要性"><span class="nav-number">1.2.</span> <span class="nav-text">态势感知的重要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#国内常见工控态势感知概述"><span class="nav-number">1.3.</span> <span class="nav-text">国内常见工控态势感知概述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控安全态势感知建设"><span class="nav-number">2.</span> <span class="nav-text">工控安全态势感知建设</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#国外"><span class="nav-number">2.1.</span> <span class="nav-text">国外</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BinaryEdge"><span class="nav-number">2.1.1.</span> <span class="nav-text">BinaryEdge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shodan"><span class="nav-number">2.1.2.</span> <span class="nav-text">shodan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">2.1.3.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#国内"><span class="nav-number">2.2.</span> <span class="nav-text">国内</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fofa"><span class="nav-number">2.2.1.</span> <span class="nav-text">fofa</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#傻蛋"><span class="nav-number">2.2.2.</span> <span class="nav-text">傻蛋</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zoomeye"><span class="nav-number">2.2.3.</span> <span class="nav-text">Zoomeye</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反思"><span class="nav-number">3.</span> <span class="nav-text">反思</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">算了吧</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
