@@ -92,7 +92,10 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;4.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;6.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;7.png">
-<meta property="og:updated_time" content="2020-01-30T04:38:33.291Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;10.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;11.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;12.png">
+<meta property="og:updated_time" content="2020-01-30T07:31:17.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;1.png">
 
@@ -361,8 +364,17 @@
 <p><a href="http://docker.hackthebox.eu:30642/panel.php?info=home’" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home’</a> 网页提示not fount！</p>
 <p>怀疑可能是文件包含，尝试将home修改成flag。成功获取flag</p>
 <p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/7.png" alt="img"></p>
-<h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:</p>
+<h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:您可以加密得足够快吗？</p>
 <p>这里不管怎么提交都会提示Too slow！</p>
+<p>想起了当时bugku 里面的一个题，直接尝试编写python脚本进行提交。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">url=<span class="string">"http://docker.hackthebox.eu:30649/"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">qingqiu=requests.session()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">outhtml=qingqiu.get(url)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (outhtml.text)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">pipei = re.compile(<span class="string">r"&lt;h3 align='center'&gt;(.*)&lt;/h3&gt;"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">str = pipei.findall(outhtml.text)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (type(str))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (str)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">postmd5=hashlib.md5(str[<span class="number">0</span>]).hexdigest()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (postmd5)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">data=&#123;<span class="string">'hash'</span>: postmd5&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">postout = qingqiu.post(url=url, data=data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">print(postout.text)</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/10.png" alt="img"></p>
+<h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>介绍:我们已经获得了一些我们认为与目标内部网络相连的基础架构的访问权。我们需要您帮助获取他们当前正在开发的网站的管理员密码。</p>
+<p>dirmap一波发现一个<a href="http://docker.hackthebox.eu:30738/api/" target="_blank" rel="noopener">http://docker.hackthebox.eu:30738/api/</a>  但是页面是空的，蒙了~</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
+<p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
 
       
     </div>
@@ -522,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前期准备"><span class="nav-number">1.</span> <span class="nav-text">前期准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册"><span class="nav-number">1.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cartographer"><span class="nav-number">2.</span> <span class="nav-text">Cartographer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Emdee-five-for-life"><span class="nav-number">3.</span> <span class="nav-text">Emdee five for life</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前期准备"><span class="nav-number">1.</span> <span class="nav-text">前期准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册"><span class="nav-number">1.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cartographer"><span class="nav-number">2.</span> <span class="nav-text">Cartographer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Emdee-five-for-life"><span class="nav-number">3.</span> <span class="nav-text">Emdee five for life</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fuzzy"><span class="nav-number">4.</span> <span class="nav-text">Fuzzy</span></a></li></ol></div>
             
 
           </div>
