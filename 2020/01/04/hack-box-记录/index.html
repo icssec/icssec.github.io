@@ -95,7 +95,12 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;10.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;11.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;12.png">
-<meta property="og:updated_time" content="2020-01-30T07:42:40.547Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;14.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;13.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;15.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;16.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;17.png">
+<meta property="og:updated_time" content="2020-01-30T08:21:34.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;04&#x2F;hack-box-%E8%AE%B0%E5%BD%95&#x2F;1.png">
 
@@ -375,6 +380,16 @@
 <p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
 <p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p>
 <p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
+<p>心思尝试一下，时间太长了。算了吧。访问页面后提示Error: Parameter not set</p>
+<p>还是通过dirbuster进行测试。</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/14.png" alt="img"></p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/13.png" alt="img"></p>
+<p>fuzz到参数后进行访问页面提示Error: Account ID not found</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/15.png" alt="img"></p>
+<p>直接通过burp进行测试一下ID字段的参数，通过burp的number进行测试</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/16.png" alt="img"></p>
+<p>payload确定为20，直接查看response获得flag</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/17.png" alt="img"></p>
 
       
     </div>
