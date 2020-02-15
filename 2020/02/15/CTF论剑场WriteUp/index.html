@@ -79,12 +79,33 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="算了吧 Blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2020&#x2F;02&#x2F;index.html">
+<meta name="description" content="持续更新….. WEBWEB1 ​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。 根据官方介绍  (PHP 4 &amp;gt;&#x3D; 4.3.0, PHP 5, PHP 7) file_get_contents — 将整个文件读入一个字符串  使用file_get_contents函数的为trim  (PHP 4, PHP 5, P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF论剑场WriteUp">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;index.html">
 <meta property="og:site_name" content="算了吧 Blog">
+<meta property="og:description" content="持续更新….. WEBWEB1 ​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。 根据官方介绍  (PHP 4 &amp;gt;&#x3D; 4.3.0, PHP 5, PHP 7) file_get_contents — 将整个文件读入一个字符串  使用file_get_contents函数的为trim  (PHP 4, PHP 5, P">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;7.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;8.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;9.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;10.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;12.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;13.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;14.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;15.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;16.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;17.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;18.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;19.png">
+<meta property="og:updated_time" content="2020-02-15T11:42:19.550Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;15&#x2F;CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp&#x2F;1.png">
 
 
 
@@ -114,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2020/02/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/02/15/CTF论剑场WriteUp/"/>
 
 
 
 
 
-  <title>归档 | 算了吧 Blog</title>
+  <title>CTF论剑场WriteUp | 算了吧 Blog</title>
   
 
 
@@ -139,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,111 +268,212 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 9 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="算了吧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算了吧 Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/" itemprop="url">
-              
-                <span itemprop="name">CTF论剑场WriteUp</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">CTF论剑场WriteUp</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-02-15T17:42:13+08:00"
-              content="2020-02-15" >
-          02-15
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-15T17:42:13+08:00">
+                2020-02-15
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/" itemprop="url">
-              
-                <span itemprop="name">mac10.15下使用IDA Pro</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-02-14T17:02:24+08:00"
-              content="2020-02-14" >
-          02-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <p>持续更新…..</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="WEB1"><a href="#WEB1" class="headerlink" title="WEB1"></a>WEB1</h2><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/1.png" alt="img"></p>
+<p>​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。</p>
+<p>根据官方介绍</p>
+<blockquote>
+<p>(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p>
+<p>file_get_contents — 将整个文件读入一个字符串</p>
+</blockquote>
+<p>使用file_get_contents函数的为trim</p>
+<blockquote>
+<p>(PHP 4, PHP 5, PHP 7)</p>
+<p>trim — 去除字符串首尾处的空白字符（或者其他字符）</p>
+<p><strong>说明</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;trim ( string `$str` [, string `$character_mask` = <span class="string">" \t\n\r\0\x0B"</span> ] ) : string</span></pre></td></tr></table></figure>
+
+<p>此函数返回字符串 <code>str</code> 去除首尾空白字符后的结果。如果不指定第二个参数，<strong>trim()</strong> 将去除这些字符：</p>
+<ul>
+<li>“ “ (ASCII <em>32</em> (<em>0x20</em>))，普通空格符。</li>
+<li>“\t” (ASCII <em>9</em> (<em>0x09</em>))，制表符。</li>
+<li>“\n” (ASCII <em>10</em> (<em>0x0A</em>))，换行符。</li>
+<li>“\r” (ASCII <em>13</em> (<em>0x0D</em>))，回车符。</li>
+<li>“\0” (ASCII <em>0</em> (<em>0x00</em>))，空字节符。</li>
+<li>“\x0B” (ASCII <em>11</em> (<em>0x0B</em>))，垂直制表符。</li>
+</ul>
+</blockquote>
+<p>但是源代码中直接给了一个字符串,并未通过引用文件的方式进行引用，</p>
+<h2 id="WEB2"><a href="#WEB2" class="headerlink" title="WEB2"></a>WEB2</h2><p>题目介绍:请在三秒之内计算出以下式子，计算正确就的到flag哦！</p>
+<p>题目必须在必须的时间内进行提交，否则就会提示失败</p>
+<p>直接编写Python脚本进行提交。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">session = requests.Session()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">headers = &#123;<span class="string">"Accept"</span>:<span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>,<span class="string">"Upgrade-Insecure-Requests"</span>:<span class="string">"1"</span>,<span class="string">"User-Agent"</span>:<span class="string">"Mozilla/5.0 (Macintosh; Intel xiaomi 20_20_20) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1.100 Safari/537.36"</span>,<span class="string">"Connection"</span>:<span class="string">"close"</span>,<span class="string">"Accept-Encoding"</span>:<span class="string">"gzip, deflate"</span>,<span class="string">"Accept-Language"</span>:<span class="string">"zh-CN,zh;q=0.9"</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">response = session.get(<span class="string">"http://123.206.31.85:10002/"</span>, headers=headers)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">res = (re.findall(<span class="string">r'&lt;br/&gt;\s+(.*)&lt;/p&gt;'</span>,response.content))[<span class="number">0</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">paramsPost = &#123;<span class="string">"result"</span>:eval(res)&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">post1 = session.post(<span class="string">"http://123.206.31.85:10002/"</span>,data=paramsPost,headers=headers,)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (post1.content)</span></pre></td></tr></table></figure>
+
+<p>提交成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/2.png" alt="img"></p>
+<h2 id="WEB3"><a href="#WEB3" class="headerlink" title="WEB3"></a>WEB3</h2><p>题目介绍：Panduploader::Upload</p>
+<p>第一反应文件上传，先传一个正常的图尝试一下，what？失败了</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/3.png" alt="img"></p>
+<p>尝试了一下PHP伪协议，有门!</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/4.png" alt="img"></p>
+<p>最后尝试了一下确定文件并成功获得:<a href="http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag" target="_blank" rel="noopener">http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag</a>  通过解码获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/5.png" alt="img"></p>
+<h2 id="WEB4"><a href="#WEB4" class="headerlink" title="WEB4"></a>WEB4</h2><p>题目介绍:登录后即可看到flag</p>
+<p>首先尝试一下万能密码登录,成功~</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/7.png" alt="img"></p>
+<p>成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/8.png" alt="img"></p>
+<h2 id="WEB5"><a href="#WEB5" class="headerlink" title="WEB5"></a>WEB5</h2><p>在进行查看题目的URL时候已经提示为injection</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/9.png" alt="img"></p>
+<p>直接用的sqlmap 好像把我踢了？？？什么情况？有时间在做</p>
+<h2 id="WEB6"><a href="#WEB6" class="headerlink" title="WEB6"></a>WEB6</h2><p>在尝试admin/admin登录的时候提示：‘IP禁止访问，请联系本地管理员登陆，IP已被记录.’</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/10.png" alt="img"></p>
+<p>可以了不报这个问题了。尝试一下万能密码</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/12.png" alt="img"></p>
+<p>不对等等 返回响应包下面怎么这么长 还要内容？</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/13.png" alt="img"></p>
+<p>通过base64解码内容为：test123</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/14.png" alt="img"></p>
+<p>尝试admin/test123 成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/15.png" alt="img"></p>
+<h2 id="WEB7"><a href="#WEB7" class="headerlink" title="WEB7"></a>WEB7</h2><p>这里在进入URL给了一个简单的提示:‘吃个小饼干吗’ cookie?</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/16.png" alt="img"></p>
+<p>直接可以登录但是说权限不够</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/17.png" alt="img"></p>
+<p>抓包的时候发现了两个字段</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/18.png" alt="img"></p>
+<p> u=351e766803  14c4b06b824ec593239362517f538b29</p>
+<p> r=351e766803  d63c7ede8cb1e1c8db5e51c63fd47cff</p>
+<p>观察并解密后面字段的内容为：username/limited</p>
+<p>将两个字段修改成md5加密的admin</p>
+<p>u=351e76680321232f297a57a5a743894a0e4a801fc3</p>
+<p> r=351e76680321232f297a57a5a743894a0e4a801fc3</p>
+<p>成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/19.png" alt="img"></p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/" rel="next" title="mac10.15下使用IDA Pro">
+                <i class="fa fa-chevron-left"></i> mac10.15下使用IDA Pro
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -359,6 +481,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -379,8 +505,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -431,6 +566,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB"><span class="nav-number">1.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB1"><span class="nav-number">1.1.</span> <span class="nav-text">WEB1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB2"><span class="nav-number">1.2.</span> <span class="nav-text">WEB2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB3"><span class="nav-number">1.3.</span> <span class="nav-text">WEB3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB4"><span class="nav-number">1.4.</span> <span class="nav-text">WEB4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB5"><span class="nav-number">1.5.</span> <span class="nav-text">WEB5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB6"><span class="nav-number">1.6.</span> <span class="nav-text">WEB6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB7"><span class="nav-number">1.7.</span> <span class="nav-text">WEB7</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -564,6 +715,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
