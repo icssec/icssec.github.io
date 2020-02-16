@@ -1,136 +1,382 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>CTF论剑场WriteUp</title>
-      <link href="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/"/>
-      <url>/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/</url>
-      
-        <content type="html"><![CDATA[<p>持续更新…..</p><h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="WEB1"><a href="#WEB1" class="headerlink" title="WEB1"></a>WEB1</h2><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/1.png" alt="img"></p><p>​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。</p><p>根据官方介绍</p><blockquote><p>(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p>file_get_contents — 将整个文件读入一个字符串</p></blockquote><p>使用file_get_contents函数的为trim</p><blockquote><p>(PHP 4, PHP 5, PHP 7)</p><p>trim — 去除字符串首尾处的空白字符（或者其他字符）</p><p><strong>说明</strong></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;trim ( string `$str` [, string `$character_mask` = <span class="string">" \t\n\r\0\x0B"</span> ] ) : string</span></pre></td></tr></table></figure><p>此函数返回字符串 <code>str</code> 去除首尾空白字符后的结果。如果不指定第二个参数，<strong>trim()</strong> 将去除这些字符：</p><ul><li>“ “ (ASCII <em>32</em> (<em>0x20</em>))，普通空格符。</li><li>“\t” (ASCII <em>9</em> (<em>0x09</em>))，制表符。</li><li>“\n” (ASCII <em>10</em> (<em>0x0A</em>))，换行符。</li><li>“\r” (ASCII <em>13</em> (<em>0x0D</em>))，回车符。</li><li>“\0” (ASCII <em>0</em> (<em>0x00</em>))，空字节符。</li><li>“\x0B” (ASCII <em>11</em> (<em>0x0B</em>))，垂直制表符。</li></ul></blockquote><p>但是源代码中直接给了一个字符串,并未通过引用文件的方式进行引用，</p><h2 id="WEB2"><a href="#WEB2" class="headerlink" title="WEB2"></a>WEB2</h2><p>题目介绍:请在三秒之内计算出以下式子，计算正确就的到flag哦！</p><p>题目必须在必须的时间内进行提交，否则就会提示失败</p><p>直接编写Python脚本进行提交。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">session = requests.Session()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">headers = &#123;<span class="string">"Accept"</span>:<span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>,<span class="string">"Upgrade-Insecure-Requests"</span>:<span class="string">"1"</span>,<span class="string">"User-Agent"</span>:<span class="string">"Mozilla/5.0 (Macintosh; Intel xiaomi 20_20_20) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1.100 Safari/537.36"</span>,<span class="string">"Connection"</span>:<span class="string">"close"</span>,<span class="string">"Accept-Encoding"</span>:<span class="string">"gzip, deflate"</span>,<span class="string">"Accept-Language"</span>:<span class="string">"zh-CN,zh;q=0.9"</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">response = session.get(<span class="string">"http://123.206.31.85:10002/"</span>, headers=headers)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">res = (re.findall(<span class="string">r'&lt;br/&gt;\s+(.*)&lt;/p&gt;'</span>,response.content))[<span class="number">0</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">paramsPost = &#123;<span class="string">"result"</span>:eval(res)&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">post1 = session.post(<span class="string">"http://123.206.31.85:10002/"</span>,data=paramsPost,headers=headers,)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (post1.content)</span></pre></td></tr></table></figure><p>提交成功获得flag</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/2.png" alt="img"></p><h2 id="WEB3"><a href="#WEB3" class="headerlink" title="WEB3"></a>WEB3</h2><p>题目介绍：Panduploader::Upload</p><p>第一反应文件上传，先传一个正常的图尝试一下，what？失败了</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/3.png" alt="img"></p><p>尝试了一下PHP伪协议，有门!</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/4.png" alt="img"></p><p>最后尝试了一下确定文件并成功获得:<a href="http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag" target="_blank" rel="noopener">http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag</a>  通过解码获得flag</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/5.png" alt="img"></p><h2 id="WEB4"><a href="#WEB4" class="headerlink" title="WEB4"></a>WEB4</h2><p>题目介绍:登录后即可看到flag</p><p>首先尝试一下万能密码登录,成功~</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/7.png" alt="img"></p><p>成功获得flag</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/8.png" alt="img"></p><h2 id="WEB5"><a href="#WEB5" class="headerlink" title="WEB5"></a>WEB5</h2><p>在进行查看题目的URL时候已经提示为injection</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/9.png" alt="img"></p><p>直接用的sqlmap 好像把我踢了？？？什么情况？有时间在做</p><h2 id="WEB6"><a href="#WEB6" class="headerlink" title="WEB6"></a>WEB6</h2><p>在尝试admin/admin登录的时候提示：‘IP禁止访问，请联系本地管理员登陆，IP已被记录.’</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/10.png" alt="img"></p><p>可以了不报这个问题了。尝试一下万能密码</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/12.png" alt="img"></p><p>不对等等 返回响应包下面怎么这么长 还要内容？</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/13.png" alt="img"></p><p>通过base64解码内容为：test123</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/14.png" alt="img"></p><p>尝试admin/test123 成功获得flag</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/15.png" alt="img"></p><h2 id="WEB7"><a href="#WEB7" class="headerlink" title="WEB7"></a>WEB7</h2><p>这里在进入URL给了一个简单的提示:‘吃个小饼干吗’ cookie?</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/16.png" alt="img"></p><p>直接可以登录但是说权限不够</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/17.png" alt="img"></p><p>抓包的时候发现了两个字段</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/18.png" alt="img"></p><p> u=351e766803  14c4b06b824ec593239362517f538b29</p><p> r=351e766803  d63c7ede8cb1e1c8db5e51c63fd47cff</p><p>观察并解密后面字段的内容为：username/limited</p><p>将两个字段修改成md5加密的admin</p><p>u=351e76680321232f297a57a5a743894a0e4a801fc3</p><p> r=351e76680321232f297a57a5a743894a0e4a801fc3</p><p>成功获得flag</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/19.png" alt="img"></p><h2 id="WEB8"><a href="#WEB8" class="headerlink" title="WEB8"></a>WEB8</h2><p>题目已经提示注入，直接尝试一下admin” –ss /admin’ –ss</p><p>使用admin” –ss登录成功</p><p>尝试可一下在更新信息中的测试，但是发现age比较可以但是无果，查看了一下网上的案例，扫描？</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/21.png" alt="img"></p><p>果断查看一下源代码，果断查看updata.php 数字型注入， 调用了addslashes函数。</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/22.png" alt="img"></p><p>学乖点手工吧。</p><p>csrf token mismatch ？？？</p><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/23.png" alt="img"></p><h1 id="Mics"><a href="#Mics" class="headerlink" title="Mics"></a>Mics</h1><h2 id="头像"><a href="#头像" class="headerlink" title="头像"></a>头像</h2><p>介绍:萌萌哒头像flag为flag{flag的md5 32位加密值}</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>mac10.15下使用IDA Pro</title>
-      <link href="/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/"/>
-      <url>/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/</url>
-      
-        <content type="html"><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>自己换了mac没多久，在安装IDA Pro的时候一直报错，无法安装。着实蛋疼</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在网上看了下问题，52破解上给出的解释是：</p><blockquote><p>自 macOS 10.15.1/Catalina 后终止了对 32 位可执行程序的兼容 （Apple’s transition to 64-bit technology is now complete. Starting with macOS Catalina, 32-bit apps are no longer compatible with macOS. If you have a 32-bit app, please check with the app developer for a 64-bit version）</p></blockquote><p>这里直接在朋友的mac上压缩复制到自己的应用程序既可。</p><p>在导入完成后直接打开ida正常，但是发现在打开ida64的时候提示：应用程序无法打开。</p><p><img src="/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/1.png" alt="img/"></p><p>在使用IDA64时候直接打开idabin/ida64既可。</p><p>最后分享一下IDA和安装后的压缩文件，方便大家使用</p><blockquote><p><a href="https://github.com/icssec/mac_IDApro" target="_blank" rel="noopener">https://github.com/icssec/mac_IDApro</a></p></blockquote>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>echarts简单使用</title>
-      <link href="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"/>
-      <url>/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-      
-        <content type="html"><![CDATA[<p>因为上阶段工作原因，需要生成地图，简单的学习了一下echarts的使用。并进行简单的记录。</p><h1 id="echarts介绍"><a href="#echarts介绍" class="headerlink" title="echarts介绍"></a>echarts介绍</h1><blockquote><p>ECharts，一个使用 JavaScript 实现的开源可视化库，可以流畅的运行在 PC 和移动设备上，兼容当前绝大部分浏览器（IE8/9/10/11，Chrome，Firefox，Safari等），底层依赖轻量级的矢量图形库 ZRender，提供直观，交互丰富，可高度个性化定制的数据可视化图表。<br> ECharts 提供了常规的折线图、柱状图、散点图、饼图、K线图，用于统计的盒形图，用于地理数据可视化的地图、热力图、线图，用于关系数据可视化的关系图、旭日图，多维数据可视化的平行坐标，还有用于 BI 的漏斗图，仪表盘，并且支持图与图之间的混搭。</p></blockquote><h2 id="生成地图"><a href="#生成地图" class="headerlink" title="生成地图"></a>生成地图</h2><p>因为官方说明‘ECharts 之前提供下载的矢量地图数据来自第三方，由于部分数据不符合国家《测绘法》规定，目前暂时停止下载服务。‘但是通过伟大的互联网这里还是可以找到。因为时间问题，直接将原来写的源码进行共享。二次使用时，直接修改既可。</p><h2 id="生成地图数据"><a href="#生成地图数据" class="headerlink" title="生成地图数据"></a>生成地图数据</h2><ol><li><p>借助官方工具直接生成测试数据直接将生成。</p><p><a href="https://www.echartsjs.com/zh/spreadsheet.html" target="_blank" rel="noopener">https://www.echartsjs.com/zh/spreadsheet.html</a></p><p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/echarts1.png" alt="img"></p></li><li><p>将转换结果粘贴到结果粘贴到代码上</p></li></ol><p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/2.png" alt="img"></p><ol start="3"><li>修改地图标题与介绍</li></ol><p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/3.png" alt="img"></p><ol start="4"><li><p>修改地图展示的最低值与最高值</p><p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/4.png" alt="img"></p><h2 id="测试项目地址与源码"><a href="#测试项目地址与源码" class="headerlink" title="测试项目地址与源码"></a>测试项目地址与源码</h2><p> <a href="https://github.com/icssec/echartstest" target="_blank" rel="noopener">https://github.com/icssec/echartstest</a></p></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 个人学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>hack box 记录</title>
-      <link href="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/"/>
-      <url>/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/</url>
-      
-        <content type="html"><![CDATA[<p>持续更新….</p><h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>​    简要说明一下怎么进行注册，打开链接 <a href="https://www.hackthebox.eu/invite" target="_blank" rel="noopener">https://www.hackthebox.eu/invite</a> 在console输入 makeInviteCode() </p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/1.png" alt="img"></p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/2.png" alt="img"></p><p>​    可以得到一个base64加密的数据</p><blockquote><p>SW4gb3JkZXIgdG8gZ2VuZXJhdGUgdGhlIGludml0ZSBjb2RlLCBtYWtlIGEgUE9TVCByZXF1ZXN0IHRvIC9hcGkvaW52aXRlL2dlbmVyYXRl</p></blockquote><p>解码后提示信息为</p><blockquote><p>​    In order to generate the invite code, make a POST request to /api/invite/generate</p></blockquote><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/3.png" alt="img"></p><p>我这里通过bp进行发包，获取key，获取到的code字段还需要进行base64解密,解密后的验证码就直接可以进行注册了。</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/4.png" alt="img"></p><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>官方会提供openvpn链接配置文件，因为我这里使用的是mac下载的是Tunnelblick。</p><p>进行下载openVPN链接包，通过软件进行拨号链接</p><h1 id="Cartographer"><a href="#Cartographer" class="headerlink" title="Cartographer"></a>Cartographer</h1><p>介绍：一些地下黑客正在开发新的命令和控制服务器。您可以闯入看看他们在做什么吗？</p><p>在拿到网站的时候尝试了一下admin和top100的弱口令，失败后，感觉可能是万能密码登录，直接通过字典进行爆破尝试,成功admin’or’a’=’a</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/6.png" alt="img"></p><p>登陆成功后网页重定向到了<a href="http://docker.hackthebox.eu:30642/panel.php?info=home" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home</a></p><p><a href="http://docker.hackthebox.eu:30642/panel.php?info=home’" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home’</a> 网页提示not fount！</p><p>怀疑可能是文件包含，尝试将home修改成flag。成功获取flag</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/7.png" alt="img"></p><h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:您可以加密得足够快吗？</p><p>这里不管怎么提交都会提示Too slow！</p><p>想起了当时bugku 里面的一个题，直接尝试编写python脚本进行提交。</p><p>直接使用burp生成简单的修改一下，OK </p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/10.png" alt="img"></p><p>测试脚本地址：</p><blockquote><p><a href="https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py" target="_blank" rel="noopener">https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py</a></p></blockquote><h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>介绍:我们已经获得了一些我们认为与目标内部网络相连的基础架构的访问权。我们需要您帮助获取他们当前正在开发的网站的管理员密码。</p><p>dirmap一波发现一个<a href="http://docker.hackthebox.eu:30738/api/" target="_blank" rel="noopener">http://docker.hackthebox.eu:30738/api/</a>  但是页面是空的，蒙了~</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p><p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p><p>心思尝试一下，时间太长了。算了吧。访问页面后提示Error: Parameter not set</p><p>还是通过dirbuster进行测试。</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/14.png" alt="img"></p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/13.png" alt="img"></p><p>fuzz到参数后进行访问页面提示Error: Account ID not found</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/15.png" alt="img"></p><p>直接通过burp进行测试一下ID字段的参数，通过burp的number进行测试</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/16.png" alt="img"></p><p>payload确定为20，直接查看response获得flag</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/17.png" alt="img"></p><h1 id="Lernaean"><a href="#Lernaean" class="headerlink" title="Lernaean"></a>Lernaean</h1><ol><li><p>简单使用dirmap跑了一波 无果</p></li><li><p>标题网站页面的提示’请不要尝试猜测我的密码！’ 那就必须得尝试一下啊。</p></li><li><p>上来使用sqlitop进行尝试，失败了~不能使用万能密码登录</p></li><li><p>那就尝试一下top的字典密码吧</p><p>我这里使用的是</p><blockquote><p><a href="https://github.com/TheKingOfDuck/fuzzDicts" target="_blank" rel="noopener">https://github.com/TheKingOfDuck/fuzzDicts</a></p></blockquote></li><li><p>发现密码是:leonardo 直接获得flag</p><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/20.png" alt="img"></p></li></ol><h1 id="FreeLancer"><a href="#FreeLancer" class="headerlink" title="FreeLancer"></a>FreeLancer</h1><ol><li>首先点击了一下网站的相关链接，都是伪链接。</li><li>dirmap扫描了一下依然没有东西。</li><li>转战看了看网站的通讯数据流。在查看网站源代码的发现了点东西</li></ol><p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/21.png" alt="img"></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Peach Fuzz针对于工控系统</title>
-      <link href="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/"/>
-      <url>/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/</url>
-      
-        <content type="html"><![CDATA[<h1 id="FUZZ-介绍"><a href="#FUZZ-介绍" class="headerlink" title="FUZZ 介绍"></a>FUZZ 介绍</h1><p>​    首先引用一段维基百科针对fuzz的介绍,针对于下面的介绍其实自己感觉针对于fuzz几个比较关键的词：随机、监视。</p><blockquote><p><strong>模糊测试</strong> （fuzz testing, fuzzing）是一种<a href="https://zh.wikipedia.org/wiki/软件测试" target="_blank" rel="noopener">软件测试</a>技术。其核心思想是将自动或半自动生成的随机数据输入到一个<a href="https://zh.wikipedia.org/wiki/计算机程序" target="_blank" rel="noopener">程序</a>中，并监视程序异常，如崩溃，<a href="https://zh.wikipedia.org/wiki/斷言_(程式)" target="_blank" rel="noopener">断言</a>（assertion）失败，以发现可能的程序错误，比如内存泄漏。模糊测试常常用于检测软件或计算机系统的安全漏洞。</p><p>模糊测试最早由<a href="https://zh.wikipedia.org/wiki/威斯康星大学" target="_blank" rel="noopener">威斯康星大学</a>的Barton Miller于1988年提出。<a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-1-1" target="_blank" rel="noopener">[1]</a><a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-2-2" target="_blank" rel="noopener">[2]</a>他们的工作不仅使用随机无结构的测试数据，还系统的利用了一系列的工具去分析不同平台上的各种软件，并对测试发现的错误进行了系统的分析。此外，他们还公开了源代码，测试流程以及原始结果数据。</p><p>模糊测试工具主要分为两类，变异测试（mutation-based）以及生成测试（generation-based）。模糊测试可以被用作白盒，灰盒或黑盒测试。<a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-sutton-3" target="_blank" rel="noopener">[3]</a>文件格式与网络协议是最常见的测试目标，但任何程序输入都可以作为测试对象。常见的输入有环境变量，鼠标和键盘事件以及API调用序列。甚至一些通常不被考虑成输入的对象也可以被测试，比如数据库中的数据或共享内存。</p><p>对于安全相关的测试，那些跨越可信边界的数据是最有趣的。比如，模糊测试那些处理任意用户上传的文件的代码比测试解析服务器配置文件的代码更重要。因为服务器配置文件往往只能被有一定权限的用户修改。</p></blockquote><p>​    简单直白的说其实是通过随机生成的数据，对测试设备进行通讯或文件的输入并进行查看程序状态是否正常。</p><h1 id="工控fUZZ介绍"><a href="#工控fUZZ介绍" class="headerlink" title="工控fUZZ介绍"></a>工控fUZZ介绍</h1><p>​    针对于工控系统进行的Socket Fuzz中这里主要分为两大类，一类是在针对协议通讯前需要进行一定的身份验证如现阶段内最为常见的为session认证；还有一类是较为常见的Modbus等无需进行身份授权既可进行Fuzz的协议。</p><p>​    而Fuzz 其实更多的是需要针对于已知的协议进行测试，最常见的fuzz是针对工控协议的功能码进行的Fuzz测试，尝试遍历是否存在其他功能码直接对设备进行操作；除遍历的Fuzz外还有很多通过智能fuzz进行测试，比如：peach、kitty、sulley都是现阶段内大家使用比较频繁的智能fuzz软件。而下面的通过简单的Peach进行测试讲解一下智能fuzz。</p><h2 id="Peach-介绍"><a href="#Peach-介绍" class="headerlink" title="Peach 介绍"></a>Peach 介绍</h2><p>​        Michael Eddington等人开发的Peach是一个遵守MIT开源许可证的模糊测试框架，最初采用Python语言编写，发布于2004年，第二版于2007年发布，最新的第三版使用C#重写了整个框架。</p><p>Peach支持对文件格式、ActiveX、网络协议、API等进行Fuzz测试；Peach Fuzz的关键是编写Peach Pit配置文件。</p><p>​        Windows下使用Peach3需要预先安装.net 4和windbg；Linux、OS X下需要安装Mono .net开发框架。现在作者使用的就是此款框架，针对工控现场比较常见的modbus协议进行模糊测试。</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>这里我们按照<a href="http://community.peachfuzzer.com/v3/PeachPit.html" target="_blank" rel="noopener">PeachPit官方文档</a>进行安装</p><p>1.进行安装<a href="http://www.microsoft.com/en-us/download/details.aspx?id=17718" target="_blank" rel="noopener">Microsoft.NET v4 Runtime</a></p><p>2.进行安装<a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff551063(v=vs.85).aspx" target="_blank" rel="noopener">Debugging Tools for Windows</a></p><p>3.将<a href="https://downloads.sourceforge.net/project/peachfuzz/Peach/3.1/peach-3.1.124-win-x64-debug.zip?r=&ts=1514019989&use_mirror=jaist" target="_blank" rel="noopener">Peach</a>解压到指定文件夹(这里直接粘贴URL为官方peach-3.1.124-win-x64)</p><p>4.开始使用Peach</p><h2 id="安装测试"><a href="#安装测试" class="headerlink" title="安装测试"></a>安装测试</h2><p>​    在进行安装Peach后运行peach可以看见简要的软件命令使用概述。</p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/1.png" alt="img"></p><p>​    主要参数包括</p><blockquote><ul><li><strong>-1**</strong>：执行第<strong><strong>1</strong></strong>次测试。**</li><li><strong>-a**</strong>：启动<strong><strong>Peach</strong></strong>代理。不指定<strong><strong>”channel”</strong></strong>默认为本地代理（默认支持，无需显式启动）<strong><strong>“channel”</strong></strong>可以指定为<strong><strong>”tcp”</strong></strong>远程代理。**</li><li><strong>-c**</strong>：统计测试用例数。**</li><li><strong>-t**</strong>：验证<strong><strong>Peach Pit     xml</strong></strong>文件正确性。**</li><li><strong>-p**</strong>：并行<strong><strong>Fuzz</strong></strong>。运行<strong><strong>Peach</strong></strong>的机器总数为<strong><strong>M</strong></strong>，这是第<strong><strong>N</strong></strong>个。**</li><li><strong>–debug**</strong>：调试信息开关。**</li><li><strong>–skipto**</strong>：指定<strong><strong>Fuzz</strong></strong>跳过的测试用例数。**</li><li><strong>–range**</strong>：指定<strong><strong>Fuzz</strong></strong>的测试用例范围。**</li></ul></blockquote><p>​    对于Peach本身也提供了一些本身自带的XML文件位于samples\ 目录下，我们来运行peach.exe samples\HelloWord.xml 测试是否可以正常发包进行模糊测试。</p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/2.png" alt="img"></p><h2 id="针对Modbus-04功能码Fuzz"><a href="#针对Modbus-04功能码Fuzz" class="headerlink" title="针对Modbus 04功能码Fuzz"></a>针对Modbus 04功能码Fuzz</h2><p>这里说明一下,Peach官方自带没有针对与Modbus协议进行测试的文件，需要用户自己进行编写针对于Modbus协议编写相关的测试XML。</p><p>这里XML文件也是遵循一定的格式，通过Peach解析特定的函数，下面的代码是针对04特定功能码的模糊测试。</p><p>其中<DataModel>标签部分需要进行说明的就是带有mutable函数进行说明 带有mutable函数的均调整为false；默认为不填写为true</DataModel></p><p>其实这里只是默认选择了关于Modbus协议中固定的协议帧部分，进行针对特定value部分进行循环，除此种方法外Peach还提供：随机、顺序循环两种方法。</p><p>更详细每一参数说明看图既可。</p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/3.png" alt="img"></p><p>​    通过Peach 调用编写的XML文件运行。通过wireshark抓包进行是否与我这里因为搭建的模拟Modbus环境相通。</p><p>在wireshark上设置了一定的过滤条件直接进行查看Modbus与Peach之间的通讯报文。</p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/4.png" alt="img"></p><p>可以通过wireshark可以分析出peach已经开始针对于工控设备进行智能模糊测试，但是现在还存在问题就是无法进行监控程序异常情况，只能进行发送fuzz数据。</p><h2 id="引入监听-Log-模块"><a href="#引入监听-Log-模块" class="headerlink" title="引入监听/Log 模块"></a>引入监听/Log 模块</h2><p>​    其实在进行模糊测试的时进行监听目标设备当时状态与错误日志的生成是比较必要的。这里自己也对上面的所编写的实例脚本进行了简单的修改引入Monitor、Logger相关的参数增加功能,来达到监听设备状态与生成日志的效果。</p><p>​    如果要同时对多个功能码进行模糊测试只需要根据自己需求增加<DataModel>标签内的数据，并在<Action>标签内进行添加相关数据标签名，进行多个功能码的模糊测试。话不多说在上一张图。</Action></DataModel></p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/5.png" alt="img"></p><p>​    因为使用的模拟Modbus仿真数据环境，为了达到实验效果,在仿真的环境切断虚拟机网卡的连接。Peach会提示<font color="#8B0000">–Caught fault at iteration 501,trying to reproduce– Peach</font> 会根据报文停止报文的次数进行命名，并在相关的Log目录下生成文件提示<font color="#8B0000">The ICMP echo Reply was not received within the allotted time. </font> 进行提示断开连接的原因，测试用户可以根据断开连接的时间进行下一步的确认操作。</p><p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/6.png" alt="img"></p><h1 id="Fuzz-工控协议一点总结"><a href="#Fuzz-工控协议一点总结" class="headerlink" title="Fuzz 工控协议一点总结"></a>Fuzz 工控协议一点总结</h1><p>​    其实fuzz 并不是盲目的去进行fuzz，个人感觉很难去得到一个较好的结果，与其盲目的fuzz，可以在fuzz之前去了解一些相关协议的功能码及其数据包结构，通过对数据包结构与功能码定义在进行更深层次的fuzz。</p><p>​    以上也是自己针对于Peach Fuzz 使用的一些方法总结。欢迎各位进行交流探讨。</p><p>​    最后附上一些针对于Fuzz的资源链接，资源均来自互联网，侵删~</p><blockquote><p><a href="./Peach+Fuzzer+官方文档中文版.doc">Peach 中文手册</a></p>XML<p><a href="https://github.com/uknowsec/ModbusPeachPit" target="_blank" rel="noopener">https://github.com/uknowsec/ModbusPeachPit</a></p><p><a href="https://github.com/n0dk451k/fuzzing/blob/c42613c04b73f57ca68a6c0fcebbeda8c5f77223/peach3_configs/s7comm.peach3.xml" target="_blank" rel="noopener">https://github.com/n0dk451k/fuzzing/blob/c42613c04b73f57ca68a6c0fcebbeda8c5f77223/peach3_configs/s7comm.peach3.xml</a></p></blockquote>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 工控安全 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>米家飞利浦灯泡研究</title>
-      <link href="/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/"/>
-      <url>/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/</url>
-      
-        <content type="html"><![CDATA[<h1 id="获取Token"><a href="#获取Token" class="headerlink" title="获取Token"></a>获取Token</h1><ol><li><p>我这里用的是手机模拟器进行安装Mi家APP软件。<br>在正常可以控制设备后通过模拟器的root权限，进入/data/data/com.xiaomi.smarthome/databases/文件夹将文件夹内部的miio2.db复制到电脑<br><img src="/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/2.png" alt="img"></p></li><li><p>使用本地数据库进行打开数据库文件，获取32位的token信息。<br><img src="/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/1.png" alt="img"></p><h2 id="走的坑"><a href="#走的坑" class="headerlink" title="走的坑"></a>走的坑</h2><p>这里最开始有比较多的坑,很多文章在介绍的时候可以通过miio库进行获取设备的Token信息。但是为什么反馈给我的就是？？？ 后来很多人说这种方法部分设备无法获取Token。需要使用Mi家APP进行获取。</p></li></ol><p>但是需要特定版本的Mi家软件，这里使用的版本就是  5.0.19</p><h1 id="控制灯泡"><a href="#控制灯泡" class="headerlink" title="控制灯泡"></a>控制灯泡</h1><p>这里可以直接使用miio库进行</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ip=<span class="string">'192.168.2.46'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">token=<span class="string">'You Token'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">bulb = PhilipsBulb(ip,token)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">bulb.on()<span class="comment">#开关</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#bulb.set_brightness(10) //亮度</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#bulb.set_color_temperature(10)//色温</span></span></pre></td></tr></table></figure><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote><p><a href="https://homekit.loli.ren/show/2" target="_blank" rel="noopener">https://homekit.loli.ren/show/2</a></p></blockquote>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>modbus攻击</title>
-      <link href="/2019/12/14/modbus%E6%94%BB%E5%87%BB/"/>
-      <url>/2019/12/14/modbus%E6%94%BB%E5%87%BB/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Modbus协议介绍"><a href="#Modbus协议介绍" class="headerlink" title="Modbus协议介绍"></a>Modbus协议介绍</h1><p>Modbus协议本身是一种串行的通讯协议，是Modicon公司（后来被施耐德收购了）在1979年为使用可编程逻辑控制器通讯而发表。转眼间已经30年了，Modbus俨然已经成为行业中最为通用的协议之一。也因为其开源的特性被很多厂家所喜爱。</p><h2 id="协议通讯方法"><a href="#协议通讯方法" class="headerlink" title="协议通讯方法"></a>协议通讯方法</h2><p>现阶段内Modbus协议存在串口、以太网的方式在工业现场进行使用。而现阶段内占有率最高的就是Modbus协议。</p><h2 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h2><p>串口连接中Modbus协议存在两个变种。对于数据的表示和协议上有点不同。</p><h3 id="Modbus-RTU"><a href="#Modbus-RTU" class="headerlink" title="Modbus RTU"></a>Modbus RTU</h3><p>Modbus RTU是一种紧凑型采用二进制表示数据的方式。</p><h1 id="modbus协议存在问题"><a href="#modbus协议存在问题" class="headerlink" title="modbus协议存在问题"></a>modbus协议存在问题</h1><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ics默认密码</title>
-      <link href="/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/"/>
-      <url>/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
-      
-        <content type="html"><![CDATA[<p>实际生产设备中很多工控设备存在默认口令情况。<br>在Git上发现了一个比较好的项目。</p><p><img src="/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/icspass.png" alt="img"></p><p>话不多说直接上链接</p><blockquote><p><a href="https://github.com/icssec/SCADAPASS" target="_blank" rel="noopener">https://github.com/icssec/SCADAPASS</a></p></blockquote>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>工控安全态势感知小感</title>
-      <link href="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/"/>
-      <url>/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/</url>
-      
-        <content type="html"><![CDATA[<h1 id="态势感知介绍"><a href="#态势感知介绍" class="headerlink" title="态势感知介绍"></a>态势感知介绍</h1><p>在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:</p><blockquote><p>态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。<br>首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针对这种看不见摸不到的战争，在这场虚拟的战场我们应该怎么做？能做些什么？</p></blockquote><h2 id="态势感知定义"><a href="#态势感知定义" class="headerlink" title="态势感知定义"></a>态势感知定义</h2><p>Endsley提出了一个最为广泛使用的态势感知定义，这也是最早的态势感知定义之一。该定义对态势感知的定义描述是：</p><blockquote><p>在一定的时间和空间内观察环境中的元素，理解这些元素的定义并预测这些元素在不久的将来的状态。</p></blockquote><h2 id="态势感知的重要性"><a href="#态势感知的重要性" class="headerlink" title="态势感知的重要性"></a>态势感知的重要性</h2><p>现在的交战中的冲冲突在一点点的改变。已经从人员一点点的在向信息化方向转移。以信息化时代作为底层的“网络支撑作战行动”的概念为基础。</p><h2 id="国内常见工控态势感知概述"><a href="#国内常见工控态势感知概述" class="headerlink" title="国内常见工控态势感知概述"></a>国内常见工控态势感知概述</h2><p>对于工控安全的态势感知则更为趣，对于内网与外网的态势感知区分更为严重。内网是针对企业局域网内的环境流量进行汇总分析、而外网主要对互联网上暴露的外网设备进行扫描监测。</p><p>现阶段国内的态势感知建设针中<br>1）内网很多都是结合IDS\IPS\镜像流量，通过可视化的大屏进行分析。<br>2）外网的态势感知是不是主动扫描监测数据汇总。</p><h1 id="工控安全态势感知建设"><a href="#工控安全态势感知建设" class="headerlink" title="工控安全态势感知建设"></a>工控安全态势感知建设</h1><p>首先查看一下安全人员中常见的工控搜索引擎</p><h2 id="国外"><a href="#国外" class="headerlink" title="国外"></a>国外</h2><h3 id="BinaryEdge"><a href="#BinaryEdge" class="headerlink" title="BinaryEdge"></a>BinaryEdge</h3><p>可能还有很人没有听过此引擎，专业针对于结合网络安全、工控安全。2016年发布了《2016年互联网安全报告》官方博客会定期进行分析相关国家、地区技术文章。</p><blockquote><p><a href="https://blog.binaryedge.io/" target="_blank" rel="noopener">https://blog.binaryedge.io/</a></p></blockquote><p>引擎可以默认进行搜索:ICS、数据库、物联网、网络服务器、摄像头等设备。相对于大家熟知的shodan个人感觉可能更注重IOT安全分析。可以进行点击搜索直接搜索。作者这里进行ICS类型设备。详细信息可以查看TOP榜中的工控设备端口、协议，下面展示的为详细的资产信息。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina1.png" alt="img"><br>并可以进行搜索相关的DRP、VNC管理界面截图。相对刚才的功能来说更加直观可以进行查看工控设备。（下图红色框中的即为工控安全生产监控与门禁管理系统。）<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina2.png" alt="img"><br>还要一个功能这里比较要点名表扬。BinaryEdge针对互联网部署了Honeypots。并进行收集展示了TOP国家、网络节点、IP、PORT、并对TOP的有效载荷进行分析。<br>七天内扫描源发起的国家最大为8亿。 - -.<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina3.png" alt="img"><br>payload的TOP榜不用我说了吧。大家应该都懂。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina4.png" alt="img"></p><h3 id="shodan"><a href="#shodan" class="headerlink" title="shodan"></a>shodan</h3><p>shodan是目前针对全球设备进行扫描分，作为安全研究人员最常使用的搜索引擎还是比较强的。对于IP的扫描频率、内部引擎优化很多方面都是国内竞相模仿的对象。<br>针对于shodan的工控搜搜进行举例说明，网站中提供了12种工控协议的设备指纹信息。详细支持的端口搜索见下图。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/ics1.jpg" alt="img"></p><p>但是除了常见的工控协议外还支持很多的设备指纹信息搜索。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/3.png" alt="img"><br>但是只要你拥有指纹就可以对很多类型的工控设备进行搜索，但是并不通用。很多国内特殊端口还是无法进行搜索。这里呢原来自己看过一篇国外的文章，这里将常见的工控搜索指纹信息罗列出来并写附上链接。</p><blockquote><p>三星电子广告牌           “Server: Prismview Player”<br>加油站泵控制器            “in-tank inventory” port:10001<br>自动车牌读取器            P372 “ANPR enabled”<br>交通信号控制灯            mikrotik streetlight<br>美国投票机               “voter system serial” country:US<br>监狱专用电话             “[2J[H Encartele Confidential”<br>Tesla PowerPack充电状态         http.title:”Tesla PowerPack System” http.component:”d3” -ga3ca4f2<br>电动汽车充电器         “Server: gSOAP/2.8” “Content-Length: 583”<br>潜艇任务控制仪表板       title:”Slocum Fleet Mission Control”<br>CAREL PlantVisor        “Server: CarelDataServer” “200 Document follows”<br>铁路管理                “log off” “select the appropriate”<br>西门子Hvac控制器          “Server: Microsoft-WinCE” “Content-Length: 12581”<br>GaugeTech电表             “Server: EIG Embedded Web Server” “200 Document follows”<br>DICOM医用X射线机         “DICOM Server Response” port:104</p></blockquote><h3 id><a href="#" class="headerlink" title></a></h3><p>对于安全研究人员比较多的就是zoomeye、fofa其也提供了很多指纹信息的检索能力。</p><h2 id="国内"><a href="#国内" class="headerlink" title="国内"></a>国内</h2><h3 id="fofa"><a href="#fofa" class="headerlink" title="fofa"></a>fofa</h3><p>不多解释两张图就够了。常见主流协议已经具备了。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa1.png" alt="img"><br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa2.png" alt="img"></p><h3 id="傻蛋"><a href="#傻蛋" class="headerlink" title="傻蛋"></a>傻蛋</h3><p>已经不对互联网用户开放了…<br>告辞</p><h3 id="Zoomeye"><a href="#Zoomeye" class="headerlink" title="Zoomeye"></a>Zoomeye</h3><blockquote><p>这里引用的是ics.zoomeye.org</p></blockquote><p><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/2.png" alt="img"></p><p>不的不说zoomeye的ICS指纹与优化能力还是很值得一提的。</p><h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>其实在态势感知定义中是由：观察、理解、预测。三部分构成但是很多家的方向对于最后一步的预测能力并没有一个很好的方案。而针对于国内的态势感知中小弟有几句话要是</p><blockquote><p>1.国内现阶段还是很多解决不掉针对于指纹瓶颈的问题，没有办法整合相关工控资源进行全覆盖指纹扫描（毕竟很多设备指纹信息还是比较复杂和难以分析的）<br>2.扫描器的问题，法律还没有进行明确的规定时候，本人也尝试过扫描。但是一直使用同一IP进行扫描经常出现数量越来越少的问题。企业慢慢屏蔽了你的扫描，是否需要进行分布式的扫描。<br>3.怎么才能体现出数据的价值所在，不解决数据的消耗问题，通过一个量的积累，只能去恶心很多监管单位，怎么才能进行有效的分析利用？<br>4.对于安全研究人员怎么才会对你的数据形成闭环。</p></blockquote>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>CTF论剑场WriteUp</title>
+    <url>/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/</url>
+    <content><![CDATA[<p>持续更新…..</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="WEB1"><a href="#WEB1" class="headerlink" title="WEB1"></a>WEB1</h2><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/1.png" alt="img"></p>
+<p>​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。</p>
+<p>根据官方介绍</p>
+<blockquote>
+<p>(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p>
+<p>file_get_contents — 将整个文件读入一个字符串</p>
+</blockquote>
+<p>使用file_get_contents函数的为trim</p>
+<blockquote>
+<p>(PHP 4, PHP 5, PHP 7)</p>
+<p>trim — 去除字符串首尾处的空白字符（或者其他字符）</p>
+<p><strong>说明</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&gt;trim ( string `$str` [, string `$character_mask` = <span class="string">" \t\n\r\0\x0B"</span> ] ) : string</span></pre></td></tr></table></figure>
+
+<p>此函数返回字符串 <code>str</code> 去除首尾空白字符后的结果。如果不指定第二个参数，<strong>trim()</strong> 将去除这些字符：</p>
+<ul>
+<li>“ “ (ASCII <em>32</em> (<em>0x20</em>))，普通空格符。</li>
+<li>“\t” (ASCII <em>9</em> (<em>0x09</em>))，制表符。</li>
+<li>“\n” (ASCII <em>10</em> (<em>0x0A</em>))，换行符。</li>
+<li>“\r” (ASCII <em>13</em> (<em>0x0D</em>))，回车符。</li>
+<li>“\0” (ASCII <em>0</em> (<em>0x00</em>))，空字节符。</li>
+<li>“\x0B” (ASCII <em>11</em> (<em>0x0B</em>))，垂直制表符。</li>
+</ul>
+</blockquote>
+<p>但是源代码中直接给了一个字符串,并未通过引用文件的方式进行引用，</p>
+<h2 id="WEB2"><a href="#WEB2" class="headerlink" title="WEB2"></a>WEB2</h2><p>题目介绍:请在三秒之内计算出以下式子，计算正确就的到flag哦！</p>
+<p>题目必须在必须的时间内进行提交，否则就会提示失败</p>
+<p>直接编写Python脚本进行提交。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span></pre></td></tr><tr><td class="code"><pre><span class="line">session = requests.Session()</span></pre></td></tr><tr><td class="code"><pre><span class="line">headers = &#123;<span class="string">"Accept"</span>:<span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>,<span class="string">"Upgrade-Insecure-Requests"</span>:<span class="string">"1"</span>,<span class="string">"User-Agent"</span>:<span class="string">"Mozilla/5.0 (Macintosh; Intel xiaomi 20_20_20) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1.100 Safari/537.36"</span>,<span class="string">"Connection"</span>:<span class="string">"close"</span>,<span class="string">"Accept-Encoding"</span>:<span class="string">"gzip, deflate"</span>,<span class="string">"Accept-Language"</span>:<span class="string">"zh-CN,zh;q=0.9"</span>&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">response = session.get(<span class="string">"http://123.206.31.85:10002/"</span>, headers=headers)</span></pre></td></tr><tr><td class="code"><pre><span class="line">res = (re.findall(<span class="string">r'&lt;br/&gt;\s+(.*)&lt;/p&gt;'</span>,response.content))[<span class="number">0</span>]</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">paramsPost = &#123;<span class="string">"result"</span>:eval(res)&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">post1 = session.post(<span class="string">"http://123.206.31.85:10002/"</span>,data=paramsPost,headers=headers,)</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">print</span> (post1.content)</span></pre></td></tr></table></figure>
+
+<p>提交成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/2.png" alt="img"></p>
+<h2 id="WEB3"><a href="#WEB3" class="headerlink" title="WEB3"></a>WEB3</h2><p>题目介绍：Panduploader::Upload</p>
+<p>第一反应文件上传，先传一个正常的图尝试一下，what？失败了</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/3.png" alt="img"></p>
+<p>尝试了一下PHP伪协议，有门!</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/4.png" alt="img"></p>
+<p>最后尝试了一下确定文件并成功获得:<a href="http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag" target="_blank" rel="noopener">http://123.206.31.85:10003/?op=php://filter/read=convert.base64-encode/resource=flag</a>  通过解码获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/5.png" alt="img"></p>
+<h2 id="WEB4"><a href="#WEB4" class="headerlink" title="WEB4"></a>WEB4</h2><p>题目介绍:登录后即可看到flag</p>
+<p>首先尝试一下万能密码登录,成功~</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/7.png" alt="img"></p>
+<p>成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/8.png" alt="img"></p>
+<h2 id="WEB5"><a href="#WEB5" class="headerlink" title="WEB5"></a>WEB5</h2><p>在进行查看题目的URL时候已经提示为injection</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/9.png" alt="img"></p>
+<p>直接用的sqlmap 好像把我踢了？？？什么情况？有时间在做</p>
+<h2 id="WEB6"><a href="#WEB6" class="headerlink" title="WEB6"></a>WEB6</h2><p>在尝试admin/admin登录的时候提示：‘IP禁止访问，请联系本地管理员登陆，IP已被记录.’</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/10.png" alt="img"></p>
+<p>可以了不报这个问题了。尝试一下万能密码</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/12.png" alt="img"></p>
+<p>不对等等 返回响应包下面怎么这么长 还要内容？</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/13.png" alt="img"></p>
+<p>通过base64解码内容为：test123</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/14.png" alt="img"></p>
+<p>尝试admin/test123 成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/15.png" alt="img"></p>
+<h2 id="WEB7"><a href="#WEB7" class="headerlink" title="WEB7"></a>WEB7</h2><p>这里在进入URL给了一个简单的提示:‘吃个小饼干吗’ cookie?</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/16.png" alt="img"></p>
+<p>直接可以登录但是说权限不够</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/17.png" alt="img"></p>
+<p>抓包的时候发现了两个字段</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/18.png" alt="img"></p>
+<p> u=351e766803  14c4b06b824ec593239362517f538b29</p>
+<p> r=351e766803  d63c7ede8cb1e1c8db5e51c63fd47cff</p>
+<p>观察并解密后面字段的内容为：username/limited</p>
+<p>将两个字段修改成md5加密的admin</p>
+<p>u=351e76680321232f297a57a5a743894a0e4a801fc3</p>
+<p> r=351e76680321232f297a57a5a743894a0e4a801fc3</p>
+<p>成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/19.png" alt="img"></p>
+<h2 id="WEB8"><a href="#WEB8" class="headerlink" title="WEB8"></a>WEB8</h2><p>题目已经提示注入，直接尝试一下admin” –ss /admin’ –ss</p>
+<p>使用admin” –ss登录成功</p>
+<p>尝试可一下在更新信息中的测试，但是发现age比较可以但是无果，查看了一下网上的案例，扫描？</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/21.png" alt="img"></p>
+<p>果断查看一下源代码，果断查看updata.php 数字型注入， 调用了addslashes函数。</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/22.png" alt="img"></p>
+<p>学乖点手工吧。</p>
+<p>csrf token mismatch ？？？</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/23.png" alt="img"></p>
+<h1 id="Mics"><a href="#Mics" class="headerlink" title="Mics"></a>Mics</h1><h2 id="头像"><a href="#头像" class="headerlink" title="头像"></a>头像</h2><p>介绍:萌萌哒头像flag为flag{flag的md5 32位加密值}</p>
+]]></content>
+      <tags>
+        <tag>靶场记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac10.15下使用IDA Pro</title>
+    <url>/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>自己换了mac没多久，在安装IDA Pro的时候一直报错，无法安装。着实蛋疼</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在网上看了下问题，52破解上给出的解释是：</p>
+<blockquote>
+<p>自 macOS 10.15.1/Catalina 后终止了对 32 位可执行程序的兼容 （Apple’s transition to 64-bit technology is now complete. Starting with macOS Catalina, 32-bit apps are no longer compatible with macOS. If you have a 32-bit app, please check with the app developer for a 64-bit version）</p>
+</blockquote>
+<p>这里直接在朋友的mac上压缩复制到自己的应用程序既可。</p>
+<p>在导入完成后直接打开ida正常，但是发现在打开ida64的时候提示：应用程序无法打开。</p>
+<p><img src="/2020/02/14/mac10.15%E4%B8%8B%E4%BD%BF%E7%94%A8IDA-Pro/1.png" alt="img/"></p>
+<p>在使用IDA64时候直接打开idabin/ida64既可。</p>
+<p>最后分享一下IDA和安装后的压缩文件，方便大家使用</p>
+<blockquote>
+<p><a href="https://github.com/icssec/mac_IDApro" target="_blank" rel="noopener">https://github.com/icssec/mac_IDApro</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>个人学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>echarts简单使用</title>
+    <url>/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>因为上阶段工作原因，需要生成地图，简单的学习了一下echarts的使用。并进行简单的记录。</p>
+<h1 id="echarts介绍"><a href="#echarts介绍" class="headerlink" title="echarts介绍"></a>echarts介绍</h1><blockquote>
+<p>ECharts，一个使用 JavaScript 实现的开源可视化库，可以流畅的运行在 PC 和移动设备上，兼容当前绝大部分浏览器（IE8/9/10/11，Chrome，Firefox，Safari等），底层依赖轻量级的矢量图形库 ZRender，提供直观，交互丰富，可高度个性化定制的数据可视化图表。<br> ECharts 提供了常规的折线图、柱状图、散点图、饼图、K线图，用于统计的盒形图，用于地理数据可视化的地图、热力图、线图，用于关系数据可视化的关系图、旭日图，多维数据可视化的平行坐标，还有用于 BI 的漏斗图，仪表盘，并且支持图与图之间的混搭。</p>
+</blockquote>
+<h2 id="生成地图"><a href="#生成地图" class="headerlink" title="生成地图"></a>生成地图</h2><p>因为官方说明‘ECharts 之前提供下载的矢量地图数据来自第三方，由于部分数据不符合国家《测绘法》规定，目前暂时停止下载服务。‘但是通过伟大的互联网这里还是可以找到。因为时间问题，直接将原来写的源码进行共享。二次使用时，直接修改既可。</p>
+<h2 id="生成地图数据"><a href="#生成地图数据" class="headerlink" title="生成地图数据"></a>生成地图数据</h2><ol>
+<li><p>借助官方工具直接生成测试数据直接将生成。</p>
+<p><a href="https://www.echartsjs.com/zh/spreadsheet.html" target="_blank" rel="noopener">https://www.echartsjs.com/zh/spreadsheet.html</a></p>
+<p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/echarts1.png" alt="img"></p>
+</li>
+<li><p>将转换结果粘贴到结果粘贴到代码上</p>
+</li>
+</ol>
+<p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/2.png" alt="img"></p>
+<ol start="3">
+<li>修改地图标题与介绍</li>
+</ol>
+<p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/3.png" alt="img"></p>
+<ol start="4">
+<li><p>修改地图展示的最低值与最高值</p>
+<p><img src="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/4.png" alt="img"></p>
+<h2 id="测试项目地址与源码"><a href="#测试项目地址与源码" class="headerlink" title="测试项目地址与源码"></a>测试项目地址与源码</h2><p> <a href="https://github.com/icssec/echartstest" target="_blank" rel="noopener">https://github.com/icssec/echartstest</a></p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>个人学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hack box 记录</title>
+    <url>/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>持续更新….</p>
+<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>​    简要说明一下怎么进行注册，打开链接 <a href="https://www.hackthebox.eu/invite" target="_blank" rel="noopener">https://www.hackthebox.eu/invite</a> 在console输入 makeInviteCode() </p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/1.png" alt="img"></p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/2.png" alt="img"></p>
+<p>​    可以得到一个base64加密的数据</p>
+<blockquote>
+<p>SW4gb3JkZXIgdG8gZ2VuZXJhdGUgdGhlIGludml0ZSBjb2RlLCBtYWtlIGEgUE9TVCByZXF1ZXN0IHRvIC9hcGkvaW52aXRlL2dlbmVyYXRl</p>
+</blockquote>
+<p>解码后提示信息为</p>
+<blockquote>
+<p>​    In order to generate the invite code, make a POST request to /api/invite/generate</p>
+</blockquote>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/3.png" alt="img"></p>
+<p>我这里通过bp进行发包，获取key，获取到的code字段还需要进行base64解密,解密后的验证码就直接可以进行注册了。</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/4.png" alt="img"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>官方会提供openvpn链接配置文件，因为我这里使用的是mac下载的是Tunnelblick。</p>
+<p>进行下载openVPN链接包，通过软件进行拨号链接</p>
+<h1 id="Cartographer"><a href="#Cartographer" class="headerlink" title="Cartographer"></a>Cartographer</h1><p>介绍：一些地下黑客正在开发新的命令和控制服务器。您可以闯入看看他们在做什么吗？</p>
+<p>在拿到网站的时候尝试了一下admin和top100的弱口令，失败后，感觉可能是万能密码登录，直接通过字典进行爆破尝试,成功admin’or’a’=’a</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/6.png" alt="img"></p>
+<p>登陆成功后网页重定向到了<a href="http://docker.hackthebox.eu:30642/panel.php?info=home" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home</a></p>
+<p><a href="http://docker.hackthebox.eu:30642/panel.php?info=home’" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home’</a> 网页提示not fount！</p>
+<p>怀疑可能是文件包含，尝试将home修改成flag。成功获取flag</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/7.png" alt="img"></p>
+<h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:您可以加密得足够快吗？</p>
+<p>这里不管怎么提交都会提示Too slow！</p>
+<p>想起了当时bugku 里面的一个题，直接尝试编写python脚本进行提交。</p>
+<p>直接使用burp生成简单的修改一下，OK </p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/10.png" alt="img"></p>
+<p>测试脚本地址：</p>
+<blockquote>
+<p><a href="https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py" target="_blank" rel="noopener">https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py</a></p>
+</blockquote>
+<h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>介绍:我们已经获得了一些我们认为与目标内部网络相连的基础架构的访问权。我们需要您帮助获取他们当前正在开发的网站的管理员密码。</p>
+<p>dirmap一波发现一个<a href="http://docker.hackthebox.eu:30738/api/" target="_blank" rel="noopener">http://docker.hackthebox.eu:30738/api/</a>  但是页面是空的，蒙了~</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
+<p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
+<p>心思尝试一下，时间太长了。算了吧。访问页面后提示Error: Parameter not set</p>
+<p>还是通过dirbuster进行测试。</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/14.png" alt="img"></p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/13.png" alt="img"></p>
+<p>fuzz到参数后进行访问页面提示Error: Account ID not found</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/15.png" alt="img"></p>
+<p>直接通过burp进行测试一下ID字段的参数，通过burp的number进行测试</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/16.png" alt="img"></p>
+<p>payload确定为20，直接查看response获得flag</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/17.png" alt="img"></p>
+<h1 id="Lernaean"><a href="#Lernaean" class="headerlink" title="Lernaean"></a>Lernaean</h1><ol>
+<li><p>简单使用dirmap跑了一波 无果</p>
+</li>
+<li><p>标题网站页面的提示’请不要尝试猜测我的密码！’ 那就必须得尝试一下啊。</p>
+</li>
+<li><p>上来使用sqlitop进行尝试，失败了~不能使用万能密码登录</p>
+</li>
+<li><p>那就尝试一下top的字典密码吧</p>
+<p>我这里使用的是</p>
+<blockquote>
+<p><a href="https://github.com/TheKingOfDuck/fuzzDicts" target="_blank" rel="noopener">https://github.com/TheKingOfDuck/fuzzDicts</a></p>
+</blockquote>
+</li>
+<li><p>发现密码是:leonardo 直接获得flag</p>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/20.png" alt="img"></p>
+</li>
+</ol>
+<h1 id="FreeLancer"><a href="#FreeLancer" class="headerlink" title="FreeLancer"></a>FreeLancer</h1><ol>
+<li>首先点击了一下网站的相关链接，都是伪链接。</li>
+<li>dirmap扫描了一下依然没有东西。</li>
+<li>转战看了看网站的通讯数据流。在查看网站源代码的发现了点东西</li>
+</ol>
+<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/21.png" alt="img"></p>
+]]></content>
+      <tags>
+        <tag>靶场记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Peach Fuzz针对于工控系统</title>
+    <url>/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="FUZZ-介绍"><a href="#FUZZ-介绍" class="headerlink" title="FUZZ 介绍"></a>FUZZ 介绍</h1><p>​    首先引用一段维基百科针对fuzz的介绍,针对于下面的介绍其实自己感觉针对于fuzz几个比较关键的词：随机、监视。</p>
+<blockquote>
+<p><strong>模糊测试</strong> （fuzz testing, fuzzing）是一种<a href="https://zh.wikipedia.org/wiki/软件测试" target="_blank" rel="noopener">软件测试</a>技术。其核心思想是将自动或半自动生成的随机数据输入到一个<a href="https://zh.wikipedia.org/wiki/计算机程序" target="_blank" rel="noopener">程序</a>中，并监视程序异常，如崩溃，<a href="https://zh.wikipedia.org/wiki/斷言_(程式)" target="_blank" rel="noopener">断言</a>（assertion）失败，以发现可能的程序错误，比如内存泄漏。模糊测试常常用于检测软件或计算机系统的安全漏洞。</p>
+<p>模糊测试最早由<a href="https://zh.wikipedia.org/wiki/威斯康星大学" target="_blank" rel="noopener">威斯康星大学</a>的Barton Miller于1988年提出。<a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-1-1" target="_blank" rel="noopener">[1]</a><a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-2-2" target="_blank" rel="noopener">[2]</a>他们的工作不仅使用随机无结构的测试数据，还系统的利用了一系列的工具去分析不同平台上的各种软件，并对测试发现的错误进行了系统的分析。此外，他们还公开了源代码，测试流程以及原始结果数据。</p>
+<p>模糊测试工具主要分为两类，变异测试（mutation-based）以及生成测试（generation-based）。模糊测试可以被用作白盒，灰盒或黑盒测试。<a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-sutton-3" target="_blank" rel="noopener">[3]</a>文件格式与网络协议是最常见的测试目标，但任何程序输入都可以作为测试对象。常见的输入有环境变量，鼠标和键盘事件以及API调用序列。甚至一些通常不被考虑成输入的对象也可以被测试，比如数据库中的数据或共享内存。</p>
+<p>对于安全相关的测试，那些跨越可信边界的数据是最有趣的。比如，模糊测试那些处理任意用户上传的文件的代码比测试解析服务器配置文件的代码更重要。因为服务器配置文件往往只能被有一定权限的用户修改。</p>
+</blockquote>
+<p>​    简单直白的说其实是通过随机生成的数据，对测试设备进行通讯或文件的输入并进行查看程序状态是否正常。</p>
+<h1 id="工控fUZZ介绍"><a href="#工控fUZZ介绍" class="headerlink" title="工控fUZZ介绍"></a>工控fUZZ介绍</h1><p>​    针对于工控系统进行的Socket Fuzz中这里主要分为两大类，一类是在针对协议通讯前需要进行一定的身份验证如现阶段内最为常见的为session认证；还有一类是较为常见的Modbus等无需进行身份授权既可进行Fuzz的协议。</p>
+<p>​    而Fuzz 其实更多的是需要针对于已知的协议进行测试，最常见的fuzz是针对工控协议的功能码进行的Fuzz测试，尝试遍历是否存在其他功能码直接对设备进行操作；除遍历的Fuzz外还有很多通过智能fuzz进行测试，比如：peach、kitty、sulley都是现阶段内大家使用比较频繁的智能fuzz软件。而下面的通过简单的Peach进行测试讲解一下智能fuzz。</p>
+<h2 id="Peach-介绍"><a href="#Peach-介绍" class="headerlink" title="Peach 介绍"></a>Peach 介绍</h2><p>​        Michael Eddington等人开发的Peach是一个遵守MIT开源许可证的模糊测试框架，最初采用Python语言编写，发布于2004年，第二版于2007年发布，最新的第三版使用C#重写了整个框架。</p>
+<p>Peach支持对文件格式、ActiveX、网络协议、API等进行Fuzz测试；Peach Fuzz的关键是编写Peach Pit配置文件。</p>
+<p>​        Windows下使用Peach3需要预先安装.net 4和windbg；Linux、OS X下需要安装Mono .net开发框架。现在作者使用的就是此款框架，针对工控现场比较常见的modbus协议进行模糊测试。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>这里我们按照<a href="http://community.peachfuzzer.com/v3/PeachPit.html" target="_blank" rel="noopener">PeachPit官方文档</a>进行安装</p>
+<p>1.进行安装<a href="http://www.microsoft.com/en-us/download/details.aspx?id=17718" target="_blank" rel="noopener">Microsoft.NET v4 Runtime</a></p>
+<p>2.进行安装<a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff551063(v=vs.85).aspx" target="_blank" rel="noopener">Debugging Tools for Windows</a></p>
+<p>3.将<a href="https://downloads.sourceforge.net/project/peachfuzz/Peach/3.1/peach-3.1.124-win-x64-debug.zip?r=&ts=1514019989&use_mirror=jaist" target="_blank" rel="noopener">Peach</a>解压到指定文件夹(这里直接粘贴URL为官方peach-3.1.124-win-x64)</p>
+<p>4.开始使用Peach</p>
+<h2 id="安装测试"><a href="#安装测试" class="headerlink" title="安装测试"></a>安装测试</h2><p>​    在进行安装Peach后运行peach可以看见简要的软件命令使用概述。</p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/1.png" alt="img"></p>
+<p>​    主要参数包括</p>
+<blockquote>
+<ul>
+<li><strong>-1**</strong>：执行第<strong><strong>1</strong></strong>次测试。**</li>
+<li><strong>-a**</strong>：启动<strong><strong>Peach</strong></strong>代理。不指定<strong><strong>”channel”</strong></strong>默认为本地代理（默认支持，无需显式启动）<strong><strong>“channel”</strong></strong>可以指定为<strong><strong>”tcp”</strong></strong>远程代理。**</li>
+<li><strong>-c**</strong>：统计测试用例数。**</li>
+<li><strong>-t**</strong>：验证<strong><strong>Peach Pit     xml</strong></strong>文件正确性。**</li>
+<li><strong>-p**</strong>：并行<strong><strong>Fuzz</strong></strong>。运行<strong><strong>Peach</strong></strong>的机器总数为<strong><strong>M</strong></strong>，这是第<strong><strong>N</strong></strong>个。**</li>
+<li><strong>–debug**</strong>：调试信息开关。**</li>
+<li><strong>–skipto**</strong>：指定<strong><strong>Fuzz</strong></strong>跳过的测试用例数。**</li>
+<li><strong>–range**</strong>：指定<strong><strong>Fuzz</strong></strong>的测试用例范围。**</li>
+</ul>
+</blockquote>
+<p>​    对于Peach本身也提供了一些本身自带的XML文件位于samples\ 目录下，我们来运行peach.exe samples\HelloWord.xml 测试是否可以正常发包进行模糊测试。</p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/2.png" alt="img"></p>
+<h2 id="针对Modbus-04功能码Fuzz"><a href="#针对Modbus-04功能码Fuzz" class="headerlink" title="针对Modbus 04功能码Fuzz"></a>针对Modbus 04功能码Fuzz</h2><p>这里说明一下,Peach官方自带没有针对与Modbus协议进行测试的文件，需要用户自己进行编写针对于Modbus协议编写相关的测试XML。</p>
+<p>这里XML文件也是遵循一定的格式，通过Peach解析特定的函数，下面的代码是针对04特定功能码的模糊测试。</p>
+<p>其中<DataModel>标签部分需要进行说明的就是带有mutable函数进行说明 带有mutable函数的均调整为false；默认为不填写为true</DataModel></p>
+<p>其实这里只是默认选择了关于Modbus协议中固定的协议帧部分，进行针对特定value部分进行循环，除此种方法外Peach还提供：随机、顺序循环两种方法。</p>
+<p>更详细每一参数说明看图既可。</p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/3.png" alt="img"></p>
+<p>​    通过Peach 调用编写的XML文件运行。通过wireshark抓包进行是否与我这里因为搭建的模拟Modbus环境相通。</p>
+<p>在wireshark上设置了一定的过滤条件直接进行查看Modbus与Peach之间的通讯报文。</p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/4.png" alt="img"></p>
+<p>可以通过wireshark可以分析出peach已经开始针对于工控设备进行智能模糊测试，但是现在还存在问题就是无法进行监控程序异常情况，只能进行发送fuzz数据。</p>
+<h2 id="引入监听-Log-模块"><a href="#引入监听-Log-模块" class="headerlink" title="引入监听/Log 模块"></a>引入监听/Log 模块</h2><p>​    其实在进行模糊测试的时进行监听目标设备当时状态与错误日志的生成是比较必要的。这里自己也对上面的所编写的实例脚本进行了简单的修改引入Monitor、Logger相关的参数增加功能,来达到监听设备状态与生成日志的效果。</p>
+<p>​    如果要同时对多个功能码进行模糊测试只需要根据自己需求增加<DataModel>标签内的数据，并在<Action>标签内进行添加相关数据标签名，进行多个功能码的模糊测试。话不多说在上一张图。</Action></DataModel></p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/5.png" alt="img"></p>
+<p>​    因为使用的模拟Modbus仿真数据环境，为了达到实验效果,在仿真的环境切断虚拟机网卡的连接。Peach会提示<font color="#8B0000">–Caught fault at iteration 501,trying to reproduce– Peach</font> 会根据报文停止报文的次数进行命名，并在相关的Log目录下生成文件提示<font color="#8B0000">The ICMP echo Reply was not received within the allotted time. </font> 进行提示断开连接的原因，测试用户可以根据断开连接的时间进行下一步的确认操作。</p>
+<p><img src="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/6.png" alt="img"></p>
+<h1 id="Fuzz-工控协议一点总结"><a href="#Fuzz-工控协议一点总结" class="headerlink" title="Fuzz 工控协议一点总结"></a>Fuzz 工控协议一点总结</h1><p>​    其实fuzz 并不是盲目的去进行fuzz，个人感觉很难去得到一个较好的结果，与其盲目的fuzz，可以在fuzz之前去了解一些相关协议的功能码及其数据包结构，通过对数据包结构与功能码定义在进行更深层次的fuzz。</p>
+<p>​    以上也是自己针对于Peach Fuzz 使用的一些方法总结。欢迎各位进行交流探讨。</p>
+<p>​    最后附上一些针对于Fuzz的资源链接，资源均来自互联网，侵删~</p>
+<blockquote>
+<p><a href="./Peach+Fuzzer+官方文档中文版.doc">Peach 中文手册</a></p>
+XML
+
+<p><a href="https://github.com/uknowsec/ModbusPeachPit" target="_blank" rel="noopener">https://github.com/uknowsec/ModbusPeachPit</a></p>
+<p><a href="https://github.com/n0dk451k/fuzzing/blob/c42613c04b73f57ca68a6c0fcebbeda8c5f77223/peach3_configs/s7comm.peach3.xml" target="_blank" rel="noopener">https://github.com/n0dk451k/fuzzing/blob/c42613c04b73f57ca68a6c0fcebbeda8c5f77223/peach3_configs/s7comm.peach3.xml</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>工控安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>米家飞利浦灯泡研究</title>
+    <url>/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/</url>
+    <content><![CDATA[<h1 id="获取Token"><a href="#获取Token" class="headerlink" title="获取Token"></a>获取Token</h1><ol>
+<li><p>我这里用的是手机模拟器进行安装Mi家APP软件。<br>在正常可以控制设备后通过模拟器的root权限，进入/data/data/com.xiaomi.smarthome/databases/文件夹将文件夹内部的miio2.db复制到电脑<br><img src="/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/2.png" alt="img"></p>
+</li>
+<li><p>使用本地数据库进行打开数据库文件，获取32位的token信息。<br><img src="/2019/12/19/%E7%B1%B3%E5%AE%B6%E9%A3%9E%E5%88%A9%E6%B5%A6%E7%81%AF%E6%B3%A1%E7%A0%94%E7%A9%B6/1.png" alt="img"></p>
+<h2 id="走的坑"><a href="#走的坑" class="headerlink" title="走的坑"></a>走的坑</h2><p>这里最开始有比较多的坑,很多文章在介绍的时候可以通过miio库进行获取设备的Token信息。但是为什么反馈给我的就是？？？ 后来很多人说这种方法部分设备无法获取Token。需要使用Mi家APP进行获取。</p>
+</li>
+</ol>
+<p>但是需要特定版本的Mi家软件，这里使用的版本就是  5.0.19</p>
+<h1 id="控制灯泡"><a href="#控制灯泡" class="headerlink" title="控制灯泡"></a>控制灯泡</h1><p>这里可以直接使用miio库进行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ip=<span class="string">'192.168.2.46'</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">token=<span class="string">'You Token'</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">bulb = PhilipsBulb(ip,token)</span></pre></td></tr><tr><td class="code"><pre><span class="line">bulb.on()<span class="comment">#开关</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#bulb.set_brightness(10) //亮度</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">#bulb.set_color_temperature(10)//色温</span></span></pre></td></tr></table></figure>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p><a href="https://homekit.loli.ren/show/2" target="_blank" rel="noopener">https://homekit.loli.ren/show/2</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>工控安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>modbus攻击</title>
+    <url>/2019/12/14/modbus%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h1 id="Modbus协议介绍"><a href="#Modbus协议介绍" class="headerlink" title="Modbus协议介绍"></a>Modbus协议介绍</h1><p>Modbus协议本身是一种串行的通讯协议，是Modicon公司（后来被施耐德收购了）在1979年为使用可编程逻辑控制器通讯而发表。转眼间已经30年了，Modbus俨然已经成为行业中最为通用的协议之一。也因为其开源的特性被很多厂家所喜爱。</p>
+<h2 id="协议通讯方法"><a href="#协议通讯方法" class="headerlink" title="协议通讯方法"></a>协议通讯方法</h2><p>现阶段内Modbus协议存在串口、以太网的方式在工业现场进行使用。而现阶段内占有率最高的就是Modbus协议。</p>
+<h2 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h2><p>串口连接中Modbus协议存在两个变种。对于数据的表示和协议上有点不同。</p>
+<h3 id="Modbus-RTU"><a href="#Modbus-RTU" class="headerlink" title="Modbus RTU"></a>Modbus RTU</h3><p>Modbus RTU是一种紧凑型采用二进制表示数据的方式。</p>
+<h1 id="modbus协议存在问题"><a href="#modbus协议存在问题" class="headerlink" title="modbus协议存在问题"></a>modbus协议存在问题</h1><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1>]]></content>
+      <tags>
+        <tag>工控安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ics默认密码</title>
+    <url>/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<p>实际生产设备中很多工控设备存在默认口令情况。<br>在Git上发现了一个比较好的项目。</p>
+<p><img src="/2019/12/13/ics%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/icspass.png" alt="img"></p>
+<p>话不多说直接上链接</p>
+<blockquote>
+<p><a href="https://github.com/icssec/SCADAPASS" target="_blank" rel="noopener">https://github.com/icssec/SCADAPASS</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>工控安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>工控安全态势感知小感</title>
+    <url>/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/</url>
+    <content><![CDATA[<h1 id="态势感知介绍"><a href="#态势感知介绍" class="headerlink" title="态势感知介绍"></a>态势感知介绍</h1><p>在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:</p>
+<blockquote>
+<p>态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。<br>首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针对这种看不见摸不到的战争，在这场虚拟的战场我们应该怎么做？能做些什么？</p>
+</blockquote>
+<h2 id="态势感知定义"><a href="#态势感知定义" class="headerlink" title="态势感知定义"></a>态势感知定义</h2><p>Endsley提出了一个最为广泛使用的态势感知定义，这也是最早的态势感知定义之一。该定义对态势感知的定义描述是：</p>
+<blockquote>
+<p>在一定的时间和空间内观察环境中的元素，理解这些元素的定义并预测这些元素在不久的将来的状态。</p>
+</blockquote>
+<h2 id="态势感知的重要性"><a href="#态势感知的重要性" class="headerlink" title="态势感知的重要性"></a>态势感知的重要性</h2><p>现在的交战中的冲冲突在一点点的改变。已经从人员一点点的在向信息化方向转移。以信息化时代作为底层的“网络支撑作战行动”的概念为基础。</p>
+<h2 id="国内常见工控态势感知概述"><a href="#国内常见工控态势感知概述" class="headerlink" title="国内常见工控态势感知概述"></a>国内常见工控态势感知概述</h2><p>对于工控安全的态势感知则更为趣，对于内网与外网的态势感知区分更为严重。内网是针对企业局域网内的环境流量进行汇总分析、而外网主要对互联网上暴露的外网设备进行扫描监测。</p>
+<p>现阶段国内的态势感知建设针中<br>1）内网很多都是结合IDS\IPS\镜像流量，通过可视化的大屏进行分析。<br>2）外网的态势感知是不是主动扫描监测数据汇总。</p>
+<h1 id="工控安全态势感知建设"><a href="#工控安全态势感知建设" class="headerlink" title="工控安全态势感知建设"></a>工控安全态势感知建设</h1><p>首先查看一下安全人员中常见的工控搜索引擎</p>
+<h2 id="国外"><a href="#国外" class="headerlink" title="国外"></a>国外</h2><h3 id="BinaryEdge"><a href="#BinaryEdge" class="headerlink" title="BinaryEdge"></a>BinaryEdge</h3><p>可能还有很人没有听过此引擎，专业针对于结合网络安全、工控安全。2016年发布了《2016年互联网安全报告》官方博客会定期进行分析相关国家、地区技术文章。</p>
+<blockquote>
+<p><a href="https://blog.binaryedge.io/" target="_blank" rel="noopener">https://blog.binaryedge.io/</a></p>
+</blockquote>
+<p>引擎可以默认进行搜索:ICS、数据库、物联网、网络服务器、摄像头等设备。相对于大家熟知的shodan个人感觉可能更注重IOT安全分析。可以进行点击搜索直接搜索。作者这里进行ICS类型设备。详细信息可以查看TOP榜中的工控设备端口、协议，下面展示的为详细的资产信息。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina1.png" alt="img"><br>并可以进行搜索相关的DRP、VNC管理界面截图。相对刚才的功能来说更加直观可以进行查看工控设备。（下图红色框中的即为工控安全生产监控与门禁管理系统。）<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina2.png" alt="img"><br>还要一个功能这里比较要点名表扬。BinaryEdge针对互联网部署了Honeypots。并进行收集展示了TOP国家、网络节点、IP、PORT、并对TOP的有效载荷进行分析。<br>七天内扫描源发起的国家最大为8亿。 - -.<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina3.png" alt="img"><br>payload的TOP榜不用我说了吧。大家应该都懂。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/bina4.png" alt="img"></p>
+<h3 id="shodan"><a href="#shodan" class="headerlink" title="shodan"></a>shodan</h3><p>shodan是目前针对全球设备进行扫描分，作为安全研究人员最常使用的搜索引擎还是比较强的。对于IP的扫描频率、内部引擎优化很多方面都是国内竞相模仿的对象。<br>针对于shodan的工控搜搜进行举例说明，网站中提供了12种工控协议的设备指纹信息。详细支持的端口搜索见下图。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/ics1.jpg" alt="img"></p>
+<p>但是除了常见的工控协议外还支持很多的设备指纹信息搜索。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/3.png" alt="img"><br>但是只要你拥有指纹就可以对很多类型的工控设备进行搜索，但是并不通用。很多国内特殊端口还是无法进行搜索。这里呢原来自己看过一篇国外的文章，这里将常见的工控搜索指纹信息罗列出来并写附上链接。</p>
+<blockquote>
+<p>三星电子广告牌           “Server: Prismview Player”<br>加油站泵控制器            “in-tank inventory” port:10001<br>自动车牌读取器            P372 “ANPR enabled”<br>交通信号控制灯            mikrotik streetlight<br>美国投票机               “voter system serial” country:US<br>监狱专用电话             “[2J[H Encartele Confidential”<br>Tesla PowerPack充电状态         http.title:”Tesla PowerPack System” http.component:”d3” -ga3ca4f2<br>电动汽车充电器         “Server: gSOAP/2.8” “Content-Length: 583”<br>潜艇任务控制仪表板       title:”Slocum Fleet Mission Control”<br>CAREL PlantVisor        “Server: CarelDataServer” “200 Document follows”<br>铁路管理                “log off” “select the appropriate”<br>西门子Hvac控制器          “Server: Microsoft-WinCE” “Content-Length: 12581”<br>GaugeTech电表             “Server: EIG Embedded Web Server” “200 Document follows”<br>DICOM医用X射线机         “DICOM Server Response” port:104</p>
+</blockquote>
+<h3 id><a href="#" class="headerlink" title></a></h3><p>对于安全研究人员比较多的就是zoomeye、fofa其也提供了很多指纹信息的检索能力。</p>
+<h2 id="国内"><a href="#国内" class="headerlink" title="国内"></a>国内</h2><h3 id="fofa"><a href="#fofa" class="headerlink" title="fofa"></a>fofa</h3><p>不多解释两张图就够了。常见主流协议已经具备了。<br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa1.png" alt="img"><br><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/fofa2.png" alt="img"></p>
+<h3 id="傻蛋"><a href="#傻蛋" class="headerlink" title="傻蛋"></a>傻蛋</h3><p>已经不对互联网用户开放了…<br>告辞</p>
+<h3 id="Zoomeye"><a href="#Zoomeye" class="headerlink" title="Zoomeye"></a>Zoomeye</h3><blockquote>
+<p>这里引用的是ics.zoomeye.org</p>
+</blockquote>
+<p><img src="/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/2.png" alt="img"></p>
+<p>不的不说zoomeye的ICS指纹与优化能力还是很值得一提的。</p>
+<h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>其实在态势感知定义中是由：观察、理解、预测。三部分构成但是很多家的方向对于最后一步的预测能力并没有一个很好的方案。而针对于国内的态势感知中小弟有几句话要是</p>
+<blockquote>
+<p>1.国内现阶段还是很多解决不掉针对于指纹瓶颈的问题，没有办法整合相关工控资源进行全覆盖指纹扫描（毕竟很多设备指纹信息还是比较复杂和难以分析的）<br>2.扫描器的问题，法律还没有进行明确的规定时候，本人也尝试过扫描。但是一直使用同一IP进行扫描经常出现数量越来越少的问题。企业慢慢屏蔽了你的扫描，是否需要进行分布式的扫描。<br>3.怎么才能体现出数据的价值所在，不解决数据的消耗问题，通过一个量的积累，只能去恶心很多监管单位，怎么才能进行有效的分析利用？<br>4.对于安全研究人员怎么才会对你的数据形成闭环。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>工控杂谈</tag>
+      </tags>
+  </entry>
 </search>
