@@ -3,7 +3,8 @@
   <entry>
     <title>CTF论剑场WriteUp</title>
     <url>/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/</url>
-    <content><![CDATA[<p>持续更新…..</p>
+    <content><![CDATA[<p>持续更新…..<br>针对于CTF论剑场过关记录</p>
+<a id="more"></a>
 <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="WEB1"><a href="#WEB1" class="headerlink" title="WEB1"></a>WEB1</h2><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/1.png" alt="img"></p>
 <p>​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。</p>
 <p>根据官方介绍</p>
@@ -115,6 +116,8 @@
     <title>echarts简单使用</title>
     <url>/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>因为上阶段工作原因，需要生成地图，简单的学习了一下echarts的使用。并进行简单的记录。</p>
+<a id="more"></a>
+
 <h1 id="echarts介绍"><a href="#echarts介绍" class="headerlink" title="echarts介绍"></a>echarts介绍</h1><blockquote>
 <p>ECharts，一个使用 JavaScript 实现的开源可视化库，可以流畅的运行在 PC 和移动设备上，兼容当前绝大部分浏览器（IE8/9/10/11，Chrome，Firefox，Safari等），底层依赖轻量级的矢量图形库 ZRender，提供直观，交互丰富，可高度个性化定制的数据可视化图表。<br> ECharts 提供了常规的折线图、柱状图、散点图、饼图、K线图，用于统计的盒形图，用于地理数据可视化的地图、热力图、线图，用于关系数据可视化的关系图、旭日图，多维数据可视化的平行坐标，还有用于 BI 的漏斗图，仪表盘，并且支持图与图之间的混搭。</p>
 </blockquote>
@@ -225,7 +228,9 @@
   <entry>
     <title>Peach Fuzz针对于工控系统</title>
     <url>/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h1 id="FUZZ-介绍"><a href="#FUZZ-介绍" class="headerlink" title="FUZZ 介绍"></a>FUZZ 介绍</h1><p>​    首先引用一段维基百科针对fuzz的介绍,针对于下面的介绍其实自己感觉针对于fuzz几个比较关键的词：随机、监视。</p>
+    <content><![CDATA[<p>Peach Fuzz针对于工控协议的简单实现</p>
+<a id="more"></a>
+<h1 id="FUZZ-介绍"><a href="#FUZZ-介绍" class="headerlink" title="FUZZ 介绍"></a>FUZZ 介绍</h1><p>​    首先引用一段维基百科针对fuzz的介绍,针对于下面的介绍其实自己感觉针对于fuzz几个比较关键的词：随机、监视。</p>
 <blockquote>
 <p><strong>模糊测试</strong> （fuzz testing, fuzzing）是一种<a href="https://zh.wikipedia.org/wiki/软件测试" target="_blank" rel="noopener">软件测试</a>技术。其核心思想是将自动或半自动生成的随机数据输入到一个<a href="https://zh.wikipedia.org/wiki/计算机程序" target="_blank" rel="noopener">程序</a>中，并监视程序异常，如崩溃，<a href="https://zh.wikipedia.org/wiki/斷言_(程式)" target="_blank" rel="noopener">断言</a>（assertion）失败，以发现可能的程序错误，比如内存泄漏。模糊测试常常用于检测软件或计算机系统的安全漏洞。</p>
 <p>模糊测试最早由<a href="https://zh.wikipedia.org/wiki/威斯康星大学" target="_blank" rel="noopener">威斯康星大学</a>的Barton Miller于1988年提出。<a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-1-1" target="_blank" rel="noopener">[1]</a><a href="https://zh.wikipedia.org/wiki/模糊测试#cite_note-AutoDO-2-2" target="_blank" rel="noopener">[2]</a>他们的工作不仅使用随机无结构的测试数据，还系统的利用了一系列的工具去分析不同平台上的各种软件，并对测试发现的错误进行了系统的分析。此外，他们还公开了源代码，测试流程以及原始结果数据。</p>
@@ -314,7 +319,9 @@ XML
   <entry>
     <title>modbus攻击</title>
     <url>/2019/12/14/modbus%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h1 id="Modbus协议介绍"><a href="#Modbus协议介绍" class="headerlink" title="Modbus协议介绍"></a>Modbus协议介绍</h1><p>Modbus协议本身是一种串行的通讯协议，是Modicon公司（后来被施耐德收购了）在1979年为使用可编程逻辑控制器通讯而发表。转眼间已经30年了，Modbus俨然已经成为行业中最为通用的协议之一。也因为其开源的特性被很多厂家所喜爱。</p>
+    <content><![CDATA[<p>Mdobus协议实现原理与攻击方法总结</p>
+<a id="more"></a>
+<h1 id="Modbus协议介绍"><a href="#Modbus协议介绍" class="headerlink" title="Modbus协议介绍"></a>Modbus协议介绍</h1><p>Modbus协议本身是一种串行的通讯协议，是Modicon公司（后来被施耐德收购了）在1979年为使用可编程逻辑控制器通讯而发表。转眼间已经30年了，Modbus俨然已经成为行业中最为通用的协议之一。也因为其开源的特性被很多厂家所喜爱。</p>
 <h2 id="协议通讯方法"><a href="#协议通讯方法" class="headerlink" title="协议通讯方法"></a>协议通讯方法</h2><p>现阶段内Modbus协议存在串口、以太网的方式在工业现场进行使用。而现阶段内占有率最高的就是Modbus协议。</p>
 <h2 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h2><p>串口连接中Modbus协议存在两个变种。对于数据的表示和协议上有点不同。</p>
 <h3 id="Modbus-RTU"><a href="#Modbus-RTU" class="headerlink" title="Modbus RTU"></a>Modbus RTU</h3><p>Modbus RTU是一种紧凑型采用二进制表示数据的方式。</p>
@@ -340,7 +347,10 @@ XML
   <entry>
     <title>工控安全态势感知小感</title>
     <url>/2019/12/05/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E5%B0%8F%E6%84%9F/</url>
-    <content><![CDATA[<h1 id="态势感知介绍"><a href="#态势感知介绍" class="headerlink" title="态势感知介绍"></a>态势感知介绍</h1><p>在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:</p>
+    <content><![CDATA[<p>个人针对工控安全网络态势感知的一些感想</p>
+<a id="more"></a>
+
+<h1 id="态势感知介绍"><a href="#态势感知介绍" class="headerlink" title="态势感知介绍"></a>态势感知介绍</h1><p>在这里介绍一下传统安全行业的态势感知安全分析介绍。这里引用一下百度介绍:</p>
 <blockquote>
 <p>态势感知是一种基于环境的、动态、整体地洞悉安全风险的能力，是以安全大数据为基础，从全局视角提升对安全威胁的发现识别、理解分析、响应处置能力的一种方式，最终是为了决策与行动，是安全能力的落地。<br>首先态势感知的概念来自于美国，用于推进美国海军的周边环境识别与外来检测。对于他们来说态势感知可以更好的监测、敌情判断。而针对这种看不见摸不到的战争，在这场虚拟的战场我们应该怎么做？能做些什么？</p>
 </blockquote>
