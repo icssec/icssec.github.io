@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>hack box 记录 | 算了吧 Blog</title>
+  <title>等保2.0-安全管理中心 | 算了吧 Blog</title>
   
   
 
@@ -231,8 +231,8 @@ var _hmt = _hmt || [];
         
   
     <h1 class="title">
-      <a href="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/">
-        hack box 记录
+      <a href="/2020/02/20/%E7%AD%89%E4%BF%9D2-0-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83/">
+        等保2.0-安全管理中心
       </a>
     </h1>
   
@@ -263,7 +263,7 @@ var _hmt = _hmt || [];
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-04</p>
+    <p>2020-02-20</p>
   </a>
 </div>
 
@@ -313,77 +313,100 @@ var _hmt = _hmt || [];
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>持续更新….</p>
-<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>​    简要说明一下怎么进行注册，打开链接 <a href="https://www.hackthebox.eu/invite" target="_blank" rel="noopener">https://www.hackthebox.eu/invite</a> 在console输入 makeInviteCode() </p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/1.png" alt="img"></p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/2.png" alt="img"></p>
-<p>​    可以得到一个base64加密的数据</p>
-<blockquote>
-<p>SW4gb3JkZXIgdG8gZ2VuZXJhdGUgdGhlIGludml0ZSBjb2RlLCBtYWtlIGEgUE9TVCByZXF1ZXN0IHRvIC9hcGkvaW52aXRlL2dlbmVyYXRl</p>
-</blockquote>
-<p>解码后提示信息为</p>
-<blockquote>
-<p>​    In order to generate the invite code, make a POST request to /api/invite/generate</p>
-</blockquote>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/3.png" alt="img"></p>
-<p>我这里通过bp进行发包，获取key，获取到的code字段还需要进行base64解密,解密后的验证码就直接可以进行注册了。</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/4.png" alt="img"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>官方会提供openvpn链接配置文件，因为我这里使用的是mac下载的是Tunnelblick。</p>
-<p>进行下载openVPN链接包，通过软件进行拨号链接</p>
-<h1 id="Cartographer"><a href="#Cartographer" class="headerlink" title="Cartographer"></a>Cartographer</h1><p>介绍：一些地下黑客正在开发新的命令和控制服务器。您可以闯入看看他们在做什么吗？</p>
-<p>在拿到网站的时候尝试了一下admin和top100的弱口令，失败后，感觉可能是万能密码登录，直接通过字典进行爆破尝试,成功admin’or’a’=’a</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/6.png" alt="img"></p>
-<p>登陆成功后网页重定向到了<a href="http://docker.hackthebox.eu:30642/panel.php?info=home" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home</a></p>
-<p><a href="http://docker.hackthebox.eu:30642/panel.php?info=home’" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home’</a> 网页提示not fount！</p>
-<p>怀疑可能是文件包含，尝试将home修改成flag。成功获取flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/7.png" alt="img"></p>
-<h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:您可以加密得足够快吗？</p>
-<p>这里不管怎么提交都会提示Too slow！</p>
-<p>想起了当时bugku 里面的一个题，直接尝试编写python脚本进行提交。</p>
-<p>直接使用burp生成简单的修改一下，OK </p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/10.png" alt="img"></p>
-<p>测试脚本地址：</p>
-<blockquote>
-<p><a href="https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py" target="_blank" rel="noopener">https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py</a></p>
-</blockquote>
-<h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>介绍:我们已经获得了一些我们认为与目标内部网络相连的基础架构的访问权。我们需要您帮助获取他们当前正在开发的网站的管理员密码。</p>
-<p>dirmap一波发现一个<a href="http://docker.hackthebox.eu:30738/api/" target="_blank" rel="noopener">http://docker.hackthebox.eu:30738/api/</a>  但是页面是空的，蒙了~</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
-<p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
-<p>心思尝试一下，时间太长了。算了吧。访问页面后提示Error: Parameter not set</p>
-<p>还是通过dirbuster进行测试。</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/14.png" alt="img"></p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/13.png" alt="img"></p>
-<p>fuzz到参数后进行访问页面提示Error: Account ID not found</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/15.png" alt="img"></p>
-<p>直接通过burp进行测试一下ID字段的参数，通过burp的number进行测试</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/16.png" alt="img"></p>
-<p>payload确定为20，直接查看response获得flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/17.png" alt="img"></p>
-<h1 id="Lernaean"><a href="#Lernaean" class="headerlink" title="Lernaean"></a>Lernaean</h1><ol>
-<li><p>简单使用dirmap跑了一波 无果</p>
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>​        安全管理中心按照’一个中心,三重防护’的纵向防护思想进行；‘一个中心，三重防护’就是针对安全管理中心和计算环境安全、区域边界安全、通信网络安全的安全合规进行方案设计，建立以计算环境安全为基础，以区域边界安全、通信网络安全为保障，以安全管理中心为核心的信息安全整体保障体系。</p>
+<p>​        而安全管理中心会成为纵向防御的大脑。通过安全管理中心实现技术侧面的：系统管理、审计管理、安全管理。</p>
+<p>​        而安全管理中心并非一个抽象的产品或部门，安全管理中心本身是通过技术方式作为技术管理枢纽。通过技术或工具进行在一定程度上实现集中管理；最终通过管理区进行实现管理。</p>
+<p>​        安全管理中心本身涉及：</p>
+<ul>
+<li><p>系统管理</p>
 </li>
-<li><p>标题网站页面的提示’请不要尝试猜测我的密码！’ 那就必须得尝试一下啊。</p>
+<li><p>审计管理</p>
 </li>
-<li><p>上来使用sqlitop进行尝试，失败了~不能使用万能密码登录</p>
+<li><p>安全管理</p>
 </li>
-<li><p>那就尝试一下top的字典密码吧</p>
-<p>我这里使用的是</p>
-<blockquote>
-<p><a href="https://github.com/TheKingOfDuck/fuzzDicts" target="_blank" rel="noopener">https://github.com/TheKingOfDuck/fuzzDicts</a></p>
-</blockquote>
+<li><p>集中管控</p>
 </li>
-<li><p>发现密码是:leonardo 直接获得flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/20.png" alt="img"></p>
+</ul>
+<h1 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h1><p>​        系统管理的主要目的是确保系统管理的安全性。系统管理需要系统管理员实施完成，系统管理本身可以针对单个设备或通过平台进行集中管控管理。</p>
+<p>​        系统管理主要针对:</p>
+<ol>
+<li><p>是否对系统管理员进行身份鉴别</p>
+</li>
+<li><p>是否是允许系统管理员通过特定的命令进行管理操作系统（权限划分）</p>
+</li>
+<li><p>是否系统管理操作进行审计（审计功能）</p>
 </li>
 </ol>
-<h1 id="FreeLancer"><a href="#FreeLancer" class="headerlink" title="FreeLancer"></a>FreeLancer</h1><ol>
-<li>首先点击了一下网站的相关链接，都是伪链接。</li>
-<li>dirmap扫描了一下依然没有东西。</li>
-<li>转战看了看网站的通讯数据流。在查看网站源代码的发现了点东西</li>
+<h2 id="L4-SMC1-01"><a href="#L4-SMC1-01" class="headerlink" title="L4-SMC1-01"></a>L4-SMC1-01</h2><h3 id="安全要求"><a href="#安全要求" class="headerlink" title="安全要求"></a>安全要求</h3><p>​        对系统管理员进行身份鉴别，只运行用过特定的命令或操作界面进行进行系统管理操作，并对这些操作行为进行审计。</p>
+<h3 id="要求解读"><a href="#要求解读" class="headerlink" title="要求解读"></a>要求解读</h3><p>​    对系统管理员进行身份验证并严格现实系统管理员账户的管理权限，仅允许系统管理员通过特定的方式进行系统管理操作。并对相关操作记录进行审计记录。</p>
+<h3 id="测评方法"><a href="#测评方法" class="headerlink" title="测评方法"></a>测评方法</h3><ol>
+<li><p>检查是否对系统管理员进行身份鉴别</p>
+</li>
+<li><p>是否只允许系统管理员通过特定的命令或操作界面进行系统管理操作。</p>
+</li>
+<li><p>对于操作相关系统是否采用了审计功能</p>
+</li>
 </ol>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/21.png" alt="img"></p>
+<h3 id="预期结果"><a href="#预期结果" class="headerlink" title="预期结果"></a>预期结果</h3><ol>
+<li><p>对系统管理员进行验证</p>
+</li>
+<li><p>使用了管理工具或特定命令</p>
+</li>
+<li><p>所有操作保留操作记录</p>
+</li>
+</ol>
+<h3 id="个人解读"><a href="#个人解读" class="headerlink" title="个人解读"></a>个人解读</h3><p>​            对于系统管理需要通过特定的管理工具或命令完成身份验证才能进行进行登录完成管理系统；并对操作记录进行日志记录。</p>
+<h2 id="L4-SMC1-02"><a href="#L4-SMC1-02" class="headerlink" title="L4-SMC1-02"></a>L4-SMC1-02</h2><h3 id="安全要求-1"><a href="#安全要求-1" class="headerlink" title="安全要求"></a>安全要求</h3><p>​        通过系统管理员对系统的资源和运行进行配置、控制、管理；其中包括：用户身份、系统资源配置、系统加载和启动、系统运行的异常处理、数据和设备的备份与恢复。</p>
+<h3 id="要求解读-1"><a href="#要求解读-1" class="headerlink" title="要求解读"></a>要求解读</h3><p>​        系统管理操作应由系统管理员完成，其管理、操作内容应该不同于审计管理员与安全管理员。</p>
+<h3 id="测评方法-1"><a href="#测评方法-1" class="headerlink" title="测评方法"></a>测评方法</h3><p>​        进行检查系统管理员对系统的资源和运行进行配置、控制和管理。包括用户身份、资源配置、系统加载和启动、系统运行的异常处理、数据和设备的备份与恢复等。</p>
+<h3 id="预期结果-1"><a href="#预期结果-1" class="headerlink" title="预期结果"></a>预期结果</h3><ol>
+<li><p>管理员具有权限划分功能</p>
+</li>
+<li><p>权限不同于审计管理员和安全管理员</p>
+</li>
+</ol>
+<h3 id="个人解读-1"><a href="#个人解读-1" class="headerlink" title="个人解读"></a>个人解读</h3><p>​            对于系统管理需要通过特定的管理工具或命令完成身份验证才能进行进行登录完成管理系统；对相关用户实现分权管理。</p>
+<blockquote>
+<ol>
+<li><p>系统管理员</p>
+<p>对系统的资源和运行进行配置、控制、管理；其中包括：用户身份、系统资源配置、系统加载和启动、系统运行的异常处理、数据和设备的备份与恢复等功。</p>
+<p>具有权限划分功能</p>
+</li>
+<li><p>审计管理员</p>
+<p>对系统操作日志进行查看审计用户</p>
+</li>
+<li><p>安全管理员</p>
+<p>系统管理操作</p>
+</li>
+</ol>
+</blockquote>
+<h1 id="审计管理"><a href="#审计管理" class="headerlink" title="审计管理"></a>审计管理</h1><p>​        审计管理通过审计管理员实施完成，审计管理可以对每个设备进行单独查看也可以通过统一的日志平台进行集中管理。</p>
+<p>​        审计管理主要关注是否对审计管理员进行身份鉴别、是否只允许审计管理员通过特定的命令或操作界面进行审计管理操作、是否对审计管理操作进行审计。通过以上进行确保审计管理操作的安全性。</p>
+<h2 id="L4-SMC1-03"><a href="#L4-SMC1-03" class="headerlink" title="L4-SMC1-03"></a>L4-SMC1-03</h2><h3 id="安全要求-2"><a href="#安全要求-2" class="headerlink" title="安全要求"></a>安全要求</h3><p>​        应对审计管理员进行身份鉴别，只允许通过特定的命令或操作界面进行安全审计操作；并对这些操作进行审计。</p>
+<h3 id="要求解读-2"><a href="#要求解读-2" class="headerlink" title="要求解读"></a>要求解读</h3><p>​        要求对审计管理员进行身份认证并限制审计审计管理员的管理权限，仅对审计管理员通过特定的方式进行审计管理操作,并对所有的操作进行详细的审计记录。</p>
+<h3 id="测评方法-2"><a href="#测评方法-2" class="headerlink" title="测评方法"></a>测评方法</h3><ol>
+<li>检查是否对审计管理员进行了身份鉴别</li>
+<li>检查是否只允许审计管理员通过特定的命令或操作界面进行安全审计操作</li>
+<li>是否对安全审计管理员的操作进行审计</li>
+</ol>
+<h3 id="预期结果-2"><a href="#预期结果-2" class="headerlink" title="预期结果"></a>预期结果</h3><ol>
+<li>对审计管理员的登录进行认证</li>
+<li>使用管理用户或特定的命令</li>
+<li>所有的操作有记录日志</li>
+</ol>
+<h3 id="个人解读-2"><a href="#个人解读-2" class="headerlink" title="个人解读"></a>个人解读</h3><p>​    审计用户存在身份鉴别通过特定的工具、命令、界面进行登录;审计用户操作日志被记录需要进行审计。</p>
+<h2 id="L4-SMC1-04"><a href="#L4-SMC1-04" class="headerlink" title="L4-SMC1-04"></a>L4-SMC1-04</h2><h3 id="安全要求-3"><a href="#安全要求-3" class="headerlink" title="安全要求"></a>安全要求</h3><p>​        审计管理员可以对审计记录进行分析，并根据分析结果进行处理；包括根据审计策略对审计记录进行存储、管理、查询</p>
+<h3 id="要求解读-3"><a href="#要求解读-3" class="headerlink" title="要求解读"></a>要求解读</h3><p>​        针对综合安全审计系统、数据库审计系统等提供集中审计功能的系统。要求对审计管理员进行授权，并通过审计管理员对审计对审计记录进行分析。</p>
+<h3 id="测评方法-3"><a href="#测评方法-3" class="headerlink" title="测评方法"></a>测评方法</h3><p>​        查询是否通过审计管理员对审计记录进行分析，并根据分析结果进行处理，包括根据安全审计策略对审计记录进行存储、管理、查询。</p>
+<h3 id="预期结果-3"><a href="#预期结果-3" class="headerlink" title="预期结果"></a>预期结果</h3><ol>
+<li>管理员有划分权限</li>
+<li>权限不同于系统管理员与安全管理员</li>
+<li>只有审计管理员可以查看和分析审计数据</li>
+</ol>
+<h3 id="个人解读-3"><a href="#个人解读-3" class="headerlink" title="个人解读"></a>个人解读</h3><pre><code>1. 相关审计功能也需要进行划分权限，其中只有审计管理员可以查看数据分析等
+ 2. 针对审计用户进行划分级别管理</code></pre><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p>《等保2.0安全管理中心要求解读》 <a href="https://cloud.tencent.com/developer/article/1464777" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1464777</a></p>
+</blockquote>
 
       </div>
       
@@ -396,10 +419,10 @@ var _hmt = _hmt || [];
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-16T17:18:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-20T20:39:53+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年2月16日</p>
+    <p>更新于 2020年2月20日</p>
   </a>
 </div>
 
@@ -408,7 +431,7 @@ var _hmt = _hmt || [];
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>靶场记录</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>等级保护</p></a></div>
 
 
         
@@ -421,7 +444,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/02/20/%E7%AD%89%E4%BF%9D2-0-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83/&title=等保2.0-安全管理中心 | 算了吧 Blog&summary="
           
           >
           
@@ -433,7 +456,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/02/20/%E7%AD%89%E4%BF%9D2-0-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83/&title=等保2.0-安全管理中心 | 算了吧 Blog&summary="
           
           >
           
@@ -443,7 +466,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3awWorMQwF0Pz/T7dQuig0nlxJdiaLM6vghlhnHth6kh6P+Pn6ef5//rtSXV99zn9n24OHh4fXCn31rDbIV1awa/D1ryUx4+Hh4Z3m5VsmK/lRnlwDyYtbruPh4eHdypsc4tVUu5rW4+Hh4X0yr7pBUm7oXRV4eHh49/KSYkQe0CTc22oteHh4eDFv0gC76/Ob+nt4eHh4xa56cuBWy7j5cT+J8/cX8PDw8A7w8hQ22ez6O3mS3UuRC/9jwMPDwzvAm29QJc0Lysvv4OHh4W3lXV8JSXE2LwFXW1/VVPvJCh4eHt4xXn7E7xqrSvbtNdKeXAx4eHh4W3n5l6rF3LxlVR0ayJN4PDw8vHO8eVsrH8OqJtbVf4wIiYeHhzfmzY/y/DrJRwd6Zd/l6AAeHh7eJl618Z83t6oDAdW/RgVfPDw8vAO86tGcXAbVEkN1/VF98PDw8A7zqshqs39y8eRDXcuLAQ8PD+8tvGQlv0Im69Wo8PDw8E7weqWBvYlvtTibjxTg4eHhnePljfk80F4JOB9TiHbBw8PDO8CrDjnlQfdGB3pDVy9eCh4eHt5W3q5Ae039aop8HeGLlBoPDw9vKy8Pqzc0sKunj4eHh/c5vF4Bd96gql4h1Ujw8PDwTvDmx3Fv7CC/WvIr4UWtBQ8PD28TrzcylbevNkyETcrKeHh4eId5CbJaDpgn06MkHg8PD+8ALwmr1+7KS7q9MkSvvIuHh4c3530VnyThnoN7KXvU38PDw8Mb8/JnV1m2N9p14sXh4eHhTXh5utwr++YNtl0x4OHh4b2Htys5zhv/vVS+3KjDw8PDu5WXFynKx3e13hyMEeDh4eF9Gq+6/ajMGrfKRik1Hh4eXpHXKwT0Ap2kyOUkGw8PD+8Ar7dldVgqf3G9ka/NbxQPDw/v+fMNEntUuVJB/aUAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD50lEQVR42u3ayW4iQRAFQP7/pz3SnDyyunkvs2CQHH1CBmoJDulcHo/4+fr7/PzL9+fq81/lk69/9fmrMx97cODAgQNHcNXkcMl37znuoRPc5AdLcC9PhQMHDhw4DnFsNtjEr1kwbs+W3BEHDhw4cLyf4/51knol67dJYL4CDhw4cOD4NI62hHdfzmuLkvleOHDgwIHjEzjaNClaukzqkqCehPY31Upx4MCBA8ck0g3TuU97/cL5Dhw4cODAEYeo/RBbntQlw3D5eMSwiYUDBw4cONYcScPm/u9tsrcv6m3aTlEYxoEDBw4cC4620LYZXNvnTfl3h40uHDhw4MBxiOPU0EBbqksu04bqVQsNBw4cOHCcnEY4ls7tE79kEGF/+Tdltzhw4MDx6zlOpXwzuLYIOPvMsRkQHDhw4MDx4ySzsYD9XFneasrbS/kuxSgDDhw4cOAYcWzGFGbjBXlYTQYUNincP+/iwIEDB441x2abNjDnKd8m15xlrjhw4MCB4yxHO47QXr6FmBUf890Lbhw4cODAUXKcStLakNa2jvY/Q8KHAwcOHDjOcmwuv0nhZolZm+BF58SBAwcOHGuOPBC2id8shLep2j7AF4o4cODAgWPEMWvz5OnZLLjOhiT+w4MDBw4cOOLr5eEtGXpI1l+Nu8Xp4hNQHDhw4MCx4JgVBPMNNuu36dmq+YQDBw4cOF7Qx8/DWMuxD5MJTbs+Dhw4cOA4xbEZEcjTsLNNrH3Z8fIkOHDgwIFjzbHZsi3z5WlYG0rzMmU0PIEDBw4cONYcm9Ro1hbK98p3bPfCgQMHDhyv4HhF/6ptLOW4OcQQCwcOHDhwrDnaS+YtnM1gRLv+rN1VVD1x4MCBA0fJMdtmlv61xcccel86xIEDBw4cpzjats2pgl2+QvtunrAVtVIcOHDgwBFwtJeZDS7krKdaX+2Zj22AAwcOHDjK9n+eyLUNrTZhy9cvmlg4cODAgeMQRzvuNgt4m6GEJADPnuHviQMHDhw4bjnyINc2dRLudpBuPxgRpXA4cODAgWPB0Q7PtY2fZOW2UVRPAiaDdzhw4MCBY80xu3YbXNtDt4nlrIgZJXI4cODAgaPk2JTSWo5XjDK0Zcon/xDgwIEDB441R5v2tK/bAl+bRrYFx3YiDgcOHDhwzDiS4DprIOVXzddPfrDhqBwOHDhw4DjK0Rbp2mG4tnh3f7FNCfLJ53HgwIEDxxs52rZQHsg3yWECV4RzHDhw4MDxdo42lJ4KjfkZNmVNHDhw4MBxiqMNSzOIVdmuHHTIw/8jj9U4cODAgWPbzambOjncbHwtH4NoEXHgwIEDx5rjD8GDFqjMyKSIAAAAAElFTkSuQmCC' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/wechat.png">
         
@@ -453,7 +476,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/02/20/%E7%AD%89%E4%BF%9D2-0-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83/&title=等保2.0-安全管理中心 | 算了吧 Blog&summary="
           
           >
           
@@ -463,7 +486,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3awWorMQwF0Pz/T7dQuig0nlxJdiaLM6vghlhnHth6kh6P+Pn6ef5//rtSXV99zn9n24OHh4fXCn31rDbIV1awa/D1ryUx4+Hh4Z3m5VsmK/lRnlwDyYtbruPh4eHdypsc4tVUu5rW4+Hh4X0yr7pBUm7oXRV4eHh49/KSYkQe0CTc22oteHh4eDFv0gC76/Ob+nt4eHh4xa56cuBWy7j5cT+J8/cX8PDw8A7w8hQ22ez6O3mS3UuRC/9jwMPDwzvAm29QJc0Lysvv4OHh4W3lXV8JSXE2LwFXW1/VVPvJCh4eHt4xXn7E7xqrSvbtNdKeXAx4eHh4W3n5l6rF3LxlVR0ayJN4PDw8vHO8eVsrH8OqJtbVf4wIiYeHhzfmzY/y/DrJRwd6Zd/l6AAeHh7eJl618Z83t6oDAdW/RgVfPDw8vAO86tGcXAbVEkN1/VF98PDw8A7zqshqs39y8eRDXcuLAQ8PD+8tvGQlv0Im69Wo8PDw8E7weqWBvYlvtTibjxTg4eHhnePljfk80F4JOB9TiHbBw8PDO8CrDjnlQfdGB3pDVy9eCh4eHt5W3q5Ae039aop8HeGLlBoPDw9vKy8Pqzc0sKunj4eHh/c5vF4Bd96gql4h1Ujw8PDwTvDmx3Fv7CC/WvIr4UWtBQ8PD28TrzcylbevNkyETcrKeHh4eId5CbJaDpgn06MkHg8PD+8ALwmr1+7KS7q9MkSvvIuHh4c3530VnyThnoN7KXvU38PDw8Mb8/JnV1m2N9p14sXh4eHhTXh5utwr++YNtl0x4OHh4b2Htys5zhv/vVS+3KjDw8PDu5WXFynKx3e13hyMEeDh4eF9Gq+6/ajMGrfKRik1Hh4eXpHXKwT0Ap2kyOUkGw8PD+8Ar7dldVgqf3G9ka/NbxQPDw/v+fMNEntUuVJB/aUAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD50lEQVR42u3ayW4iQRAFQP7/pz3SnDyyunkvs2CQHH1CBmoJDulcHo/4+fr7/PzL9+fq81/lk69/9fmrMx97cODAgQNHcNXkcMl37znuoRPc5AdLcC9PhQMHDhw4DnFsNtjEr1kwbs+W3BEHDhw4cLyf4/51knol67dJYL4CDhw4cOD4NI62hHdfzmuLkvleOHDgwIHjEzjaNClaukzqkqCehPY31Upx4MCBA8ck0g3TuU97/cL5Dhw4cODAEYeo/RBbntQlw3D5eMSwiYUDBw4cONYcScPm/u9tsrcv6m3aTlEYxoEDBw4cC4620LYZXNvnTfl3h40uHDhw4MBxiOPU0EBbqksu04bqVQsNBw4cOHCcnEY4ls7tE79kEGF/+Tdltzhw4MDx6zlOpXwzuLYIOPvMsRkQHDhw4MDx4ySzsYD9XFneasrbS/kuxSgDDhw4cOAYcWzGFGbjBXlYTQYUNincP+/iwIEDB441x2abNjDnKd8m15xlrjhw4MCB4yxHO47QXr6FmBUf890Lbhw4cODAUXKcStLakNa2jvY/Q8KHAwcOHDjOcmwuv0nhZolZm+BF58SBAwcOHGuOPBC2id8shLep2j7AF4o4cODAgWPEMWvz5OnZLLjOhiT+w4MDBw4cOOLr5eEtGXpI1l+Nu8Xp4hNQHDhw4MCx4JgVBPMNNuu36dmq+YQDBw4cOF7Qx8/DWMuxD5MJTbs+Dhw4cOA4xbEZEcjTsLNNrH3Z8fIkOHDgwIFjzbHZsi3z5WlYG0rzMmU0PIEDBw4cONYcm9Ro1hbK98p3bPfCgQMHDhyv4HhF/6ptLOW4OcQQCwcOHDhwrDnaS+YtnM1gRLv+rN1VVD1x4MCBA0fJMdtmlv61xcccel86xIEDBw4cpzjats2pgl2+QvtunrAVtVIcOHDgwBFwtJeZDS7krKdaX+2Zj22AAwcOHDjK9n+eyLUNrTZhy9cvmlg4cODAgeMQRzvuNgt4m6GEJADPnuHviQMHDhw4bjnyINc2dRLudpBuPxgRpXA4cODAgWPB0Q7PtY2fZOW2UVRPAiaDdzhw4MCBY80xu3YbXNtDt4nlrIgZJXI4cODAgaPk2JTSWo5XjDK0Zcon/xDgwIEDB441R5v2tK/bAl+bRrYFx3YiDgcOHDhwzDiS4DprIOVXzddPfrDhqBwOHDhw4DjK0Rbp2mG4tnh3f7FNCfLJ53HgwIEDxxs52rZQHsg3yWECV4RzHDhw4MDxdo42lJ4KjfkZNmVNHDhw4MBxiqMNSzOIVdmuHHTIw/8jj9U4cODAgWPbzambOjncbHwtH4NoEXHgwIEDx5rjD8GDFqjMyKSIAAAAAElFTkSuQmCC' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png">
         
@@ -485,33 +508,14 @@ var _hmt = _hmt || [];
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" rel="prev" title="echarts简单使用">
-                                
-                                    echarts简单使用
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 个人学习</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/" rel="prev" title="Peach Fuzz针对于工控系统">
+                              <a href="/2020/02/17/%E6%9F%90%E6%AC%A1Modbus%E5%B7%A5%E6%8E%A7%E8%9C%9C%E7%BD%90%E5%88%86%E6%9E%90/" rel="prev" title="某次Modbus工控蜜罐分析">
                                   
-                                      Peach Fuzz针对于工控系统
+                                      某次Modbus工控蜜罐分析
                                   
                               </a>
                           </h4>
@@ -548,7 +552,7 @@ var _hmt = _hmt || [];
 
   <script>
     window.subData = {
-      title: 'hack box 记录',
+      title: '等保2.0-安全管理中心',
       tools: true
     }
   </script>
@@ -662,7 +666,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前期准备"><span class="toc-text">前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册"><span class="toc-text">注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cartographer"><span class="toc-text">Cartographer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Emdee-five-for-life"><span class="toc-text">Emdee five for life</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fuzzy"><span class="toc-text">Fuzzy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lernaean"><span class="toc-text">Lernaean</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeLancer"><span class="toc-text">FreeLancer</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#系统管理"><span class="toc-text">系统管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#L4-SMC1-01"><span class="toc-text">L4-SMC1-01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全要求"><span class="toc-text">安全要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要求解读"><span class="toc-text">要求解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测评方法"><span class="toc-text">测评方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预期结果"><span class="toc-text">预期结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#个人解读"><span class="toc-text">个人解读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L4-SMC1-02"><span class="toc-text">L4-SMC1-02</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全要求-1"><span class="toc-text">安全要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要求解读-1"><span class="toc-text">要求解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测评方法-1"><span class="toc-text">测评方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预期结果-1"><span class="toc-text">预期结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#个人解读-1"><span class="toc-text">个人解读</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#审计管理"><span class="toc-text">审计管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#L4-SMC1-03"><span class="toc-text">L4-SMC1-03</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全要求-2"><span class="toc-text">安全要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要求解读-2"><span class="toc-text">要求解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测评方法-2"><span class="toc-text">测评方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预期结果-2"><span class="toc-text">预期结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#个人解读-2"><span class="toc-text">个人解读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L4-SMC1-04"><span class="toc-text">L4-SMC1-04</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全要求-3"><span class="toc-text">安全要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要求解读-3"><span class="toc-text">要求解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测评方法-3"><span class="toc-text">测评方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预期结果-3"><span class="toc-text">预期结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#个人解读-3"><span class="toc-text">个人解读</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-text">参考文章</span></a></li></ol>
     </div>
   </section>
 
