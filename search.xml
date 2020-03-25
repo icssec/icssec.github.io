@@ -42,7 +42,7 @@
 <p><img src="/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/12.png" alt="img"></p>
 <h3 id="查看镜像时系统进程"><a href="#查看镜像时系统进程" class="headerlink" title="查看镜像时系统进程"></a>查看镜像时系统进程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo volatility -f KOT-PC-20200324-054544.raw --profile=Win7SP0x64  pslist</span></pre></td></tr></table></figure>
 
-<p>命令大侄意思为：</p>
+<p>命令意思为：</p>
 <p>sudo volatility -f ‘镜像’ –profile=’系统信息’  pslist</p>
 <p>这里还可以使用pstree、psscan</p>
 <p>详细信息直接借用大佬的原话</p>
