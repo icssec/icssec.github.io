@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CTFHUB记录</title>
+    <url>/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>大家都在刷CTFHUB，闲来无事，自己也做了一下，但是很多是昨晚做的没有进行备份记录，简单的描述一下思路。</p>
+<a id="more"></a>
+
+<p>网站链接为ctfhub.com</p>
+<h2 id="密码口令"><a href="#密码口令" class="headerlink" title="密码口令"></a>密码口令</h2><h2 id="默认口令"><a href="#默认口令" class="headerlink" title="默认口令"></a>默认口令</h2><p>查看页面发现为《亿邮邮件网关》，查看了一下相关密码。</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/1.png" alt="img"></p>
+<p>这里使用eyougw:admin@(eyou) 成功登陆获得flag</p>
+<h2 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h2><p>既然都说了是弱口令，那就手动尝试一下,不用BURP尝试结果是admin/password  成功获得flag</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/2.png" alt="img"></p>
+<h1 id="信息泄露"><a href="#信息泄露" class="headerlink" title="信息泄露"></a>信息泄露</h1><h2 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h2><p>这个题就是挨个目录里面找一下flag就可以了，最后在2/1目录下面发现flag。2/1</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/3.png" alt="img"></p>
+<h2 id="PHPINFO"><a href="#PHPINFO" class="headerlink" title="PHPINFO"></a>PHPINFO</h2><p>访问页面是一个PHPinfo页面，直接搜索一下获得flag，不多说了</p>
+<h2 id="备份文件下载"><a href="#备份文件下载" class="headerlink" title="备份文件下载"></a>备份文件下载</h2><h3 id="网站源码"><a href="#网站源码" class="headerlink" title="网站源码"></a>网站源码</h3><p>通过扫描发现备份存在的<a href="http://www.zip" target="_blank" rel="noopener">www.zip</a> 打开之后发现三个文件。但是在flag相关的txt里面并没有发现flag，曾经怀疑自己是不是备份的文件不对。后来访问网站的flag_168967656.txt 获得flag。</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/4.png" alt="img"></p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/5.png" alt="img"></p>
+<h3 id="bak文件"><a href="#bak文件" class="headerlink" title="bak文件"></a>bak文件</h3><p>通过扫描发现网站存在index.php.bak文件。成功获得flag</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/6.png" alt="img"></p>
+<h3 id="Vim缓存"><a href="#Vim缓存" class="headerlink" title="Vim缓存"></a>Vim缓存</h3><p>同样通过扫描发现文件名为：index.php.swp</p>
+<p>直接查看获得flag</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/7.png" alt="img"></p>
+<h3 id="DS-Store"><a href="#DS-Store" class="headerlink" title="DS_Store"></a>DS_Store</h3><p>通过扫描发现备份的文件DS_Store</p>
+<p>里面已经提示flag位置了，直接访问既可，（当时提交完了）</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/8.png" alt="img"></p>
+<h2 id="Git泄露"><a href="#Git泄露" class="headerlink" title="Git泄露"></a>Git泄露</h2><h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h3><p>直接githack发现flag在101991507727312.txt中</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/9.png" alt="img"></p>
+<h2 id="SVN泄露"><a href="#SVN泄露" class="headerlink" title="SVN泄露"></a>SVN泄露</h2><p>不多说了大家直接看步骤吧</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/10.png" alt="img"></p>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h2 id="无验证"><a href="#无验证" class="headerlink" title="无验证"></a>无验证</h2><p>直接在burp里面进行操作。获得flag,右键查看源代码获得flag</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/13.png" alt="img"></p>
+<h2 id="前端校验"><a href="#前端校验" class="headerlink" title="前端校验"></a>前端校验</h2><p>打开页面发下和上一个无校验的页面一样，直接拿过来上一个的包进行修改host地址测试发现flag文件名为：flag_1339610904.php</p>
+<p>同样的方法获得flag</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/15.png" alt="img"></p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/14.png" alt="img"></p>
+<h2 id="MIME校验"><a href="#MIME校验" class="headerlink" title="MIME校验"></a>MIME校验</h2><p>上两个包的mime类型是Content-Type: image/png ，直接同样的配方进行获得flag文件名flag_4179033.php</p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/17.png" alt="img"></p>
+<p><img src="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/16.png" alt="img"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>内存取证学习</title>
     <url>/2020/03/25/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>​    网络攻击内存化和网络犯罪隐遁化,使部分关键数字证据只存在于物理内存或暂存于页面交换文件中,这使得传统的基于文件系统的计算机取证不能有效应对.内存取证作为传统文件系统取证的重要补充,是计算机取证科学的重要组成部分,通过全面获取内存数据、详尽分析内存数据,并在此基础上提取与网络攻击或网络犯罪相关的数字证据,近年来,内存取证已赢得安全社区的持续关注,获得了长足的发展与广泛应用,在网络应急响应和网络犯罪调查中发挥着不可替代的作用.首先回顾了内存取证研究的起源和发展演化过程;其次介绍了操作系统内存管理关键机制;然后探讨了内存取证的数据获取和分析方法,归纳总结目前内存取证研究的最新技术;最后讨论了内存取证存在的问题、发展趋势和进一步的研究方向.</p>
@@ -88,13 +131,18 @@
 <h1 id="溯源分析"><a href="#溯源分析" class="headerlink" title="溯源分析"></a>溯源分析</h1><p>​    首先我们下载了此款APP，刚注册完就各种小美女进行聊天。真的爽~</p>
 <p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/1.png" alt="img"></p>
 <p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/2.png" alt="img"></p>
-<p>抽颗烟冷静一下，有点上头。打开BP进行测试中发现HOST地址，就一个Hello标题。直接dirmap一下，尝试一下。</p>
+<p>抽颗烟冷静一下，有点上头。打开BP进行测试中发现HOST地址，通过本地进行访问时就一个Hello标题。尝试一下目录扫描。</p>
 <p>git泄露？有点意思。</p>
 <p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/6.png" alt="img"></p>
-<h1 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h1><p>直接githack一下，获取一下网站的源码尝试分析一下。</p>
-<p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/7.png" alt="img"></p>
-<p>算了吧，还是先尝试找一下数据库的配置文件吧，可能是人品爆棚吧，真的找到了</p>
+<h1 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h1><p>直接githack一下，Git相关源码的时候发现有点问题。很多页面无法进行git</p>
+<p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/10.png" alt="img"></p>
+<p>还是先尝试找一下数据库的配置文件吧，可能是人品爆棚吧，真的找到了</p>
 <p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/8.png" alt="img"></p>
+<p>链接上去发现情况不对啊，数据库有点乱，在测试站点进行登录提示没有用户、在数据库中的log发现指向了另一个网站。</p>
+<p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/11.png" alt="img"></p>
+<p>git信息泄露的时候，小老弟有点慌ali key？ 小朋友你是否有很多的问号？</p>
+<p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/12.png" alt="img"></p>
+<p>白激动了登录不上去告辞~</p>
 <p>查看了一下user中的信息</p>
 <p><img src="/2020/03/24/%E4%B8%8D%E5%81%A5%E5%BA%B7%E7%9A%84app%E6%B5%8B%E8%AF%95/9.png" alt="img"></p>
 <p>admin无法解开，y10001密码123456。</p>
