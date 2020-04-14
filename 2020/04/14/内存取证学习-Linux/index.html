@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>0l4bs XSS | 算了吧 Blog</title>
+  <title>内存取证学习-Linux | 算了吧 Blog</title>
   
   
 
@@ -246,8 +246,8 @@ var _hmt = _hmt || [];
         
   
     <h1 class="title">
-      <a href="/2020/02/25/0l4bs-XSS/">
-        0l4bs XSS
+      <a href="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/">
+        内存取证学习-Linux
       </a>
     </h1>
   
@@ -278,7 +278,7 @@ var _hmt = _hmt || [];
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-02-25</p>
+    <p>2020-04-14</p>
   </a>
 </div>
 
@@ -328,97 +328,46 @@ var _hmt = _hmt || [];
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>0l4bs xss实验</p>
-<a id="more"></a>
+        <!-- Linux内存取证 -->
 
-<h1 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h1><p>​    目前相关XSS平台共20关</p>
+<h1 id="前期介绍"><a href="#前期介绍" class="headerlink" title="前期介绍"></a>前期介绍</h1><p>前期已经讲解了基本的Windows取证，可以查看之前的文章。</p>
+<p>但是针对于Linux本身需要volatility的支持。可以看见本身profiile并不支持linux与mac。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">volatility info</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/1.png" alt="img"></p>
+<h2 id="Linux-profiile"><a href="#Linux-profiile" class="headerlink" title="Linux profiile"></a>Linux profiile</h2><p>​    原理是把内核system.map文件和module.dwarf文件打包成zip。放到指定的文件夹。</p>
+<p>​    system.map在/boot目录下，一般格式为System.map-x.xx.x-x-amd64</p>
+<p>​    我这里的是 <font color="#4590a3">System.map-5.3.0-kali2-amd64</font></p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/2.png" alt="img"></p>
+<p>然后生成module.dwarf，首先执行下面命令,确保安装必要的linux头文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo apt-get install linux-headers-$(uname -r)</span></pre></td></tr></table></figure>
+
+<p>进入<font color="#4590a3">/lib/modules/x.xx.x-x-amd64 </font>,我这里是<font color="#4590a3">/lib/modules/5.3.0-kali2-amd64 </font></p>
+<p>进入目录中创建build和source的软连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ln -s /usr/src/linux-headers-x.xx.x-x-amd64 build</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ln -s /usr/src/linux-headers-x.xx.x-x-common <span class="built_in">source</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/3.png" alt="img"></p>
+<p>将<font color="#4590a3">/usr/src/volatility-tools/linux </font>目录设置为777权限</p>
+<p>到volatility-tools下的linux目录(我这里的路径为<font color="#4590a3">/usr/share/volatility/tools/linux</font>)，执行make命令，即可得到module.dwarf。</p>
+<p>将两个文件打包成zip文件，运行下面命令，进行查找一下目录。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">find / -name overlays</span></pre></td></tr></table></figure>
+
+<p>我这里的路径为：/usr/lib/python2.7/dist-packages/volatility/plugins/overlays/linux</p>
+<p>导入完成后运行volatility info 发现已经支持相关系统了（volatility根据文件内容自己生成的名称）</p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/4.png" alt="img"></p>
+<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>这里可以使用feme进行制作,安装方法不比多说，git下来后，make编译报错的话尝试安装头文件。</p>
 <blockquote>
-<ol>
-<li>URL</li>
-<li>Form</li>
-<li>User-Agent</li>
-<li>Referrer</li>
-<li>Cookie</li>
-<li>本地存储</li>
-<li>登录页面</li>
-<li>文件上传</li>
-<li>Base64 编码</li>
-<li>删除 alert</li>
-<li>删除 script</li>
-<li>Preg_replace()</li>
-<li>HTML 实体</li>
-<li>正则表达式过滤器 #1</li>
-<li>正则表达式过滤器 #2</li>
-<li>正则表达式过滤器 #3</li>
-<li>HTML 实体 + URL 编码</li>
-<li>HTML 实体 #2 (特殊字符)</li>
-<li>HTML 实体 #3 (输入值)</li>
-<li>HTML 实体 #4 (输入值 + 大写)</li>
-</ol>
+<p><a href="https://github.com/NateBrune/fmem" target="_blank" rel="noopener">https://github.com/NateBrune/fmem</a></p>
 </blockquote>
-<p><img src="/2020/02/25/0l4bs-XSS/1.png" alt="img"></p>
-<h2 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h2><p>​        直接将相关项目源代码进行复制到网站跟目录既可。</p>
-<blockquote>
-<p><a href="https://github.com/tegal1337/0l4bs" target="_blank" rel="noopener">https://github.com/tegal1337/0l4bs</a></p>
+<p>运行得到镜像文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/fmem of=/root/cyq.vmem bs=10MB count=2048</span></pre></td></tr></table></figure>
+
+<h1 id="镜像分析"><a href="#镜像分析" class="headerlink" title="镜像分析"></a>镜像分析</h1><p>这里直接尝试运行发现已经可以正常使用了，命令都是相同的就不多说了。</p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/99.png" alt="img"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p><a href="https://www.cnblogs.com/zlgxzswjy/p/6647442.html" target="_blank" rel="noopener">https://www.cnblogs.com/zlgxzswjy/p/6647442.html</a></p>
 </blockquote>
-<h2 id="在线环境"><a href="#在线环境" class="headerlink" title="在线环境"></a>在线环境</h2><p>​        作者提供一套在线环境，直接进行访问既可。</p>
-<blockquote>
-<p><a href="https://labs.tegal-1337.com/xss-labs/" target="_blank" rel="noopener">https://labs.tegal-1337.com/xss-labs/</a></p>
-</blockquote>
-<h1 id="测试挑战"><a href="#测试挑战" class="headerlink" title="测试挑战"></a>测试挑战</h1><h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>​        可能是自己太菜了吧， 不知道为啥没研究明白第一关什么意思。直接访问1.php 页面空白。没办法down了一下源代码。直接查看一下代码，里面是直接通过status进行的。</p>
-<p><img src="/2020/02/25/0l4bs-XSS/2.png" alt="img"></p>
-<p>​        最终确定代码。直接在URL中插入最简单的payload既可。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">status=<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
 
-
-
-<blockquote>
-<p><img src="/2020/02/25/0l4bs-XSS/3.png" alt="img"></p>
-</blockquote>
-<h2 id="Form"><a href="#Form" class="headerlink" title="Form"></a>Form</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/25/0l4bs-XSS/4.png" alt="img"></p>
-<h2 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h2><p>​        进入页面后在页面显示了User-agent头信息，直接使用bp在头后面添加一下payload即可。</p>
-<p><img src="/2020/02/25/0l4bs-XSS/6.png" alt="img"></p>
-<p><img src="/2020/02/25/0l4bs-XSS/7.png" alt="img"></p>
-<h2 id="Refferer"><a href="#Refferer" class="headerlink" title="Refferer"></a>Refferer</h2><p>​        直接在Referer上进行添加xss payload即可。</p>
-<p><img src="/2020/02/25/0l4bs-XSS/8.png" alt="img"></p>
-<p><img src="/2020/02/25/0l4bs-XSS/9.png" alt="img"></p>
-<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>​    在cookie中插入css脚本</p>
-<p><img src="/2020/02/25/0l4bs-XSS/10.png" alt="img"></p>
-<p><img src="/2020/02/25/0l4bs-XSS/11.png" alt="img"></p>
-<h2 id="LocalStorage"><a href="#LocalStorage" class="headerlink" title="LocalStorage"></a>LocalStorage</h2><p>​        查看本地LocalStorage文件内容</p>
-<p><img src="/2020/02/25/0l4bs-XSS/12.png" alt="img"></p>
-<h2 id="Login-Page"><a href="#Login-Page" class="headerlink" title="Login Page"></a>Login Page</h2><p>​    进行登录中发现msg信息在页面中正产进行回显。直接修改msg既可。</p>
-<p><img src="/2020/02/25/0l4bs-XSS/14.png" alt="img"></p>
-<p><img src="/2020/02/25/0l4bs-XSS/13.png" alt="img"></p>
-<h2 id="File-Name"><a href="#File-Name" class="headerlink" title="File Name"></a>File Name</h2><p>​        应该是文件名，尝试一下正常的文件测试一下。</p>
-<p><img src="/2020/02/25/0l4bs-XSS/15.png" alt="img"></p>
-<p><img src="/2020/02/25/0l4bs-XSS/16.png" alt="img">        </p>
-<p>发现可以但是存在一点小问题。最终确定payload</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">"alert(1)"</span>&gt;</span></span></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/25/0l4bs-XSS/17.png" alt="img"></p>
-<h2 id="Base64-Encoding"><a href="#Base64-Encoding" class="headerlink" title="Base64 Encoding"></a>Base64 Encoding</h2><p>​        直接进行base64进行编码paylado</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==</span></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/25/0l4bs-XSS/18.png" alt="img"></p>
-<h2 id="Removes-Alert"><a href="#Removes-Alert" class="headerlink" title="Removes Alert"></a>Removes Alert</h2><p>​        提示已经说明禁用了alert。其实还可以使用比如：onfirm、prompt</p>
-<p>​        最终payload为</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript">prompt(<span class="string">'1'</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/25/0l4bs-XSS/19.png" alt="img"></p>
-<h2 id="Removes-Script"><a href="#Removes-Script" class="headerlink" title="Removes Script"></a>Removes Script</h2><p>提示已经说明禁用了script直接使用svg</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> /<span class="attr">onload</span>=<span class="string">alert(1)</span>&gt;</span></span></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/25/0l4bs-XSS/20.png" alt="img"></p>
-<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a>preg_replace</h2><p>​        因为过滤了某些字符，直接进行双写</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">"alealertrt('xss')"</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span></pre></td></tr></table></figure>
-
-
-
-<p><img src="/2020/02/25/0l4bs-XSS/21.png" alt="img"></p>
-<h2 id="HTML-Entities"><a href="#HTML-Entities" class="headerlink" title="HTML Entities"></a>HTML Entities</h2>
       </div>
       
       
@@ -430,10 +379,10 @@ var _hmt = _hmt || [];
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-26T18:31:24+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-14T16:04:01+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年2月26日</p>
+    <p>更新于 2020年4月14日</p>
   </a>
 </div>
 
@@ -442,7 +391,7 @@ var _hmt = _hmt || [];
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>靶场记录</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>应急响应</p></a></div>
 
 
         
@@ -455,7 +404,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/02/25/0l4bs-XSS/&title=0l4bs XSS | 算了吧 Blog&summary=0l4bs xss实验"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/&title=内存取证学习-Linux | 算了吧 Blog&summary="
           
           >
           
@@ -467,7 +416,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/02/25/0l4bs-XSS/&title=0l4bs XSS | 算了吧 Blog&summary=0l4bs xss实验"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/&title=内存取证学习-Linux | 算了吧 Blog&summary="
           
           >
           
@@ -477,7 +426,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQW7DMAwF0dz/0i7QVTey55NyEdOjVRAnlp4WAiny88Hj+B1/P/NvVk9Xs6yebhgyZMh4LOM4HauJye/JN3zLVnPJkCHjPYz0deQN6bJqVBkyZMggoWEnZOTzypAhQ0b/wOVLPD9YZciQIaOTxPLl8vdvm1eGDBmjGbXCwP98vr2+IUOGjK9n3HEI3hdoLueSIUPGaMZ5eTK9CCOp6a5S6IfktTJkyBjKIC/ixQBCSrdmW+eaDBkyHsJI00WegnJArXXjIiiUIUPGIEathSsN7HiQR2CtMFGGDBmPZaSBIA8QefhINqiVxMqQIeOxDKIkS+fXZLw8EJBkyJAxmsFTxNolWvpLEhQivAwZMgYx+glqrWyQXuddvFmGDBmjGWmzBW/U4Gf8rrRZhgwZUxl7wzWyKUEPCN9iGTJkjGakg1+N8YJBv2lMhgwZb2CkDRBpMYAHjul/gwxYhgwZj2XwA3HXsZtuCgocZciQMZpRvIIvBXDpUd5qDpMhQ8YgRu2KLT2a0yawtJwpQ4aMNzA6ByU/rNOWr6C0IEOGjNGMztGZLjpNg+OtkSFDxlDGEQ6SgqaJLk9clxsqQ4aM0Yz0mCPf19JUstBa8UCGDBkzGLtaHzaUITtFTRkyZLyAwa/10wBu17iYRYYMGTJw69je1gqeVMuQIUNG/6I/WFCtaUOGDBkvYJB0lDy9o1EDbZkMGTJGM9IEslOYrF39822SIUPGOMYPHLE39U/oxgEAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNUlEQVR42u3aQW7jMBAEwPz/0w6wpw0SC91DGZCo0slwYpPFHCYzza+v+Hn9e5J3/n//9zu/P/t68xyvdfz9pz3Y2NjYN2G/Dp9kc8fLHx9Q8iRHlluwsbGxd2UfbzcHv3t9vNbxKkmZzC3Y2NjYT2a37UFbWpJDyV9jY2NjY+cbSkZIySG2pRQbGxsbe1Za8tFPexAr0cIHZ2nY2NjYl2e3Qe+VX38w38bGxsa+JHs9cF1pIdoQor3081aBjY2NvRG7XaytCHk5TPCzclV0YNjY2Ng3ZOeXY9ry0A6nZiFEW+qwsbGx92PPlm+jglno27Y0RcXGxsbG3o6dXHZZaTaSn7aHPrseVN9XwsbGxr4hezb0X8mZ21VOiwewsbGxt2avjJxWAoC2dOXrYmNjYz+BPYsN6iFOUAJnQ6W86GJjY2M/gd1+UV0qysYjjxlmQQI2Njb23dlnlZB2GJQPlZIGZth7YWNjY2/Nng1u8sNqA4kklhgm29jY2Ng3Z7ej+fYyTYJvB0DtxZ06Z8bGxsa+CTu/vNiOlpLNfeKIo3WxsbGxN2K3IWj+j34bGMyuCrV7+/EpbGxs7C3Ys1IxLBjl0D/fQ92WYGNjY2/EnsW9K6UrP8SVUvqRizvY2NjYl2d/7hLP7OBm7DyowMbGxt6Dnf9bf1YDkH/zypysHiphY2Nj35x93CTkB7Fylae9NpTv8I/dYmNjY2/Kzre40pzM8Pl+kuPAxsbG3omdtxntBZp2qLRS5PKyh42Njb0fO28t2oRh/SDyYpmUsWiohI2NjX1D9mxwv0JqC0/S6iSFdlhRsbGxsS/PTorHbEy/Ph46q4EpihY2Njb2zdntZZpZc9KGCrPLQ1Eqgo2Njb0FeyVMXWknVlqU9ndOqOHY2NjYF2a/ymcWvrafbT9V/0mwsbGxN2K34UEeEuTRwsohrhwrNjY29k7svGi1zUMbD7TlKilg2NjY2M9hz5qB4yHRrGgt3TzKd4iNjY39SPbsN9sCc1bkHOUh2NjY2I9nn7X1thS1IQE2Njb2E9hnDZVmTUt7eWglTsDGxsbej90GvXnBmB1oMqjKp/1LWTc2Njb21dnf8alT7yMhPpsAAAAASUVORK5CYII=' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/wechat.png">
         
@@ -487,7 +436,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/02/25/0l4bs-XSS/&title=0l4bs XSS | 算了吧 Blog&summary=0l4bs xss实验"
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/&title=内存取证学习-Linux | 算了吧 Blog&summary="
           
           >
           
@@ -497,7 +446,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQW7DMAwF0dz/0i7QVTey55NyEdOjVRAnlp4WAiny88Hj+B1/P/NvVk9Xs6yebhgyZMh4LOM4HauJye/JN3zLVnPJkCHjPYz0deQN6bJqVBkyZMggoWEnZOTzypAhQ0b/wOVLPD9YZciQIaOTxPLl8vdvm1eGDBmjGbXCwP98vr2+IUOGjK9n3HEI3hdoLueSIUPGaMZ5eTK9CCOp6a5S6IfktTJkyBjKIC/ixQBCSrdmW+eaDBkyHsJI00WegnJArXXjIiiUIUPGIEathSsN7HiQR2CtMFGGDBmPZaSBIA8QefhINqiVxMqQIeOxDKIkS+fXZLw8EJBkyJAxmsFTxNolWvpLEhQivAwZMgYx+glqrWyQXuddvFmGDBmjGWmzBW/U4Gf8rrRZhgwZUxl7wzWyKUEPCN9iGTJkjGakg1+N8YJBv2lMhgwZb2CkDRBpMYAHjul/gwxYhgwZj2XwA3HXsZtuCgocZciQMZpRvIIvBXDpUd5qDpMhQ8YgRu2KLT2a0yawtJwpQ4aMNzA6ByU/rNOWr6C0IEOGjNGMztGZLjpNg+OtkSFDxlDGEQ6SgqaJLk9clxsqQ4aM0Yz0mCPf19JUstBa8UCGDBkzGLtaHzaUITtFTRkyZLyAwa/10wBu17iYRYYMGTJw69je1gqeVMuQIUNG/6I/WFCtaUOGDBkvYJB0lDy9o1EDbZkMGTJGM9IEslOYrF39822SIUPGOMYPHLE39U/oxgEAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNUlEQVR42u3aQW7jMBAEwPz/0w6wpw0SC91DGZCo0slwYpPFHCYzza+v+Hn9e5J3/n//9zu/P/t68xyvdfz9pz3Y2NjYN2G/Dp9kc8fLHx9Q8iRHlluwsbGxd2UfbzcHv3t9vNbxKkmZzC3Y2NjYT2a37UFbWpJDyV9jY2NjY+cbSkZIySG2pRQbGxsbe1Za8tFPexAr0cIHZ2nY2NjYl2e3Qe+VX38w38bGxsa+JHs9cF1pIdoQor3081aBjY2NvRG7XaytCHk5TPCzclV0YNjY2Ng3ZOeXY9ry0A6nZiFEW+qwsbGx92PPlm+jglno27Y0RcXGxsbG3o6dXHZZaTaSn7aHPrseVN9XwsbGxr4hezb0X8mZ21VOiwewsbGxt2avjJxWAoC2dOXrYmNjYz+BPYsN6iFOUAJnQ6W86GJjY2M/gd1+UV0qysYjjxlmQQI2Njb23dlnlZB2GJQPlZIGZth7YWNjY2/Nng1u8sNqA4kklhgm29jY2Ng3Z7ej+fYyTYJvB0DtxZ06Z8bGxsa+CTu/vNiOlpLNfeKIo3WxsbGxN2K3IWj+j34bGMyuCrV7+/EpbGxs7C3Ys1IxLBjl0D/fQ92WYGNjY2/EnsW9K6UrP8SVUvqRizvY2NjYl2d/7hLP7OBm7DyowMbGxt6Dnf9bf1YDkH/zypysHiphY2Nj35x93CTkB7Fylae9NpTv8I/dYmNjY2/Kzre40pzM8Pl+kuPAxsbG3omdtxntBZp2qLRS5PKyh42Njb0fO28t2oRh/SDyYpmUsWiohI2NjX1D9mxwv0JqC0/S6iSFdlhRsbGxsS/PTorHbEy/Ph46q4EpihY2Njb2zdntZZpZc9KGCrPLQ1Eqgo2Njb0FeyVMXWknVlqU9ndOqOHY2NjYF2a/ymcWvrafbT9V/0mwsbGxN2K34UEeEuTRwsohrhwrNjY29k7svGi1zUMbD7TlKilg2NjY2M9hz5qB4yHRrGgt3TzKd4iNjY39SPbsN9sCc1bkHOUh2NjY2I9nn7X1thS1IQE2Njb2E9hnDZVmTUt7eWglTsDGxsbej90GvXnBmB1oMqjKp/1LWTc2Njb21dnf8alT7yMhPpsAAAAASUVORK5CYII=' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png">
         
@@ -519,41 +468,17 @@ var _hmt = _hmt || [];
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/03/15/%E6%9F%90CMS%E6%B5%8B%E8%AF%95/" rel="prev" title="某CMS测试">
-                                
-                                    某CMS测试
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/WEB%E5%AD%A6%E4%B9%A0/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> WEB学习</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2020/02/20/%E7%AD%89%E4%BF%9D2-0-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83/" rel="prev" title="等保2.0-安全管理中心">
+                              <a href="/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/" rel="prev" title="CTFHUB记录">
                                   
-                                      等保2.0-安全管理中心
+                                      CTFHUB记录
                                   
                               </a>
                           </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 等级保护</a>
-                              </h6>
                           
                       </span>
                   </section>
@@ -582,7 +507,7 @@ var _hmt = _hmt || [];
 
   <script>
     window.subData = {
-      title: '0l4bs XSS',
+      title: '内存取证学习-Linux',
       tools: true
     }
   </script>
@@ -696,7 +621,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境安装"><span class="toc-text">环境安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本地安装"><span class="toc-text">本地安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在线环境"><span class="toc-text">在线环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试挑战"><span class="toc-text">测试挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL"><span class="toc-text">URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Form"><span class="toc-text">Form</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Agent"><span class="toc-text">User-Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refferer"><span class="toc-text">Refferer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-text">Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalStorage"><span class="toc-text">LocalStorage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Login-Page"><span class="toc-text">Login Page</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Name"><span class="toc-text">File Name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64-Encoding"><span class="toc-text">Base64 Encoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Removes-Alert"><span class="toc-text">Removes Alert</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Removes-Script"><span class="toc-text">Removes Script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#preg-replace"><span class="toc-text">preg_replace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-Entities"><span class="toc-text">HTML Entities</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前期介绍"><span class="toc-text">前期介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-profiile"><span class="toc-text">Linux profiile</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#镜像制作"><span class="toc-text">镜像制作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#镜像分析"><span class="toc-text">镜像分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-text">参考文章</span></a></li></ol>
     </div>
   </section>
 

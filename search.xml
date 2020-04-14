@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>内存取证学习-Linux</title>
+    <url>/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/</url>
+    <content><![CDATA[<!-- Linux内存取证 -->
+
+<h1 id="前期介绍"><a href="#前期介绍" class="headerlink" title="前期介绍"></a>前期介绍</h1><p>前期已经讲解了基本的Windows取证，可以查看之前的文章。</p>
+<p>但是针对于Linux本身需要volatility的支持。可以看见本身profiile并不支持linux与mac。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">volatility info</span></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/1.png" alt="img"></p>
+<h2 id="Linux-profiile"><a href="#Linux-profiile" class="headerlink" title="Linux profiile"></a>Linux profiile</h2><p>​    原理是把内核system.map文件和module.dwarf文件打包成zip。放到指定的文件夹。</p>
+<p>​    system.map在/boot目录下，一般格式为System.map-x.xx.x-x-amd64</p>
+<p>​    我这里的是 <font color="#4590a3">System.map-5.3.0-kali2-amd64</font></p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/2.png" alt="img"></p>
+<p>然后生成module.dwarf，首先执行下面命令,确保安装必要的linux头文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install linux-headers-$(uname -r)</span></pre></td></tr></table></figure>
+
+<p>进入<font color="#4590a3">/lib/modules/x.xx.x-x-amd64 </font>,我这里是<font color="#4590a3">/lib/modules/5.3.0-kali2-amd64 </font></p>
+<p>进入目录中创建build和source的软连接</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s /usr/src/linux-headers-x.xx.x-x-amd64 build</span></pre></td></tr><tr><td class="code"><pre><span class="line">ln -s /usr/src/linux-headers-x.xx.x-x-common <span class="built_in">source</span></span></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/3.png" alt="img"></p>
+<p>将<font color="#4590a3">/usr/src/volatility-tools/linux </font>目录设置为777权限</p>
+<p>到volatility-tools下的linux目录(我这里的路径为<font color="#4590a3">/usr/share/volatility/tools/linux</font>)，执行make命令，即可得到module.dwarf。</p>
+<p>将两个文件打包成zip文件，运行下面命令，进行查找一下目录。 </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find / -name overlays</span></pre></td></tr></table></figure>
+
+<p>我这里的路径为：/usr/lib/python2.7/dist-packages/volatility/plugins/overlays/linux</p>
+<p>导入完成后运行volatility info 发现已经支持相关系统了（volatility根据文件内容自己生成的名称）</p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/4.png" alt="img"></p>
+<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>这里可以使用feme进行制作,安装方法不比多说，git下来后，make编译报错的话尝试安装头文件。</p>
+<blockquote>
+<p><a href="https://github.com/NateBrune/fmem" target="_blank" rel="noopener">https://github.com/NateBrune/fmem</a></p>
+</blockquote>
+<p>运行得到镜像文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/fmem of=/root/cyq.vmem bs=10MB count=2048</span></pre></td></tr></table></figure>
+
+<h1 id="镜像分析"><a href="#镜像分析" class="headerlink" title="镜像分析"></a>镜像分析</h1><p>这里直接尝试运行发现已经可以正常使用了，命令都是相同的就不多说了。</p>
+<p><img src="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/99.png" alt="img"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p><a href="https://www.cnblogs.com/zlgxzswjy/p/6647442.html" target="_blank" rel="noopener">https://www.cnblogs.com/zlgxzswjy/p/6647442.html</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>应急响应</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CTFHUB记录</title>
     <url>/2020/04/06/CTFHUB%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>大家都在刷CTFHUB，闲来无事，自己也做了一下，但是很多是昨晚做的没有进行备份记录，简单的描述一下思路。</p>
@@ -511,7 +558,8 @@
   <entry>
     <title>CTF论剑场WriteUp</title>
     <url>/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/</url>
-    <content><![CDATA[<p>持续更新…..<br>针对于CTF论剑场过关记录</p>
+    <content><![CDATA[<p>title: CTF论剑场WriteUp<br>date: 2020-02-15 17:42:13<br>tags:</p>
+<pre><code>- 靶场记录</code></pre><p>持续更新…..<br>针对于CTF论剑场过关记录</p>
 <a id="more"></a>
 <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="WEB1"><a href="#WEB1" class="headerlink" title="WEB1"></a>WEB1</h2><p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/1.png" alt="img"></p>
 <p>​    访问页面提示了一段源代码,通过源码可以分析出extract、file_get_contents两个存在问题的函数。</p>
@@ -606,10 +654,18 @@
 <p>学乖点手工吧。</p>
 <p>csrf token mismatch ？？？</p>
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/23.png" alt="img"></p>
-<p>//本来想接着做，无法访问到了先放一放吧。</p>
+<p>找了一下相关解释，这里需要和前端token一致。</p>
 <h2 id="WEB9"><a href="#WEB9" class="headerlink" title="WEB9"></a>WEB9</h2><p>//该网页无法正常运作  - -.</p>
 <h2 id="WEB10"><a href="#WEB10" class="headerlink" title="WEB10"></a>WEB10</h2><p>//该网页无法正常运作  - -.</p>
-<p>去看看别的类型吧</p>
+<h2 id="WEB11"><a href="#WEB11" class="headerlink" title="WEB11"></a>WEB11</h2><p>根据标题提示为：rebots.txt 访问页面发现存在shell.php</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/29.png" alt="img"></p>
+<p>但是页面需要提交，计算的结果。</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/30.png" alt="img"></p>
+<p>这里运算直接使用php简单的写一下就可以了。</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/31.png" alt="img"></p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/32.png" alt="img"></p>
+<p>最终确定值为：52855  成功获得flag</p>
+<p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/33.png" alt="img"></p>
 <h1 id="Mics"><a href="#Mics" class="headerlink" title="Mics"></a>Mics</h1><h2 id="头像"><a href="#头像" class="headerlink" title="头像"></a>头像</h2><p>介绍:萌萌哒头像flag为flag{flag的md5 32位加密值}</p>
 <p>直接nano打开搜索一下 提交既可。</p>
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/27.png" alt="img"></p>
@@ -617,9 +673,6 @@
 <p><img src="/2020/02/15/CTF%E8%AE%BA%E5%89%91%E5%9C%BAWriteUp/28.png" alt="img"></p>
 <p>打开压缩包一共159个二维码</p>
 ]]></content>
-      <tags>
-        <tag>靶场记录</tag>
-      </tags>
   </entry>
   <entry>
     <title>mac10.15下使用IDA Pro</title>
