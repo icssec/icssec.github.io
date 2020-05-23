@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>ESP8266制作WiFi杀手 | 算了吧 Blog</title>
+  <title>Tag: 个人随机 | 算了吧 Blog</title>
   
   
 
@@ -85,7 +85,7 @@ var _hmt = _hmt || [];
   
   
   <div class="cover-wrapper">
-    <cover class='cover post half'>
+    <cover class='cover  half'>
       
         
   <h1 class='title'>算了吧 Blog</h1>
@@ -231,11 +231,25 @@ var _hmt = _hmt || [];
 
   <div class="l_body">
     <div class='body-wrapper'>
-      <div class='l_main'>
+      
+<div class='l_main'>
   
-
-  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
     
+      
+  <section class="post-list">
+    
+      
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
 
 
   <section class='meta'>
@@ -244,13 +258,11 @@ var _hmt = _hmt || [];
     <div class="meta" id="header-meta">
       
         
-  
-    <h1 class="title">
-      <a href="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/">
-        ESP8266制作WiFi杀手
-      </a>
-    </h1>
-  
+  <h2 class="title">
+    <a href="/2020/05/23/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E8%AE%B0/">
+      个人随记
+    </a>
+  </h2>
 
 
       
@@ -278,7 +290,7 @@ var _hmt = _hmt || [];
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-05-02</p>
+    <p>2020-05-23</p>
   </a>
 </div>
 
@@ -286,24 +298,6 @@ var _hmt = _hmt || [];
         
           
             
-
-          
-        
-          
-            
-  
-    <div class="new-meta-item browse busuanzi">
-      <a class='notlink'>
-        <i class="fas fa-eye" aria-hidden="true"></i>
-        <p>
-          <span id="busuanzi_value_page_pv">
-            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-          </span>
-        </p>
-      </a>
-    </div>
-  
-
 
           
         
@@ -326,214 +320,44 @@ var _hmt = _hmt || [];
   </section>
 
 
-    <section class="article typo">
-      <div class="article-entry" itemprop="articleBody">
-        <p>找到了家里很久以前的一块开发板，屏幕还没了。还记得可以做成WiFi杀手，顺便记录一下。</p>
-<a id="more"></a>
-
-<h1 id="ESP8266介绍"><a href="#ESP8266介绍" class="headerlink" title="ESP8266介绍"></a>ESP8266介绍</h1><blockquote>
-<p>​    ESP8266在物联网有很广泛的应用，但是很多情况是MCU+ESP8266的逻辑，一是工程师把8266当成单纯的WIFI。二是工程师没有精力或能力在8266上开发，毕竟是要花费时间学习的。三是8266的I/O口不够用。    </p>
-<p>​    模块核心处理器 ESP8266 在较小尺寸封装中集成了业界领先的 Tensilica L106 超低功耗 32 位微型 MCU，带有 16 位精简模式，主频支持 80MHz和 160 MHz，支持 RTOS，集成 Wi-Fi MAC/ BB/RF/PA/LNA，板载天线。支持标准的 IEEE802.11 b/g/n 协议，完整的 TCP/IP 协议栈。用户可以使用该模块为现有的设备添加联网功能，也可以构建独立的网络控制器。</p>
-<p>上面的介绍来源于知乎，但是个人感觉很多的人都把相关设备完成了wifi杀手。</p>
-</blockquote>
-<h1 id="制作过程"><a href="#制作过程" class="headerlink" title="制作过程"></a>制作过程</h1><p>首先不用多说你的有一个ESP8266的板子。这种板子还是比较便宜的，淘宝大概20-30左右。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/1.png" alt="img"></p>
-<h2 id="烧录固件"><a href="#烧录固件" class="headerlink" title="烧录固件"></a>烧录固件</h2><p>这里直接使用的是互联网中的固件（不得不吐槽两句，我尝试了五六个固件才有一个好使的。）shi’o</p>
-<p>这里我使用的烧录工具是：NODEMCU FIRMWARE，使用的固件和工具在最下面</p>
-<p>首先选择Config进行配置要烧录的固件。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/2.png" alt="img"></p>
-<p>当设备正常连接电脑并仅有一个COM口，设备会默认选择好COM口，但是这里还是建议搭建看看COM，并确定COM口的配置。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/3.png" alt="img"></p>
-<p>确认完成电机Flash进行烧录设备固件，然后你需要做的就静静等待。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/4.png" alt="img"></p>
-<p>等待烧录完成软件的左下角会变成绿色、进度条走完。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/5.png" alt="img"></p>
-<p>这个时候按一下开发板的RTS键。这个时候通过搜索你回发现都了wifi，名字叫做Wi-PWN</p>
-<p>第一次连接的时候需要进行设置WIFI的名称与密码等基本信息，设置完成后设备会进行重启</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/6.png" alt="img"></p>
-<p>我这里选择攻击的是自己家里的WiFi</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/7.png" alt="img"></p>
-<p>勾选完自己要进行攻击的WiFi后，点击攻击进行下一步的操作。</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/8.png" alt="img"></p>
-<p>这个时候便可以对设备进行攻击，这里选择的是ping baidu.com 进行演示效果（攻击软件上选择截图找不到了- -.）</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/9.png" alt="img"></p>
-<p>并可以进行模拟制定的WiFi名称</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/10.png" alt="img"></p>
-<p>控制设备针脚高低电平</p>
-<p><img src="/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/11.png" alt="img"></p>
-<p>到此为止，但是还是存在很多问题，比如无法对5G频段WiFi展开攻击。等等问题，但是相对于价格来说，玩一玩还是可以入手的。</p>
-<h1 id="工具地址"><a href="#工具地址" class="headerlink" title="工具地址"></a>工具地址</h1><p><a href="https://github.com/icssec/ESP8266BIN" target="_blank" rel="noopener">https://github.com/icssec/ESP8266BIN</a></p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://zhuanlan.zhihu.com/p/67387334" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/67387334</a></p>
-
-      </div>
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
       
       
-        <br>
-        
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-02T16:17:11+08:00">
-  <a class='notlink'>
-    <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年5月2日</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>硬件设备</p></a></div>
-
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/&title=ESP8266制作WiFi杀手 | 算了吧 Blog&summary=找到了家里很久以前的一块开发板，屏幕还没了。还记得可以做成WiFi杀手，顺便记录一下。"
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/&title=ESP8266制作WiFi杀手 | 算了吧 Blog&summary=找到了家里很久以前的一块开发板，屏幕还没了。还记得可以做成WiFi杀手，顺便记录一下。"
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLElEQVR42u3aQW4jMQwEwPz/014gpwBZO93UGLDpmlOAZCWVLlyy9fUVf7fv7+fPP7/ff5Os9nuF3799vHu7b/1hY2Njvwn79vC7t9njq0l+m+yVgB//27snx8bGxl7HzovWvd8mpS6/0FkBSyzY2NjYn8xuD1oc4mBlbGxsbOyWfVXZS8DJ7tjY2NjYecOQj5BazKxFmTU/2NjY2PvYs6D3NX9+er6NjY2N/WLsW/mdF7y8IOWr1QpsbGzsRezkiUxb3q5tQtqVi3YIGxsbeyl79hwnGe6chAd50cLGxsb+NPb5w5qTQ7Sx7qw1wsbGxv4E9uy/8ieRav4EJ7+44uERNjY29iL27ClMsn0eHpw8Bkoaqj9Ww8bGxl7BbgPatvy0IcFRm5EHCdjY2Ngr2G1o2o6H2uA2wc+iZWxsbOyt7NnYqI1y8xKVhxZtK1KUMWxsbOy3Ys8C14SUrzy7gpOBFzY2NvYmdluo8m3yMCAJAPJiVrQo2NjY2CvYddcSD3FOgti8aA0fAGFjY2OvY7dT9HwIdVKW2hKbNyrY2NjYm9izZuCqkVDbbCRNTltWsbGxsd+dPRsD5eOntsHIr6a9yj+CAWxsbOwV7PZwJ43B83ZPyh42Njb2PnbekLQFLAecsNtCiI2Njb2Jnc+Z2vYjWW12Ee1QCRsbG/sT2CdjoNnTzLy8JQ3GMFTGxsbGXsFuN06WfgxODj1rPPLrxsbGxt7Knj3KueAQTyty0SwNGxsb+83Z56Oc2VHyUPYk+k3aFWxsbOx97Pr5S1IkyituG5t8QIaNjY29jz0btedF7iQGPil7UcSLjY2NvY6dFJu8tTgJG9pC1Q6wsLGxsTex80NfGwDMQtyv8ktWxsbGxn539q382uYhKTz5Cm1IPKyT2NjY2G/FbotBSy0q56hTOG9+sLGxsXewk6I1Gz8lo/w6kb4qisDGxsZex24HTHnjkVzlrAlpy95/Hu5gY2Njfxh79vgmGdy3bU8e9N5dGRsbGxs7Dn2vCnTzIDk6OTY2NvY69knbcFKcZieZNVHY2NjYW9mzoPeqkX37BCcfMF0QM2NjY2O/Ovsf5AzEcM7LKB0AAAAASUVORK5CYII=' target="_blank">
-        
-          <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/wechat.png">
-        
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/02/ESP8266%E5%88%B6%E4%BD%9CWiFi%E6%9D%80%E6%89%8B/&title=ESP8266制作WiFi杀手 | 算了吧 Blog&summary=找到了家里很久以前的一块开发板，屏幕还没了。还记得可以做成WiFi杀手，顺便记录一下。"
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
-          
-        </a>
-      
-    
-      
-        <a class='qrcode' rel="external nofollow noopener noreferrer noopener" href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLElEQVR42u3aQW4jMQwEwPz/014gpwBZO93UGLDpmlOAZCWVLlyy9fUVf7fv7+fPP7/ff5Os9nuF3799vHu7b/1hY2Njvwn79vC7t9njq0l+m+yVgB//27snx8bGxl7HzovWvd8mpS6/0FkBSyzY2NjYn8xuD1oc4mBlbGxsbOyWfVXZS8DJ7tjY2NjYecOQj5BazKxFmTU/2NjY2PvYs6D3NX9+er6NjY2N/WLsW/mdF7y8IOWr1QpsbGzsRezkiUxb3q5tQtqVi3YIGxsbeyl79hwnGe6chAd50cLGxsb+NPb5w5qTQ7Sx7qw1wsbGxv4E9uy/8ieRav4EJ7+44uERNjY29iL27ClMsn0eHpw8Bkoaqj9Ww8bGxl7BbgPatvy0IcFRm5EHCdjY2Ngr2G1o2o6H2uA2wc+iZWxsbOyt7NnYqI1y8xKVhxZtK1KUMWxsbOy3Ys8C14SUrzy7gpOBFzY2NvYmdluo8m3yMCAJAPJiVrQo2NjY2CvYddcSD3FOgti8aA0fAGFjY2OvY7dT9HwIdVKW2hKbNyrY2NjYm9izZuCqkVDbbCRNTltWsbGxsd+dPRsD5eOntsHIr6a9yj+CAWxsbOwV7PZwJ43B83ZPyh42Njb2PnbekLQFLAecsNtCiI2Njb2Jnc+Z2vYjWW12Ee1QCRsbG/sT2CdjoNnTzLy8JQ3GMFTGxsbGXsFuN06WfgxODj1rPPLrxsbGxt7Knj3KueAQTyty0SwNGxsb+83Z56Oc2VHyUPYk+k3aFWxsbOx97Pr5S1IkyituG5t8QIaNjY29jz0btedF7iQGPil7UcSLjY2NvY6dFJu8tTgJG9pC1Q6wsLGxsTex80NfGwDMQtyv8ktWxsbGxn539q382uYhKTz5Cm1IPKyT2NjY2G/FbotBSy0q56hTOG9+sLGxsXewk6I1Gz8lo/w6kb4qisDGxsZex24HTHnjkVzlrAlpy95/Hu5gY2Njfxh79vgmGdy3bU8e9N5dGRsbGxs7Dn2vCnTzIDk6OTY2NvY69knbcFKcZieZNVHY2NjYW9mzoPeqkX37BCcfMF0QM2NjY2O/Ovsf5AzEcM7LKB0AAAAASUVORK5CYII=' target="_blank">
-        
-          <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png">
-        
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
+        <div class="button readmore">
+          <a href="/2020/05/23/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E8%AE%B0/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E6%9C%BA/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 个人随机</a>
+        
+      </div>
+    
   </section>
+</article>
 
-
-      
-      
-          <div class="prev-next">
-              
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/05/23/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E8%AE%B0/" rel="prev" title="个人随记">
-                                
-                                    个人随记
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E6%9C%BA/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 个人随机</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
-              
-                  <section class="next">
-                      <span class="art-item-right" aria-hidden="true">
-                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
-                          <h4>
-                              <a href="/2020/04/22/Badusb%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/" rel="prev" title="Badusb实际应用">
-                                  
-                                      Badusb实际应用
-                                  
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 硬件设备</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
           </div>
+        
       
-    </section>
-  </article>
-
-
-
-  <!-- 显示推荐文章和评论 -->
-
-
+    
+  </section>
+  
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
 
   
 
 
-
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-  <script>
-    window.subData = {
-      title: 'ESP8266制作WiFi杀手',
-      tools: true
-    }
-  </script>
-
-
+    
+  
 </div>
 <aside class='l_side'>
   
@@ -630,36 +454,60 @@ var _hmt = _hmt || [];
         
           
           
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
             
-              
-  <section class='widget toc-wrapper'>
-    
-<header class='pure'>
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+              <section class='widget list'>
   
-    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer noopener" href="javascript:void(0)" target="_blank"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+<header class='pure'>
+  <div><i class="fas fa-thumbs-up fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;友情链接</div>
   
 </header>
 
-    <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP8266介绍"><span class="toc-text">ESP8266介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#制作过程"><span class="toc-text">制作过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#烧录固件"><span class="toc-text">烧录固件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具地址"><span class="toc-text">工具地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
-    </div>
-  </section>
-
+  <div class='content pure'>
+    <ul class="entry">
+      
+        <li><a class="flat-box" title="http://yizhihe.club" href="http://yizhihe.club"
+          
+          
+          >
+          <div class='name'>
+            
+              <i class=" fa-fw" aria-hidden="true"></i>
+            
+            &nbsp;&nbsp;Clear 国内知名ICS安全讲师
+          </div>
+          
+        </a></li>
+      
+        <li><a class="flat-box" title="http://47.96.226.141" href="http://47.96.226.141"
+          
+          
+          >
+          <div class='name'>
+            
+              <i class=" fa-fw" aria-hidden="true"></i>
+            
+            &nbsp;&nbsp;未来可期安全团队
+          </div>
+          
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
 
             
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
           
         
       
@@ -802,69 +650,6 @@ var _hmt = _hmt || [];
           
         
           
-          
-        
-      
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-              <section class='widget list'>
-  
-<header class='pure'>
-  <div><i class="fas fa-thumbs-up fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;友情链接</div>
-  
-</header>
-
-  <div class='content pure'>
-    <ul class="entry">
-      
-        <li><a class="flat-box" title="http://yizhihe.club" href="http://yizhihe.club"
-          
-          
-          >
-          <div class='name'>
-            
-              <i class=" fa-fw" aria-hidden="true"></i>
-            
-            &nbsp;&nbsp;Clear 国内知名ICS安全讲师
-          </div>
-          
-        </a></li>
-      
-        <li><a class="flat-box" title="http://47.96.226.141" href="http://47.96.226.141"
-          
-          
-          >
-          <div class='name'>
-            
-              <i class=" fa-fw" aria-hidden="true"></i>
-            
-            &nbsp;&nbsp;未来可期安全团队
-          </div>
-          
-        </a></li>
-      
-    </ul>
-  </div>
-</section>
-
-            
           
         
       
